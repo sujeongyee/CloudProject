@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.server.cloud.service.AlarmMapper">
+  
+  	<insert id="createProAlarm">
+  		INSERT INTO ALARM (ALARM_CONTENT,ALARM_TYPE,ALARM_RECEIVER) VALUES('새로운 프로젝트 요청이 들어왔습니다','ad_pro','admin')
+  	</insert>
+  
+  
+  </mapper>
