@@ -25,9 +25,15 @@ public class AlarmController {
 	 @PostMapping("/createPro")
 	 public void createPro(@RequestBody Map<String, Object> map){
 		 
-		 alarmService.createProAlarm(map.get("proname").toString());
+		 System.out.println(map.toString());
 		 
-	    
+		 alarmService.createProAlarm(map.get("proname").toString());	    
+	 }
+	 
+	 @PostMapping("/assignEngineer")
+	 public void assignEngineer(@RequestBody Map<String,Object> map) {
+		 System.out.println(map.toString());
+		 //alarmService.assignEngineer(map.get("engId").toString());
 	 }
 
 

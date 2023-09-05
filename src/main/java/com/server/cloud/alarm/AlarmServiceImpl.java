@@ -13,8 +13,14 @@ public class AlarmServiceImpl implements AlarmService{
 
 	@Override
 	public void createProAlarm(String project_name) {
-		
+		project_name= "새로운 프로젝트 요청이 들어왔습니다. ("+project_name+")";
 		alarmMapper.createProAlarm(project_name);
+	}
+
+	@Override
+	public void assignEngineer(String eng_id) {
+		
+		alarmMapper.assignEngineer(eng_id);
 	}
 
 }

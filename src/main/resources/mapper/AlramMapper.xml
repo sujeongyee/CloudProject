@@ -6,7 +6,13 @@
   <mapper namespace="com.server.cloud.service.AlarmMapper">
   
   	<insert id="createProAlarm">
-  		INSERT INTO ALARM (ALARM_CONTENT,ALARM_TYPE,ALARM_RECEIVER) VALUES('새로운 프로젝트 요청이 들어왔습니다','ad_pro','admin')
+  		INSERT INTO ALARM (ALARM_CONTENT,ALARM_TYPE,ALARM_RECEIVER) 
+  		VALUES(#{project_name},'ad_pro','admin')
+  	</insert>
+  	
+  	<insert id="assignEngineer">
+  		INSERT INTO ALARM (ALARM_CONTENT,ALARM_TYPE,ALARM_RECEIVER) 
+  		VALUES(#{project_name},'ad_pro','admin')
   	</insert>
   
   
