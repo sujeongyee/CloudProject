@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.server.cloud.main.service.UserMapper"> 
+  
+  
+  <insert id="singIn" >
+  	
+  	insert into CUSTOMER (
+  	CUS_ID,
+  	CUS_PW,
+  	CUS_COMPANY_NAME,
+  	CUS_BOSS,
+  	CUS_COMPANY_PH,
+  	CUS_POSTAL_CODE,
+  	CUS_ADDRESS1,
+  	CUS_ADDRESS2,
+  	CUS_MANAGET_NAME,
+  	CUS_PHONE_NUMBER,
+  	CUS_EMAIL,
+  	CUS_BUSINESS_ID,
+  	USER_ID
+  	)
+  	
+  	values(
+  	#{cus_id},
+  	#{cus_pw},
+  	#{cus_company_name},
+  	#{cus_boss},
+  	#{cus_company_ph},
+  	#{cus_postal_code},
+  	#{cus_address1},
+  	#{cus_address2},
+  	#{cus_managet_name},
+  	#{cus_phone_number},
+  	#{cus_email},
+  	#{cus_business_id},
+  	'ROLE_USER'
+  	)
+  	
+  </insert>
+  
+  
+  <select id="idCheck" resultType="String">
+  
+  select * from CUSTOMER where cus_id=#{cus_id};
+  
+  </select>
+  </mapper>
