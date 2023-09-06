@@ -30,7 +30,6 @@ public class AlarmController {
 //	긴급 요청 받았을때 (클라-> 엔지니어)
 //
 //	클라
-//	프로젝트 요청 승인 됐을때 vvvv
 //	엔지니어 배정 받았을때 vvvv
 //	오늘 정기점검날일때
 	
