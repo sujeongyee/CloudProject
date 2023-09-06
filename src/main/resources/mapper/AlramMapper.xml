@@ -3,17 +3,31 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-  <mapper namespace="com.server.cloud.service.AlarmMapper">
+  <mapper namespace="com.server.cloud.alarm.service">
   
   	<insert id="createProAlarm">
   		INSERT INTO ALARM (ALARM_CONTENT,ALARM_TYPE,ALARM_RECEIVER) 
-  		VALUES(#{project_name},'ad_pro','admin')
+  		VALUES(#{project_name},'AD_PRO','admin')
   	</insert>
   	
   	<insert id="assignEngineer">
   		INSERT INTO ALARM (ALARM_CONTENT,ALARM_TYPE,ALARM_RECEIVER) 
-  		VALUES(#{project_name},'ad_pro','admin')
+  		VALUES('새로운 서버를 배정 받았습니다','ENG_ASS',#{eng_id})
   	</insert>
-  
+  	
+  	<insert id="assignTeam">
+  		INSERT INTO ALARM (ALARM_CONTENT, ALARM_TYPE, ALARM_RECEIVER)
+		SELECT '새로운 프로젝트가 배정 됐습니다. 팀원을 배정해주세요', 'ENGL_ASS', E.ENG_ENID
+		FROM ENGINEER E
+		LEFT JOIN ENG_TEAM T ON E.TEAM_NUM = T.TEAM_NUM
+		WHERE T.TEAM_ID = #{eng_team} AND E.ENG_RANK = '팀장'
+  	</insert>
+  	
+  	<insert id="assignClient">
+  		INSERT INTO ALARM (ALARM_CONTENT, ALARM_TYPE, ALARM_RECEIVER)
+		VALUES ('요청하신 프로젝트가 승인 됐습니다. 엔지니어 배정 완료','CUS_ASS',#{user_id}) 
+  	</insert>
+  	
+ 
   
   </mapper>
