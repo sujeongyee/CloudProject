@@ -23,7 +23,7 @@ repositories {
 }
 
 dependencies {
-	//implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -38,6 +38,19 @@ dependencies {
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.3.1'
 	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 	//testImplementation 'org.springframework.security:spring-security-test'
+
+	
+	implementation 'javax.xml.bind:jaxb-api'
+	testImplementation 'org.springframework.security:spring-security-test'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+		//jwt
+	implementation 'com.auth0:java-jwt:4.4.0'
+	
+	
+	//aws sdk 추가
+	implementation 'software.amazon.awssdk:aws-sdk-java:2.20.43'
 
 	//aws
 	implementation 'software.amazon.awssdk:aws-sdk-java:2.20.43'

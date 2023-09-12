@@ -1,5 +1,48 @@
 package com.server.cloud.admin.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.server.cloud.admin.service.AdminService;
+import com.server.cloud.command.NoticeVO;
+import com.server.cloud.pagenation.Criteria;
+
+@RestController
 public class AdminController {
 
+	
+	@Autowired
+	AdminService adminService;
+	
+	private Criteria cri=new Criteria();
+	
+	@GetMapping("/api/main/AnnoList")//공지사항 게시판 목록 불러오기
+	public ResponseEntity<?> getList(@RequestParam("currentPage") int currentPage,@RequestParam("postsPerPage")int postsPerPage){
+		Map<String, Integer>page= new HashMap<>();
+		System.out.println(currentPage+"??");
+		cri.setPage(currentPage);
+		cri.setAmount(postsPerPage);
+	
+		
+		List<NoticeVO> notice=adminService.getList(cri);
+		
+		System.out.println(notice);
+		
+		
+		return new ResponseEntity<>(notice,HttpStatus.OK);
+	}
+	
+	@GetMapping("/api/main/AnnoTotal")
+	public ResponseEntity<?>getTotal(){
+		return new ResponseEntity<>(adminService.getTotal(),HttpStatus.OK);
+	}
 }
+
