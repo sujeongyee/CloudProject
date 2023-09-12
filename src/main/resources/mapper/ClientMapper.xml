@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.server.cloud.client.service.ClientMapper">
+
+	<!-- 고객 정보 불러오기 --> 
+	<select id="getCusList" resultType="CusVO">
+		
+	   SELECT cus_num,
+	   		  cus_company_name,
+       		  cus_managet_name,
+       		  cus_phone_number,
+       		  cus_email ,
+       		  cus_business_id ,
+       		  cus_postal_code, 
+       		  CONCAT(cus_address1, cus_address2) as cus_address1
+	  FROM CUSTOMER
+	  WHERE cus_id = #{cus_id};
+		
+	</select>
+	
+	
+	<!-- 프로젝트 신청 -->
+<!-- 	<insert id="applyForm">
+		
+		INSERT INTO PROJECTINFO (pro_name, 
+								 pro_startdate,
+								 pro_info, 
+								 pro_pi)
+		VALUES (#{proVO.pro_name}, 
+			 	#{proVO.pro_startdate},  
+			 	#{proVO.pro_info}, 
+			 	#{proVO.pro_pi});
+		
+		
+		INSERT INTO SERVER (server_name, 
+							ip_address, 
+							operating_system, 
+							cpu, 
+							ram, 
+							disk_capacitygb)
+		VALUES (#{serverVO.server_name}, 
+				#{serverVO.ip_address}, 
+				#{serverVO.operating_system}, 
+				#{serverVO.cpu}, 
+				#{serverVO.ram}, 
+				#{serverVO.disk_capacitygb});
+		
+	
+	</insert> -->
+	
+	<insert id="proApplyForm" parameterType="ProjectInfoVO" useGeneratedKeys="true" keyProperty="pro_id">
+		
+		INSERT INTO PROJECTINFO (pro_name,
+								 pro_startdate,
+								 pro_rep,
+								 pro_info, 
+								 pro_pi)
+		VALUES (#{pro_name}, 
+			 	#{pro_startdate},
+			 	#{pro_rep},  
+			 	#{pro_info}, 
+			 	#{pro_pi})
+	
+	</insert>
+	
+	<insert id="serverApplyForm" parameterType="ServerVO">
+	
+		INSERT INTO SERVER (server_name, 
+							ip_address, 
+							operating_system, 
+							cpu, 
+							ram, 
+							disk_capacitygb)
+		VALUES 
+	  <foreach collection='list' item='server' separator=','>    
+			   (#{server.server_name}, 
+				#{server.ip_address}, 
+				#{server.operating_system}, 
+				#{server.cpu}, 
+				#{server.ram}, 
+				#{server.disk_capacitygb})
+	  </foreach>	
+	
+	
+	</insert>
+	
+	<!-- 프로젝트 정보 불러오기 --> 
+	<select id="getProList" resultType="ProjectInfoVO">
+		
+	   SELECT pro_id,
+	   		  pro_name,
+	   		  pro_status,
+	   		  pro_startdate,
+	   		  pro_pi 
+      FROM PROJECTINFO
+	  WHERE cus_id = #{cus_id};
+		
+	</select>
+	
+	<!-- 프로젝트 상세 정보 불러오기 --> 
+	<select id="projectDetail">
+		
+	  select * from PROJECTINFO p 
+	  left join SERVER s 
+	  on p.pro_id = s.pro_id
+	  left join ENGINEER e
+	  on s.eng_enid = e.eng_enid
+	  where p.pro_id = #{pro_id}
+		
+	</select>
+	
+	
+	      
+   <select id="projectDetailList" resultType="ProjectListVO">
+   
+WITH RankedWorkInfo AS (
+     SELECT
+         W.PRO_ID as pro_id,
+         W.WORK_DATE as work_date,
+         W.WORK_DIVISION as work_info,
+         W.WORK_TIME as work_time,
+         W.WORK_CPU as work_cpu,
+         W.WORK_RAM as work_ram,
+         W.WORK_HDD as work_hdd,
+        S.SERVER_STATUS AS server_status,
+        W.WORK_STATUS AS work_status,
+         W.WORK_NOTE as work_note,
+         W.WORK_ESTIMATE as work_estimate,
+         W.SERVER_ID as server_id,
+         W.ENG_ENID as eng_enid,
+         S.SERVER_NAME as server_name,
+         E.ENG_NAME as eng_name,
+         E.eng_phone as eng_phone,
+         P.PRO_NAME as pro_name,
+         T.TEAM_ID as team_id,
+         ROW_NUMBER() OVER (PARTITION BY W.SERVER_ID ORDER BY W.WORK_DATE DESC) AS RowNum
+     FROM WORKINFO W
+     JOIN SERVER S ON W.SERVER_ID = S.SERVER_ID
+     JOIN ENGINEER E ON W.ENG_ENID = E.ENG_ENID
+     JOIN PROJECTINFO P ON W.PRO_ID = P.PRO_ID
+     LEFT JOIN ENG_TEAM T ON E.TEAM_NUM = T.TEAM_NUM
+     WHERE P.PRO_ID = '5afd9eaa-4be1-11ee-8c2a-0ef820116d74'
+ )
+ SELECT
+     R.PRO_ID as pro_id,
+     R.WORK_DATE as work_date,
+     R.work_info as work_division,
+     R.WORK_TIME as work_time,
+     R.WORK_CPU as work_cpu,
+     R.WORK_RAM as work_ram,
+     R.WORK_HDD as work_hdd,
+    R.SERVER_STATUS AS server_status,
+    R.WORK_STATUS AS work_status,
+     R.WORK_NOTE as work_note,
+     R.WORK_ESTIMATE as work_estimate,
+     R.SERVER_ID as server_id,
+     R.ENG_ENID as eng_enid,
+     R.eng_phone as eng_phone,
+     R.SERVER_NAME as server_name,
+     R.ENG_NAME as eng_name,
+     R.PRO_NAME as pro_name,
+     R.team_id
+ FROM RankedWorkInfo R
+ WHERE R.RowNum = 1;
+
+   </select>
+   
+   
+   
+   
+   
+   <select id="projectDetailChart" resultType="ProjectListVO">
+         
+   SELECT distinct 
+       P.PRO_NAME AS pro_name,
+       S.SERVER_NAME AS server_name,
+       E.ENG_NAME AS eng_name,
+       E.eng_phone as eng_phone,
+       T.TEAM_ID as team_id, 
+       W.WORK_DATE AS work_date,
+       W.WORK_DIVISION AS work_division,
+       W.WORK_TIME AS work_time,
+       W.WORK_CPU AS work_cpu,
+       W.WORK_RAM AS work_ram,
+       W.WORK_HDD AS work_hdd,
+       S.SERVER_STATUS AS server_status,
+       W.WORK_STATUS AS work_status,
+       W.WORK_NOTE AS work_note,
+       W.WORK_ESTIMATE AS work_estimate,
+       W.PRO_ID AS pro_id
+   FROM WORKINFO W
+   JOIN SERVER S ON W.SERVER_ID = S.SERVER_ID
+   JOIN ENGINEER E ON W.ENG_ENID = E.ENG_ENID
+   JOIN PROJECTINFO P ON W.PRO_ID = P.PRO_ID
+   LEFT JOIN ENG_TEAM T ON E.TEAM_NUM = T.TEAM_NUM
+   WHERE P.PRO_ID = '5afd9eaa-4be1-11ee-8c2a-0ef820116d74' AND S.SERVER_ID = '1c4f9f68-4be2-11ee-8c2a-0ef820116d74'
+   ORDER BY work_date;
+   
+   </select>
+   
+	
+
+	
+
+
+</mapper>
