@@ -1,11 +1,16 @@
 package com.server.cloud.alarm.controller;
 
 
+import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.server.cloud.alarm.service.AlarmService;
+import com.server.cloud.command.AlarmVO;
 
 
 @RestController
@@ -52,6 +58,34 @@ public class AlarmController {
 		 alarmService.assignEngineer(map.get("engId").toString()); //엔지니어아이디 필요
 		 alarmService.assignClient(map.get("cusId").toString()); //프로젝트 담당자 아이디 필요
 	 }
+
+	 @GetMapping("/todayAlarmEng")
+	 public void todayAlarmEng(@RequestBody Map<String,Object> map) { // 로그인 후에 오늘의 정기점검 여부 확인
+		 String eng_id = map.get("eng_id").toString();
+		 int a = alarmService.todayAlarmCheck(eng_id);//확인
+		 if(a>0) alarmService.todayAlarmEng(eng_id);
+		 String cus_id = map.get("cus_id").toString();
+		 int b = alarmService.todayAlarmCheck2(cus_id);//확인
+		 if(b>0)alarmService.todayAlarmCus(cus_id);
+	 }
+
+	 @PostMapping("/emergencyRequest")
+	 public void emergencyRequest(@RequestBody Map<String,Object> map) { //긴급 요청 들어오면 팀장에게 알림
+		 alarmService.emergencyRequest(map.get("serverName").toString(), map.get("proName").toString());
+	 }
+	 @GetMapping("/assignEmer/") // 긴급요청 배정되면 엔지니어한테 알림
+	 public void assignEmer(@RequestBody Map<String,Object> map) {
+		 alarmService.assignEmerEng(map.get("engid").toString());
+		 alarmService.assignEmerCus(map.get("serverId").toString());		 
+	 }
+
+	 @GetMapping("/getAlarmList/{user_id}")
+	 public ResponseEntity<List<AlarmVO>> getAlarmList(@PathVariable String user_id){
+		 
+		 List<AlarmVO> list = alarmService.getAlarmList(user_id);
+		return new ResponseEntity<>(list,HttpStatus.OK); 
+	 }
+
 	 
 	 
 	 

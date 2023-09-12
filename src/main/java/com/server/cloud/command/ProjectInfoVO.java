@@ -22,6 +22,6 @@ public class ProjectInfoVO {
 	
 	private String team_num; //팀번호 
 	private String cus_id; //고객아이디 
-
+	private String cus_company_name;
 
 }

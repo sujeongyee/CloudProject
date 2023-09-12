@@ -45,7 +45,7 @@ dependencies {
 	//스프링 클라우드 모듈
 	implementation 'io.awspring.cloud:spring-cloud-aws-starter-sqs:3.0.2'
 
-
+ 
 }
 
 tasks.named('test') {

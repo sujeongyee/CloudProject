@@ -1,6 +1,12 @@
 package com.server.cloud.alarm.service;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.http.ResponseEntity;
+
+import com.server.cloud.command.AlarmVO;
 
 @Mapper
 public interface AlarmMapper {
@@ -9,5 +15,13 @@ public interface AlarmMapper {
 	public void assignTeam(String eng_team);
 	public void assignEngineer(String eng_id);
 	public void assignClient(String user_id);
-
+	public int todayAlarmCheck(String eng_id);
+	public void todayAlarmEng(String eng_id);
+	public int todayAlarmCheck2(String cus_id);
+	public void todayAlarmCus(String cus_id);
+	public void emergencyRequest(@Param("serverName")String serverName, @Param("proName")String proName);
+	public void assignEmerEng(String eng_id);
+	public void assignEmerCus(String server_id);
+	public List<AlarmVO> getAlarmList(String user_id);
+	
 }
