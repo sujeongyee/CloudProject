@@ -5,7 +5,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
- <mapper namespace="com.server.cloud.main.service.UserMapper"> 
+ <mapper namespace="com.server.cloud.main.service.CusMapper"> 
   
   
   <insert id="singIn" >
@@ -40,14 +40,41 @@
   	#{cus_email},
   	#{cus_business_id},
   	'ROLE_USER'
-  	)
+  	);
   	
+  	insert into ROLE(
+  	USERNAME,
+  	password,
+  	ROLE)
+  	values(
+  	#{cus_id},
+  	#{cus_pw},
+  	'ROLE_USER'
+  	);
+  	insert into file(
+  	file_name,
+  	file_path,
+  	file_type,
+  	user_id
+  	)
+  	values(
+  	'profile.jpg',
+  	'https://project-buket.s3.amazonaws.com/profile.jpg',
+  	'image/jpeg',
+  	#{cus_id}
+  	
+  	)
   </insert>
   
   
-  <select id="idCheck" resultType="String">
+  <select id="idCheck" resultType="CusVO">
   
   select * from CUSTOMER where cus_id=#{cus_id};
   
   </select>
+  
+  
+
+  
+  
   </mapper>

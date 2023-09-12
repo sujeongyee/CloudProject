@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import com.server.cloud.command.CusVO;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class CusServiceImpl implements CusService{
 
 	
 	@Autowired
-	private UserMapper userMapper;
+	private CusMapper userMapper;
 	
 	@Override
 	public void singIn(CusVO vo) {
@@ -22,9 +22,11 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public String idCheck(String string) {
+	public CusVO idCheck(String string) {
 		// TODO Auto-generated method stub
 		return userMapper.idCheck(string);
 	}
+
+
 
 }
