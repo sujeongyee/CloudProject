@@ -9,11 +9,11 @@ import com.server.cloud.command.CusVO;
 
 
 
-public interface UserService {
+public interface CusService {
 
 	void singIn(CusVO vo);
 
-	String idCheck(String string);
+	CusVO idCheck(String string);
 
 	
 	
