@@ -1,0 +1,159 @@
+
+
+######## 기업(회원) 테이블 ###########
+CREATE TABLE CUSTOMER(
+CUS_NUM VARCHAR(100) DEFAULT (UUID()) PRIMARY KEY, #고객번호 
+CUS_ID VARCHAR(100),#아이디
+CUS_PW VARCHAR(1000), # 비밀번호
+CUS_COMPANY_NAME VARCHAR(1000),#회사 이름
+CUS_BOSS VARCHAR(100), ##대표자 명
+CUS_COMPANY_PH INT, ##회사전화번호
+CUS_POSTAL_CODE VARCHAR(20),#우편 번호
+CUS_ADDRESS1 VARCHAR(1000),#주소
+CUS_ADDRESS2 VARCHAR(1000),#상세 주소
+CUS_MANAGET_NAME VARCHAR(100),#담당자명 + 직급
+CUS_PHONE_NUMBER VARCHAR(30), #담당자전화번호
+CUS_EMAIL VARCHAR(1000),#담당자 이메일
+CUS_BUSINESS_ID VARCHAR(1000),#사업자 등록번호
+USER_ID VARCHAR(100)
+);
+
+
+
+######## 문의게시글 테이블 ###############
+CREATE TABLE CS( #문의게시글테이블
+   CS_NUM VARCHAR(100) DEFAULT (UUID()) PRIMARY KEY, #문의사항번호
+    CS_TITLE VARCHAR(100), #문의사항제목
+    CS_CONTENT VARCHAR(1000), #문의사항내용
+    CS_WRITER VARCHAR(50), #문의사항작성자
+    CS_REGDATE TIMESTAMP DEFAULT NOW(), #문의사항등록일
+    CS_ANSWER_YN CHAR(2), #문의사항답변여부
+    CS_TYPE VARCHAR(50), #문의사항종류
+    CS_TARGET VARCHAR(100) #문의사항대상
+);
+
+############# 문의답변 테이블 ################
+CREATE TABLE CS_ANSWER( #문의답변테이블
+   ANSWER_NUM VARCHAR(100) DEFAULT (UUID()) PRIMARY KEY, #답변번호
+    ANSWER_WRITER VARCHAR(50), #답변작성자
+    ANSWER_CONTENT VARCHAR(1000), #답변내용
+    ANSWER_REGDATE TIMESTAMP DEFAULT NOW(), #답변등록일
+    CS_NUM VARCHAR(50) #문의사항번호
+);
+
+
+
+######## 공지게시글 테이블 ###############
+CREATE TABLE NOTICE ( #공지사항게시글 테이블
+   NOTICE_NUM VARCHAR(100) DEFAULT (UUID()) PRIMARY KEY, #공지사항번호
+    NOTICE_TITLE VARCHAR(100), # 공지사항제목
+    NOTICE_CONTENT VARCHAR(1000), # 공지사항내용
+    NOTICE_REGDATE TIMESTAMP DEFAULT NOW(), # 공지사항등록일
+    NOTICE_COMMENT CHAR(2), # 공지사항답변유무
+    NOTICE_TARGET VARCHAR(50) # 공지사항 댓글
+);
+
+############# 공지답변 테이블 ################
+CREATE TABLE NOTICE_COMMENT ( #공지사항 댓글테이블
+   COM_NUM VARCHAR(100) DEFAULT (UUID()) PRIMARY KEY, # 댓글번호 
+    COM_WRITER VARCHAR(100), # 댓글작성자
+    COM_CONTENT VARCHAR(1000), # 댓글내용
+    COM_REGDATE TIMESTAMP DEFAULT NOW(), # 댓글작성일
+    NOTICE_NUM VARCHAR(50) # 공지사항번호
+);
+
+
+
+############ 프로젝트 회사 정보 테이블 #############
+CREATE TABLE PROJECTINFO (#프로젝트(회사)정보
+   PRO_ID VARCHAR(100) DEFAULT (UUID()) PRIMARY KEY, #프로젝트아이디
+   PRO_NAME   VARCHAR(100), #프로젝트명
+   PRO_STARTDATE   VARCHAR(100), #시작일
+   PRO_ENDDATE   VARCHAR(100), #만료일
+   PRO_REP   VARCHAR(100), #프로젝트(고객) 담당자
+   PRO_STATUS   VARCHAR(100), #계약 상태
+   PRO_INFO   VARCHAR(1000), #프로젝트 정보
+   PRO_PI   VARCHAR(10), #정기정검요청날짜
+   TEAM_NUM VARCHAR(50), #팀번호
+   CUS_ID   VARCHAR(100) #고객아이디
+);
+
+
+############ 서버 테이블 ##########
+CREATE TABLE SERVER (#서버테이블
+   SERVER_ID VARCHAR(100) DEFAULT (UUID()) PRIMARY KEY, #서버아이디
+   SERVER_NAME   VARCHAR(255), #서버이름
+   IP_ADDRESS   VARCHAR(50), #IP주소
+   SERVER_STATUS   VARCHAR(40), #서버 상태
+   OPERATING_SYSTEM   VARCHAR(100), #운영체제
+   CPU   VARCHAR(50), #CPU정보
+   RAM  INT, #RAM용량
+   DISK_CAPACITYGB  INT, #디스크 용량
+   PRO_ID  VARCHAR(100), #프로젝트아이디
+   ENG_ENID  VARCHAR(100) #엔지니어아이디
+);
+
+
+########## 엔지니어 #############
+CREATE TABLE ENGINEER ( #엔지니어 테이블
+    ENG_NUM VARCHAR(100) DEFAULT (UUID()) PRIMARY KEY, #엔지니어번호
+    ENG_ENID VARCHAR(100), #엔지니어아이디
+    ENG_NAME VARCHAR(100), # 이름
+    ENG_PHONE VARCHAR(100), # 연락처
+    ENG_PW VARCHAR(100), # 비밀번호
+    ENG_RANK VARCHAR(20), # 직급
+    ENG_EMAIL VARCHAR(100), # 이메일
+    TEAM_NUM VARCHAR(50), # 팀번호
+    USER_ID VARCHAR(100) # 사용자명
+);
+
+########## 엔지니어 팀 ##########
+CREATE TABLE ENG_TEAM ( #엔지니어 팀 테이블
+   TEAM_NUM VARCHAR(100) DEFAULT (UUID()) PRIMARY KEY, # 팀번호
+    TEAM_ID VARCHAR(100) # 팀명
+);
+
+########### 작업정보 ###########
+CREATE TABLE WORKINFO (#작업정보
+   WORK_NUM VARCHAR(100) DEFAULT (UUID()) PRIMARY KEY, #작업번호
+   WORK_DATE DATE, # 작업일자
+   WORK_DIVISION VARCHAR(100), #작업분류
+   WORK_TIME TIME, # 작업시간
+   WORK_CPU VARCHAR(100), # CPU 사용량
+   WORK_RAM VARCHAR(100), # RAM 사용량
+   WORK_HDD VARCHAR(100), # HDD 사용량
+   WORK_STATUS VARCHAR(100), #상태
+   WORK_NOTE VARCHAR(1000), #비고
+   WORK_ESTIMATE VARCHAR(100), # 견적서(첨부파일)
+   SERVER_ID VARCHAR(50), # 서버아이디
+   ENG_ENID VARCHAR(100), # 엔지니어아이디
+   PRO_ID VARCHAR(100) # 프로젝트아이디
+);
+
+
+
+#######알람###########
+CREATE TABLE ALARM(
+ALARM_NUM VARCHAR(100) DEFAULT (UUID()) PRIMARY KEY, #알람아이디
+ALARM_CONTENT VARCHAR(300),
+ALARM_TYPE VARCHAR(50),
+ALARM_DATE TIMESTAMP DEFAULT NOW(),
+ALARM_CHECK_YN CHAR(2) DEFAULT 'N',
+ALARM_RECEIVER VARCHAR(50)
+);
+
+
+
+####### 사용자 권한(승용 수정!@!@!@) ############
+CREATE TABLE ROLE ( #사용자 권한
+   USER_ID VARCHAR(100) PRIMARY KEY, # 사용자명
+   USER_PW VARCHAR(100),   
+ROLE_TYPE VARCHAR(100) # 사용자유형
+);
+
+
+
+
+
+
+

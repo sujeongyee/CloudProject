@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.server.cloud.engineer.service.EngineerMapper">
+
+	<!-- 앤지니어팀 where바꿔야됨! -->
+	<select id="engineerList" resultType="com.server.cloud.command.EngineerVO">
+		select e.*, t.team_id
+		from engineer e
+		inner join eng_team t on e.team_num = t.team_num
+		where e.team_num='8fcc9b5c-4bd8-11ee-8c2a-0ef820116d74';
+	</select>
+	
+	
+	<select id="inspectionList" resultType="com.server.cloud.command.WorkInfoVO">
+		select wi.*, si.server_name, ei.eng_name, pi.pro_name
+		from workinfo wi 
+		inner join server si on wi.server_id = si.server_id
+		inner join engineer ei on wi.eng_enid = ei.eng_enid
+		inner join projectinfo pi on wi.pro_id = pi.pro_id
+		where ei.eng_name='강민호';
+	</select>
+	
+	<select id="serverDetailModal">
+		select s.*, p.pro_name
+		from server s
+		inner join projectinfo p on s.pro_id = p.pro_id
+		where server_name=#{server_name};
+	</select>
+	
+	<select id="pastInspectionHistoryList">
+		select wi.*, s.server_name
+		from workinfo wi
+		inner join server s on wi.server_id = s.server_id
+		where server_name=#{server_name};
+	</select>
+
+
+
+</mapper>
