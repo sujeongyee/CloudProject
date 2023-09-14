@@ -38,8 +38,10 @@ public class EngineerController {
 
 
 
+
 	@Value("@{aws_bucket_name}")
 	private String aws_bucket_name;
+
 
 	
 

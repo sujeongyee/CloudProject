@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.NoticeVO;
 import com.server.cloud.pagenation.Criteria;
 
@@ -15,6 +16,8 @@ public interface AdminMapper {
 
 	List<NoticeVO> getList(Criteria cri);
 
-	
+	//회원관리 - 엔지니어
+	public List<EngineerVO> adEngineerList(EngineerVO engineerVO);
+
 	
 }

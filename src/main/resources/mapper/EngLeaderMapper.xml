@@ -1,0 +1,137 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.server.cloud.engLeader.service.EngLeaderMapper">
+		
+  	<select id="getNewProject">
+  		SELECT * FROM PROJECTINFO WHERE PRO_ID IN 
+		(SELECT P.PRO_ID FROM PROJECTINFO P 
+		LEFT JOIN ENGINEER E 
+		ON P.TEAM_NUM = E.TEAM_NUM 
+		LEFT JOIN SERVER S 
+		ON S.PRO_ID = P.PRO_ID 
+		WHERE E.ENG_ENID = 'eng_1'
+		AND S.ENG_ENID IS NULL
+        ORDER BY P.PRO_STARTDATE DESC) limit 5
+
+  	</select>
+  	
+  	<select id="getInspection">
+  		SELECT 
+    	DATE_FORMAT(A.WORK_DATE, '%m') AS Month,
+    		SUM(CASE WHEN A.WORK_DIVISION = '정기점검' THEN 1 ELSE 0 END) AS PERIODIC, -- 정기점검
+    		SUM(CASE WHEN A.WORK_DIVISION = '장애대응' THEN 1 ELSE 0 END) AS DISABILITY, -- 장애대응
+    		SUM(CASE WHEN A.WORK_DIVISION = '유지보수' THEN 1 ELSE 0 END) AS MAINTENANCE -- 유지보수
+		FROM WORKINFO A
+		LEFT JOIN (
+    		SELECT * 
+    		FROM PROJECTINFO 
+    		WHERE TEAM_NUM = (SELECT TEAM_NUM FROM ENGINEER WHERE ENG_ENID = #{leader_id})
+		) B
+		ON A.PRO_ID = B.PRO_ID
+		WHERE 
+    		<![CDATA[A.WORK_DATE >= '2023-06-01' AND ]]>
+    		<![CDATA[A.WORK_DATE <= '2023-09-30']]>
+		GROUP BY DATE_FORMAT(A.WORK_DATE, '%m')
+		ORDER BY Month
+  	</select>
+  	
+  	<select id="getAllMain">
+  		SELECT 
+    		(SELECT COUNT(*) 
+     		FROM ENGINEER E1
+     		LEFT JOIN ENGINEER E2
+     		ON E1.TEAM_NUM=E2.TEAM_NUM
+     		WHERE E1.ENG_ENID=#{leader_id}
+     		AND E2.ENG_RANK!='팀장') AS teamCount,     
+		    (SELECT COUNT(*) 
+		     FROM PROJECTINFO P
+		     LEFT JOIN ENGINEER E
+		     ON P.TEAM_NUM=E.TEAM_NUM
+		     WHERE E.ENG_ENID=#{leader_id}) AS projectCount,
+		    (SELECT COUNT(*) 
+		     FROM ENGINEER E1
+		     LEFT JOIN ENGINEER E2
+		     ON E1.TEAM_NUM=E2.TEAM_NUM
+		     LEFT JOIN SERVER S
+		     ON E2.ENG_ENID=S.ENG_ENID
+		     WHERE E1.ENG_ENID=#{leader_id}
+		     AND S.SERVER_NAME IS NOT NULL) AS serverCount,     
+		    (SELECT COUNT(*) 
+		     FROM PROJECTINFO
+		     WHERE TEAM_NUM = (SELECT TEAM_NUM FROM ENGINEER WHERE ENG_ENID = #{leader_id})
+		     AND MONTH(PRO_STARTDATE) = MONTH(CURDATE()) AND YEAR(PRO_STARTDATE) = YEAR(CURDATE())) AS thisMonthStart,     
+		    (SELECT COUNT(*) 
+		     FROM PROJECTINFO
+		     WHERE TEAM_NUM = (SELECT TEAM_NUM FROM ENGINEER WHERE ENG_ENID = #{leader_id})
+		     AND MONTH(PRO_ENDDATE) = MONTH(CURDATE()) AND YEAR(PRO_ENDDATE) = YEAR(CURDATE())) AS thisMonthEnd
+  	</select>
+  	
+  	<select id="getRequestDetail">
+  		SELECT * FROM CUSTOMER C
+		LEFT JOIN PROJECTINFO P
+		ON C.CUS_ID = P.CUS_ID
+		WHERE P.PRO_ID=#{pro_id}
+  	</select>
+  	
+  	<select id="getRequestServer">
+  		SELECT * FROM SERVER WHERE PRO_ID=#{pro_id}
+  	</select>
+  	
+  	<select id = "getRequestServer2">
+  		SELECT S.*,E.ENG_NAME 
+  		FROM SERVER S 
+  		LEFT JOIN ENGINEER E 
+  		ON S.ENG_ENID = E.ENG_ENID 
+  		WHERE PRO_ID=#{pro_id}
+  	</select>
+  	
+  	<select id="getTeamEngList">
+  		SELECT * FROM ENGINEER 
+  		WHERE TEAM_NUM = 
+  		(SELECT TEAM_NUM FROM ENGINEER WHERE ENG_ENID = #{leader_id}) 
+  		AND ENG_RANK !='팀장'
+  	</select>
+  	
+  	<update id="assignEng">
+  		UPDATE SERVER SET ENG_ENID = #{eng_enid} WHERE SERVER_ID=#{server_id}
+  	</update>
+  	
+  	<select id = "getAllPro">
+  		SELECT P.*,C.CUS_COMPANY_NAME 
+  		FROM PROJECTINFO P 
+  		LEFT JOIN CUSTOMER C 
+  		ON P.CUS_ID = C.CUS_ID 
+  		WHERE P.TEAM_NUM = 
+  		(SELECT TEAM_NUM FROM ENGINEER WHERE ENG_ENID = #{leader_id})
+  		ORDER BY P.PRO_STARTDATE DESC
+  	</select>
+  	
+  	<select id="getClient">
+  		SELECT DISTINCT C.* 
+  		FROM CUSTOMER C 
+  		LEFT JOIN PROJECTINFO P 
+  		ON C.CUS_ID = P.CUS_ID 
+  		WHERE P.TEAM_NUM = 
+  		(SELECT TEAM_NUM FROM ENGINEER WHERE ENG_ENID = #{leader_id})
+  	</select>
+  	
+  	<select id="getClientInfo">
+  		SELECT * FROM CUSTOMER WHERE CUS_ID = #{cus_id}
+  	</select>
+  	
+  	<select id="clientProjects">
+  		SELECT * FROM PROJECTINFO WHERE CUS_ID = #{cus_id}
+  	</select>
+  	
+  	<select id="getEngServer">
+  		SELECT * FROM SERVER WHERE ENG_ENID = #{eng_enid};
+  	</select>
+  	
+  	<select id="getEngSchedule">
+  		SELECT * FROM ENG_SCHEDULE WHERE ENG_ENID = #{eng_enid}
+  	</select>
+  	
+  	
+  </mapper>

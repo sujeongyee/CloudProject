@@ -91,8 +91,10 @@ public class MainController {
 				.build();
 		System.out.println(file.toString());
 				userService.singIn(vo);
+
 				userService.setPoto(file);
 		
+
 		return new ResponseEntity<>("로그인 성공",HttpStatus.OK);
 		}
 		return new ResponseEntity<>("잘못된 접근 입니다.",HttpStatus.OK);

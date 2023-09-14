@@ -1,3 +1,4 @@
+
 package com.server.cloud.admin.service;
 
 import java.util.List;
@@ -54,5 +55,14 @@ public class AdminServiceImpl implements AdminService{
 		
 	};
 	
+//회원관리 - 엔지니어
+	@Override
+	public List<EngineerVO> adEngineerList(EngineerVO engineerVO) {
+		return adminMapper.adEngineerList(engineerVO);
+	}
+}
+
+	
+
 
 }
