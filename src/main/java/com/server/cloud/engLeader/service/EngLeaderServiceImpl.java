@@ -96,6 +96,12 @@ public class EngLeaderServiceImpl implements EngLeaderService{
 	public List<ScheduleVO> getEngSchedule(String eng_enid) {
 		return engLeaderMapper.getEngSchedule(eng_enid);
 	}
+
+
+	@Override
+	public List<ScheduleVO> getAllSchedule(String leader_id) {
+		return engLeaderMapper.getAllSchedule(leader_id);
+	}
 	
 	
 	
