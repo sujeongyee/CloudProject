@@ -11,6 +11,10 @@ public interface AdminService {
 	int getTotal();
 
 	List<NoticeVO>  getList(Criteria cri);
+
+	void setAnno(NoticeVO vo);
+
+	void UpAnno(NoticeVO vo);
 	
 	
 		

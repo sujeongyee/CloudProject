@@ -8,13 +8,15 @@ import org.springframework.stereotype.Service;
 
 import com.server.cloud.command.NoticeVO;
 import com.server.cloud.pagenation.Criteria;
+import com.server.cloud.s3.AwsMapper;
 
 @Service("adminSerivce")
 public class AdminServiceImpl implements AdminService{
 
 	@Autowired
 	AdminMapper adminMapper;
-	
+	@Autowired
+	AwsMapper awsMapper;
 	
 	@Override
 	public int getTotal() {
@@ -30,6 +32,26 @@ public class AdminServiceImpl implements AdminService{
 	public List< NoticeVO> getList(Criteria cri) {
 		// TODO Auto-generated method stub
 		return adminMapper.getList(cri);
+	}
+
+
+
+
+
+	@Override
+	public void setAnno(NoticeVO vo) {
+		awsMapper.setAnno(vo);
+		
+	}
+
+
+
+
+
+	@Override
+	public void UpAnno(NoticeVO vo) {
+		awsMapper.UpAnno(vo);
+		
 	};
 	
 

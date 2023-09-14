@@ -20,6 +20,6 @@ public class NoticeVO {
 	private Timestamp notice_regdate;
 	private String notice_comment;
 	private String notice_target;
-	
+	private String notice_writer;
 	
 }

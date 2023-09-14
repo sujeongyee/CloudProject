@@ -40,6 +40,12 @@ public class AwsConfig {
 
 	}
 	
-	
+	@Bean
+	public AwsBasicCredentials awsBasicCredentials() {
+		
+		AwsBasicCredentials credentials = AwsBasicCredentials.create(aws_access_key_id, aws_secret_access_key);
+
+		return credentials;
+	}
 	
 }

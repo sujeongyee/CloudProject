@@ -20,8 +20,10 @@
   
   <select id="getList" resultType="noticeVO">
   
-  	select * from NOTICE limit   #{pageStart},#{amount}
+  	select * from NOTICE order by notice_regdate desc limit   #{pageStart},#{amount} 
   </select>
+  
+ 
   
   </mapper>
   

@@ -14,6 +14,7 @@ public interface AdminMapper {
 	int getTotal();
 
 	List<NoticeVO> getList(Criteria cri);
+
 	
 	
 }
