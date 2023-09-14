@@ -21,11 +21,12 @@ import com.server.cloud.command.CusVO;
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.ProjectInfoVO;
 import com.server.cloud.command.QueryVO;
+import com.server.cloud.command.ScheduleVO;
 import com.server.cloud.command.ServerVO;
 import com.server.cloud.engLeader.service.EngLeaderService;
 
 @RestController
-@RequestMapping("/engleader")
+@RequestMapping("/api/main/engleader")
 public class EngLeaderController {
 
 	@Autowired
@@ -125,6 +126,8 @@ public class EngLeaderController {
 		List<ServerVO> list = engLeaderService.getEngServer(eng_enid);
 		Map<String,Object> map = new HashMap<>();
 		map.put("serverList", list);
+		List<ScheduleVO> sche = engLeaderService.getEngSchedule(eng_enid);
+		map.put("scheList",sche);
 		return new ResponseEntity<>(map,HttpStatus.OK);
 	}
 

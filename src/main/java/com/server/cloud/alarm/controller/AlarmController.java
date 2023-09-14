@@ -23,7 +23,7 @@ import com.server.cloud.command.AlarmVO;
 
 
 @RestController
-@RequestMapping("/alarm")
+@RequestMapping("/api/alarm")
 public class AlarmController {
 	
 //	관리자

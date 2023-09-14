@@ -64,10 +64,5 @@ public class AlarmServiceImpl implements AlarmService{
 		List<AlarmVO> alarmVO=alarmMapper.getAlarmList(user_id);
 		return alarmVO;
 	}
-	
-	
-	
-
-	
 
 }

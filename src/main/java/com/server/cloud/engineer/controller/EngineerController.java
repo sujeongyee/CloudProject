@@ -24,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.server.cloud.command.EngSerProInfoWorkInfoVO;
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.ProjectCusVO;
-import com.server.cloud.command.S3Service;
 import com.server.cloud.command.ServerVO;
 import com.server.cloud.command.WorkInfoVO;
 import com.server.cloud.engineer.service.EngineerService;
@@ -36,34 +35,9 @@ public class EngineerController {
 	@Autowired
 	private EngineerService engineerService;
 
-	@Autowired
-	private S3Service s3;
 
 
-	@Value("@{aws_bucket_name}")
-	private String aws_bucket_name;
-
-	@PostMapping("/awsUpload")
-	public ResponseEntity<String> cloudUpload(@RequestParam("file_data") MultipartFile file) {
-		/* System.out.println(file); */
-
-		try {
-
-			//파일명
-			String originName= file.getOriginalFilename();
-			//파일데이터
-			byte[] originData = file.getBytes();
-
-			s3.putS3Object(originName, originData);
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-
-		return	new ResponseEntity<>("aws업로드완료", HttpStatus.OK);
-	}
+	
 
 	//팀원 프로젝트 리스트 
 	@GetMapping("/engineer/newList")

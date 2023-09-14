@@ -86,7 +86,6 @@ public class MainController {
 		
 				userService.singIn(vo);
 			
-		
 		return new ResponseEntity<>("로그인 성공",HttpStatus.OK);
 		}
 		return new ResponseEntity<>("잘못된 접근 입니다.",HttpStatus.OK);
