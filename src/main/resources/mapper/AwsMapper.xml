@@ -3,26 +3,87 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
-  <mapper namespace="com.server.cloud.s3.AwsMapper">
-  
-  
-  <insert id="setInfo">
-  
-  	insert into file(file_id,file_name,file_path,file_type,upload_date,user_id)
-  	values (
-  		#{file_id},#{file_name},#{file_path},#{file_type},#{upload_date},#{user_id}
-  	)on duplicate key update
-  	file_id=#{file_id},file_name=#{file_name},file_path=#{file_path},file_type=#{file_type}
-  	,upload_date=#{upload_date},user_id=#{user_id}
-  
-  </insert> 
-  <select id="getImg" resultType="com.server.cloud.s3.FileVO">
-  
-  select * from FILE where user_id=#{userId};
-  
-  </select>
-  
-  
-  
-  </mapper>
+
+<mapper namespace="com.server.cloud.s3.AwsMapper">
+
+
+	<insert id="setInfo">
+
+		insert into
+		file(file_id,file_name,file_path,file_type,upload_date,user_id)
+		values
+		(
+		#{file_id},#{file_name},#{file_path},#{file_type},#{upload_date},#{user_id}
+		)on duplicate key update
+		file_id=#{file_id},file_name=#{file_name},file_path=#{file_path},file_type=#{file_type}
+		,upload_date=#{upload_date},user_id=#{user_id}
+
+	</insert>
+	<select id="getImg" resultType="com.server.cloud.s3.FileVO">
+
+		select * from FILE where
+		user_num=#{userId};
+
+	</select>
+
+
+	<insert id="setAnno">
+
+		insert into NOTICE(notice_title,
+		notice_content,notice_regdate,notice_comment,notice_target,notice_writer)
+		values (
+
+		#{notice_title},
+		#{notice_content},
+		#{notice_regdate},
+		#{notice_comment},
+		#{notice_target},
+		#{notice_writer}
+
+		)
+		<!-- <selectKey keyProperty="notice_num" resultType="NoticeVO" order="AFTER"> 
+			select notice_num from notice order by notice_regdate desc limit 1; </selectKey> -->
+	</insert>
+	<insert id="UpAnno">
+
+		insert into NOTICE(notice_num,notice_title,
+		notice_content,notice_regdate,notice_comment,notice_target)
+		values (
+		#{notice_num},
+		#{notice_title},
+		#{notice_content},
+		#{notice_regdate},
+		#{notice_comment},
+		#{notice_target}
+		)
+		on duplicate key update
+		notice_num=#{notice_num},
+		notice_title=#{notice_title},
+		notice_content=#{notice_content},
+		notice_regdate=#{notice_regdate},
+		notice_comment=#{notice_comment},
+		notice_target=#{notice_target}
+		<!-- <selectKey keyProperty="notice_num" resultType="NoticeVO" order="AFTER"> 
+			select notice_num from notice order by notice_regdate desc limit 1; </selectKey> -->
+	</insert>
+	<insert id="setFile">
+		<selectKey keyProperty="user_num" resultType="String"
+			order="BEFORE">
+			select notice_num from NOTICE where notice_writer=#{user_id}
+			order by notice_regdate desc limit 1;
+		</selectKey>
+		insert into
+		file(file_name,file_path,file_type,upload_date,user_num,user_id)
+		value
+		(#{file_name},#{file_path},#{file_type},#{upload_date},#{user_num},#{user_id})
+
+	</insert>
+
+	<delete id="fileDel">
+	
+	delete from file where file_id=#{file_num}
+	</delete>
+	<delete id="AnnoDel">
+	delete from notice where notice_num=#{notice_num}
+	</delete>
+</mapper>
