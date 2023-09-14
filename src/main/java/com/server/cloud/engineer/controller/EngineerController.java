@@ -34,9 +34,6 @@ public class EngineerController {
 
 	@Autowired
 	private EngineerService engineerService;
-
-
-
 	
 
 	//팀원 프로젝트 리스트 
