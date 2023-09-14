@@ -6,6 +6,14 @@ public interface AwsService {
 
 	FileVO getImg(String userId);
 
+	void setFile(FileVO fileVO);
+
+	FileVO getFile(String file_num);
+
+	void fileDel(String file_num);
+
+	void AnnoDel(String notice_num);
+
 
 
 }

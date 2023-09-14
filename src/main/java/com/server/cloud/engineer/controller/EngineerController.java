@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.server.cloud.command.EngSerProInfoWorkInfoVO;
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.ProjectCusVO;
+
 import com.server.cloud.command.ServerVO;
 import com.server.cloud.command.WorkInfoVO;
 import com.server.cloud.engineer.service.EngineerService;
@@ -34,6 +35,14 @@ public class EngineerController {
 
 	@Autowired
 	private EngineerService engineerService;
+
+
+
+
+	@Value("@{aws_bucket_name}")
+	private String aws_bucket_name;
+
+
 	
 
 	//팀원 프로젝트 리스트 
