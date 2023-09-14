@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.server.cloud.engineer.service.EngineerMapper">
+
+	<select id="newList" resultType="ProjectCusVO">
+		SELECT * FROM PROJECTINFO P
+		LEFT OUTER JOIN CUSTOMER C ON P.CUS_ID = C.CUS_ID;
+	</select>
+
+
+
+
+	<select id="engProInfo" resultType="EngSerProInfoWorkInfoVO">
+		SELECT DISTINCT
+		E.ENG_ENID,
+		E.ENG_NAME,
+		P.PRO_NAME,
+		P.PRO_ID
+		FROM ENGINEER E
+		LEFT JOIN SERVER S ON E.ENG_ENID = S.ENG_ENID
+		LEFT JOIN
+		PROJECTINFO P ON S.PRO_ID = P.PRO_ID
+		LEFT JOIN WORKINFO W ON W.ENG_ENID
+		= E.ENG_ENID
+		WHERE E.ENG_ENID = #{ENG_ENID};
+	</select>
+
+	<select id="serverList" resultType="ServerVO">
+		SELECT * FROM SERVER;
+	</select>
+
+	<insert id="registWorkLog" parameterType="java.util.List">
+		insert into WORKINFO
+		(work_date,
+		work_division,
+		work_time,
+		work_cpu,
+		work_ram,
+		work_hdd,
+		work_note,
+		work_estimate,
+		work_status,
+		server_id,
+		eng_enid,
+		pro_id)
+		values
+		<foreach collection="list" item="workInfo" separator=",">
+			(#{workInfo.work_date},
+			#{workInfo.work_division},
+			#{workInfo.work_time},
+			#{workInfo.work_cpu},
+			#{workInfo.work_ram},
+			#{workInfo.work_hdd},
+			#{workInfo.work_note},
+			#{workInfo.work_estimate},
+			#{workInfo.work_status},
+			#{workInfo.server_id},
+			#{workInfo.eng_enid},
+			#{workInfo.pro_id}
+			)
+		</foreach>
+	</insert>
+
+	<select id="engineerList"
+		resultType="com.server.cloud.command.EngineerVO">
+		select e.*, t.team_id
+		from engineer e
+		inner join eng_team t on e.team_num = t.team_num
+		where e.team_num='8fcc9b5c-4bd8-11ee-8c2a-0ef820116d74';
+	</select>
+
+
+	<select id="inspectionList"
+		resultType="com.server.cloud.command.WorkInfoVO">
+		select wi.*, si.server_name, ei.eng_name, pi.pro_name
+		from workinfo wi
+		inner join server si on wi.server_id = si.server_id
+		inner join engineer ei on wi.eng_enid = ei.eng_enid
+		inner join projectinfo pi on wi.pro_id = pi.pro_id
+		where ei.eng_enid='eng_a_3';
+	</select>
+
+	<select id="serverDetailModal">
+		select s.*, p.pro_name
+		from server s
+		inner join projectinfo p on s.pro_id = p.pro_id
+		where server_name=#{server_name};
+	</select>
+
+	<select id="pastInspectionHistoryList">
+		select wi.*, s.server_name
+		from workinfo wi
+		inner join server s on wi.server_id = s.server_id
+		where server_name=#{server_name};
+	</select>
+
+
+
+</mapper>

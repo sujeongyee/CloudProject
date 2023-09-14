@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="com.server.cloud.admin.service.AdminMapper">
+
+
+	<select id="getTotal" resultType="int">
+
+		select count(*) from NOTICE;
+
+
+	</select>
+
+
+	 <select id="getList" resultType="noticeVO">
+  
+  	select * from NOTICE order by notice_regdate desc limit   #{pageStart},#{amount} 
+  </select>
+
+	<!-- 회원관리 - 엔지니어 -->
+	<select id="adEngineerList"
+		resultType="com.server.cloud.admin.command.EngineerVO">
+		select e.*, t.team_id
+		from engineer e
+		inner join eng_team t
+		on e.team_num = t.team_num
+	</select>
+
+</mapper>
+

@@ -5,15 +5,22 @@ import javax.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import com.server.cloud.command.CusVO;
+import com.server.cloud.s3.FileVO;
 
 
 
 
-public interface UserService {
+public interface CusService {
 
 	void singIn(CusVO vo);
 
-	String idCheck(String string);
+	CusVO idCheck(String string);
+
+	void updateInfo(CusVO vo);
+
+	
+
+	void setPoto(FileVO file);
 
 	
 	
