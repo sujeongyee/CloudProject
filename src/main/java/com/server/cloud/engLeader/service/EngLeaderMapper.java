@@ -34,7 +34,7 @@ public interface EngLeaderMapper {
 	public List<ProjectInfoVO> clientProjects(String cus_id);
 	public List<ServerVO> getEngServer(String eng_enid);
 	public List<ScheduleVO> getEngSchedule(String eng_enid);
-	
+	public List<ScheduleVO> getAllSchedule(String leader_id);
 
 
 
