@@ -129,5 +129,9 @@
   		SELECT * FROM SERVER WHERE ENG_ENID = #{eng_enid};
   	</select>
   	
+  	<select id="getEngSchedule">
+  		SELECT * FROM ENG_SCHEDULE WHERE ENG_ENID = #{eng_enid}
+  	</select>
+  	
   	
   </mapper>
