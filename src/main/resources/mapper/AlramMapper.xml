@@ -73,5 +73,7 @@
   		SELECT * FROM ALARM WEHRE ALARM_RECEIVER = #{user_id}
   	</select>
  
+
+  
   
   </mapper>

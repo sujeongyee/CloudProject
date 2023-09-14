@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.server.cloud.admin.service.AdminService;
+import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.NoticeVO;
 import com.server.cloud.pagenation.Criteria;
 
@@ -45,6 +46,12 @@ public class AdminController {
 	@GetMapping("/api/main/AnnoTotal")
 	public ResponseEntity<?>getTotal(){
 		return new ResponseEntity<>(adminService.getTotal(),HttpStatus.OK);
+	}
+	
+	//회원관리 - 엔지니어
+	@GetMapping("/admin/engineerList")
+	public List<EngineerVO> adEngineerList(EngineerVO engineerVO){
+	       return adminService.adEngineerList(engineerVO);
 	}
 }
 
