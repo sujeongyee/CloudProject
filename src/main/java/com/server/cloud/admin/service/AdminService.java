@@ -3,7 +3,11 @@ package com.server.cloud.admin.service;
 import java.util.List;
 import java.util.Map;
 
+
 import com.server.cloud.command.CsVO;
+
+import com.server.cloud.command.CusVO;
+
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.NoticeVO;
 import com.server.cloud.pagenation.Criteria;
@@ -30,5 +34,7 @@ public interface AdminService {
 
 	void csUpdate(CsVO vo);	
 
+	//회원관리 - 기업
+	public List<CusVO> adClientList(CusVO cusVO);
 
 }

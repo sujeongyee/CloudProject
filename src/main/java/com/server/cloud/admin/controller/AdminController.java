@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.server.cloud.admin.service.AdminService;
+
 import com.server.cloud.command.CsVO;
+
+import com.server.cloud.command.CusVO;
+
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.NoticeVO;
 import com.server.cloud.pagenation.Criteria;
@@ -53,10 +57,7 @@ public class AdminController {
 	
 
 	//회원관리 - 엔지니어
-	@GetMapping("/api/admin/engineerList")
-	public List<EngineerVO> adEngineerList(EngineerVO engineerVO){
-	       return adminService.adEngineerList(engineerVO);
-	}
+
 	@GetMapping("/api/main/csList")//문의사항 목록 불러오기
 	public ResponseEntity<?> csList(@RequestParam("currentPage") int currentPage,@RequestParam("postsPerPage")int postsPerPage){
 		Map<String, Integer>page= new HashMap<>();
@@ -81,5 +82,18 @@ public class AdminController {
 		
 		return new ResponseEntity<>("업데이트가 완료되었습니다.",HttpStatus.OK);
 	}
-}
 
+
+	@GetMapping("api/main/admin/engineerList")
+	public List<EngineerVO> adEngineerList(EngineerVO engineerVO){
+	       return adminService.adEngineerList(engineerVO);
+	}
+
+	
+	//회원관리 - 기업
+	@GetMapping("api/main/admin/customerList")
+	public List<CusVO> adClientList(CusVO cusVO){
+		return adminService.adClientList(cusVO);
+	}
+
+}

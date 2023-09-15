@@ -43,13 +43,23 @@
 
 	</select>
 	<!-- 회원관리 - 엔지니어 -->
-	<select id="adEngineerList"
-		resultType="com.server.cloud.command.EngineerVO">
+
+
+	<select id="adEngineerList" resultType="com.server.cloud.command.EngineerVO">
+
 		select e.*, t.team_id
 		from engineer e
-		inner join eng_team t
-		on e.team_num = t.team_num
+		inner join eng_team t on e.team_num = t.team_num
 	</select>
+	
+	<!-- 회원관리 - 기업 -->
+	<select id = "adClientList" resultType="com.server.cloud.command.CusVO">
+		select c.*, p.pro_status, p.pro_startdate, p.pro_enddate
+		from customer c
+		join projectinfo p on c.cus_id = p.cus_id;
+		
+	</select>
+
 	<insert id="csUpdate">
 	
 	insert into CS(cs_num,cs_answer_yn)
@@ -57,5 +67,6 @@
 	 on duplicate key update
 	 cs_num=#{cs_num},cs_answer_yn=#{cs_answer_yn}
 	</insert>
+
 </mapper>
 

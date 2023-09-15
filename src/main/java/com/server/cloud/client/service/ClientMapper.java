@@ -22,7 +22,10 @@ public interface ClientMapper {
 //	public int applyForm(@Param("proVO") ProjectInfoVO proVO, 
 //						 @Param("serverList") ArrayList<ServerVO> serverList);
 	
+	//프로젝트 정보 입력 
 	public void proApplyForm(ProjectInfoVO proVO);
+	
+	//서버 정보 입력 
 	public void serverApplyForm(ArrayList<ServerVO> serverList);
 	
 	//프로젝트 리스트 
@@ -32,9 +35,10 @@ public interface ClientMapper {
 	public ArrayList<ProjectDetailVO> projectDetail(String pro_id); 
 	
 
-	   //작업 내역 리스트
-	   public ArrayList<ProjectListVO> projectDetailList();
-	   public ArrayList<ProjectListVO> projectDetailChart();
+   //작업 내역 리스트
+   public ArrayList<ProjectListVO> projectDetailList();
+   //작업 내역 로그 
+   public ArrayList<ProjectListVO> projectDetailChart();
 	   
 	   
 	   
