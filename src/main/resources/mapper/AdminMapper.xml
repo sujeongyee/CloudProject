@@ -13,7 +13,10 @@
 
 	<select id="getTotal" resultType="int">
 
-		select count(*) from NOTICE;
+		select count(*) from NOTICE
+		<if test="role!='ROLE_ADMIN'">
+		where notice_target=#{role} or notice_target='ALL' 
+		</if>
 
 
 	</select>
