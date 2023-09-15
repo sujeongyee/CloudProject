@@ -21,6 +21,7 @@ import com.server.cloud.command.CusVO;
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.ProjectInfoVO;
 import com.server.cloud.command.QueryVO;
+import com.server.cloud.command.ScheduleVO;
 import com.server.cloud.command.ServerVO;
 import com.server.cloud.engLeader.service.EngLeaderService;
 
@@ -94,6 +95,8 @@ public class EngLeaderController {
 	public ResponseEntity<Map<String,Object>> projectDetail(@PathVariable String pro_id){
 		Map<String,Object> map2 = engLeaderService.getRequestDetail(pro_id);
 		List<ServerVO> list = engLeaderService.getRequestServer2(pro_id);
+
+		
 		map2.put("list", list);
 		return new ResponseEntity<>(map2,HttpStatus.OK);
 	}
@@ -125,7 +128,18 @@ public class EngLeaderController {
 		List<ServerVO> list = engLeaderService.getEngServer(eng_enid);
 		Map<String,Object> map = new HashMap<>();
 		map.put("serverList", list);
+		List<ScheduleVO> sche = engLeaderService.getEngSchedule(eng_enid);
+		map.put("scheList",sche);
 		return new ResponseEntity<>(map,HttpStatus.OK);
+	}
+	
+	@GetMapping("/getAllSche/{leader_id}")
+	public ResponseEntity<List<ScheduleVO>> getAllSche(@PathVariable String leader_id){
+		
+		List<ScheduleVO> list = engLeaderService.getAllSchedule(leader_id);
+
+		
+		return new ResponseEntity<>(list,HttpStatus.OK);
 	}
 
 }

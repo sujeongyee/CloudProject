@@ -21,5 +21,6 @@ public class ServerVO {
 	private int disk_capacitygb; //디스크 용량 
 	private String pro_id; //프로젝트 아이디 
 	private String eng_enid; //엔지니어 아이디 
+	private String eng_name;
 
 }

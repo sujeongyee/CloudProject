@@ -26,6 +26,33 @@ public class AwsServiceImpl implements AwsService{
 	}
 
 
+	@Override
+	public void setFile(FileVO fileVO) {
+		awsMapper.setFile(fileVO);
+	}
+
+
+	@Override
+	public FileVO getFile(String file_num) {
+		// TODO Auto-generated method stub
+		return awsMapper.getFile(file_num);
+	}
+
+
+	@Override
+	public void fileDel(String file_num) {
+		// TODO Auto-generated method stub
+		awsMapper.fileDel(file_num);
+	}
+
+
+	@Override
+	public void AnnoDel(String notice_num) {
+		// TODO Auto-generated method stub
+		awsMapper.AnnoDel(notice_num);
+	}
+
+
 	
 
 }
