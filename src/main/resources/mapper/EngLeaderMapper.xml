@@ -80,7 +80,7 @@
   	</select>
   	
   	<select id = "getRequestServer2">
-  		SELECT S.*,E.ENG_NAME 
+  		SELECT S.*,E.ENG_NAME
   		FROM SERVER S 
   		LEFT JOIN ENGINEER E 
   		ON S.ENG_ENID = E.ENG_ENID 
@@ -88,11 +88,24 @@
   	</select>
   	
   	<select id="getTeamEngList">
-  		SELECT * FROM ENGINEER 
-  		WHERE TEAM_NUM = 
-  		(SELECT TEAM_NUM FROM ENGINEER WHERE ENG_ENID = #{leader_id}) 
-  		AND ENG_RANK !='팀장'
-  	</select>
+		SELECT *
+		FROM ENGINEER E
+		WHERE E.TEAM_NUM = 
+		(SELECT TEAM_NUM FROM ENGINEER WHERE ENG_ENID = #{leader_id})
+		AND NOT EXISTS (
+		SELECT 1
+		FROM SERVER S
+		LEFT JOIN PROJECTINFO P ON S.PRO_ID = P.PRO_ID
+		WHERE P.PRO_PI = #{pro_pi}
+		AND S.ENG_ENID = E.ENG_ENID
+		);
+	</select>
+	
+	<select id="getTeamEngList2">
+		SELECT *
+		FROM ENGINEER 
+		WHERE TEAM_NUM =(SELECT TEAM_NUM FROM ENGINEER WHERE ENG_ENID = #{leader_id})
+	</select>
   	
   	<update id="assignEng">
   		UPDATE SERVER SET ENG_ENID = #{eng_enid} WHERE SERVER_ID=#{server_id}
@@ -131,6 +144,10 @@
   	
   	<select id="getEngSchedule">
   		SELECT * FROM ENG_SCHEDULE WHERE ENG_ENID = #{eng_enid}
+  	</select>
+  	
+  	<select id="getAllSchedule">
+  		SELECT * FROM ENG_SCHEDULE ES LEFT JOIN ENGINEER E ON ES.ENG_ENID = E.ENG_ENID WHERE ES.ENG_ENID IN (SELECT ENG_ENID FROM ENGINEER WHERE TEAM_NUM = (SELECT TEAM_NUM FROM ENGINEER WHERE ENG_ENID = #{leader_id}))
   	</select>
   	
   	

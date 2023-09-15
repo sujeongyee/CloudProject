@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.server.cloud.command.CusVO;
@@ -70,9 +71,9 @@ public class EngLeaderController {
 		return new ResponseEntity<>(map2,HttpStatus.OK);
 	}
 
-	@GetMapping("/getTeamEngList/{pro_id}")
-	public ResponseEntity<List<EngineerVO>> getTeamEngList(@PathVariable String pro_id){
-		List<EngineerVO> list= engLeaderService.getTeamEngList("eng_1");
+	@GetMapping("/getTeamEngList")
+	public ResponseEntity<List<EngineerVO>> getTeamEngList(@RequestParam("pro_pi") String pro_pi ,@RequestParam("leader_id") String leader_id){
+		List<EngineerVO> list= engLeaderService.getTeamEngList(pro_pi,leader_id);
 		return new ResponseEntity<>(list,HttpStatus.OK);
 	}
 
@@ -95,6 +96,8 @@ public class EngLeaderController {
 	public ResponseEntity<Map<String,Object>> projectDetail(@PathVariable String pro_id){
 		Map<String,Object> map2 = engLeaderService.getRequestDetail(pro_id);
 		List<ServerVO> list = engLeaderService.getRequestServer2(pro_id);
+
+		
 		map2.put("list", list);
 		return new ResponseEntity<>(map2,HttpStatus.OK);
 	}
@@ -107,7 +110,7 @@ public class EngLeaderController {
 	
 	@GetMapping("/getEngineerList/{leader_id}")
 	public ResponseEntity<List<EngineerVO>> getEngineerList(@PathVariable String leader_id){
-		List<EngineerVO> list = engLeaderService.getTeamEngList(leader_id);
+		List<EngineerVO> list = engLeaderService.getTeamEngList2(leader_id);
 		return new ResponseEntity<>(list,HttpStatus.OK);
 	}
 	
@@ -129,6 +132,15 @@ public class EngLeaderController {
 		List<ScheduleVO> sche = engLeaderService.getEngSchedule(eng_enid);
 		map.put("scheList",sche);
 		return new ResponseEntity<>(map,HttpStatus.OK);
+	}
+	
+	@GetMapping("/getAllSche/{leader_id}")
+	public ResponseEntity<List<ScheduleVO>> getAllSche(@PathVariable String leader_id){
+		
+		List<ScheduleVO> list = engLeaderService.getAllSchedule(leader_id);
+
+		
+		return new ResponseEntity<>(list,HttpStatus.OK);
 	}
 
 }
