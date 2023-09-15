@@ -48,9 +48,13 @@ dependencies {
 	//jwt
 	implementation 'com.auth0:java-jwt:4.4.0'
 	
-	
-	//aws sdk 추가
+
+
+	//aws
 	implementation 'software.amazon.awssdk:aws-sdk-java:2.20.43'
+	
+	//s3
+	//implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
  
 }

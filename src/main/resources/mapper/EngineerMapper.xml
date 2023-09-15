@@ -104,6 +104,19 @@
 		where wi.server_id=#{server_id};
 	</select> 
 
-
+	<select id="getProjectDetail">
+  		SELECT * FROM CUSTOMER C
+		LEFT JOIN PROJECTINFO P
+		ON C.CUS_ID = P.CUS_ID
+		WHERE P.PRO_ID=#{pro_id}
+  	</select>
+	
+	<select id="getProjectServer">
+  		SELECT S.*,E.ENG_NAME 
+  		FROM SERVER S 
+  		LEFT JOIN ENGINEER E 
+  		ON S.ENG_ENID = E.ENG_ENID 
+  		WHERE S.PRO_ID=#{pro_id}
+  	</select>
 
 </mapper>

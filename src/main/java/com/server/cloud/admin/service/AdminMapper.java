@@ -16,6 +16,7 @@ public interface AdminMapper {
 	int getTotal();
 
 	List<NoticeVO> getList(Criteria cri);
+
 	
 	//회원관리 - 엔지니어
 	public List<EngineerVO> adEngineerList(EngineerVO engineerVO);
@@ -23,6 +24,4 @@ public interface AdminMapper {
 	//회원관리 - 기업
 	public List<CusVO> adClientList(CusVO cusVO);
 
-	
-	
 }

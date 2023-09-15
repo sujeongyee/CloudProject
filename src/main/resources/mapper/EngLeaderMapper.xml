@@ -80,7 +80,7 @@
   	</select>
   	
   	<select id = "getRequestServer2">
-  		SELECT S.*,E.ENG_NAME 
+  		SELECT S.*,E.ENG_NAME
   		FROM SERVER S 
   		LEFT JOIN ENGINEER E 
   		ON S.ENG_ENID = E.ENG_ENID 
@@ -131,6 +131,10 @@
   	
   	<select id="getEngSchedule">
   		SELECT * FROM ENG_SCHEDULE WHERE ENG_ENID = #{eng_enid}
+  	</select>
+  	
+  	<select id="getAllSchedule">
+  		SELECT * FROM ENG_SCHEDULE ES LEFT JOIN ENGINEER E ON ES.ENG_ENID = E.ENG_ENID WHERE ES.ENG_ENID IN (SELECT ENG_ENID FROM ENGINEER WHERE TEAM_NUM = (SELECT TEAM_NUM FROM ENGINEER WHERE ENG_ENID = #{leader_id}))
   	</select>
   	
   	

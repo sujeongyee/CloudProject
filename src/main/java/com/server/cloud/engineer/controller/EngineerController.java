@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.server.cloud.command.EngSerProInfoWorkInfoVO;
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.ProjectCusVO;
+
 import com.server.cloud.command.ServerVO;
 import com.server.cloud.command.WorkInfoVO;
 import com.server.cloud.engineer.service.EngineerService;
@@ -34,9 +35,19 @@ public class EngineerController {
 
 	@Autowired
 	private EngineerService engineerService;
+
+
+
+
+
+	@Value("@{aws_bucket_name}")
+	private String aws_bucket_name;
+
+
 	
 
 	//팀원 프로젝트 리스트 
+
 	@GetMapping("/engineer/newList")
 	public ResponseEntity<List<ProjectCusVO>> newList() {
 
@@ -45,11 +56,11 @@ public class EngineerController {
 		return new ResponseEntity<>(CusProList, HttpStatus.OK);
 	}
 
-	//엔지니어별로 배정받은 프로젝트 불러오는 기능
+	// 엔지니어별로 배정받은 프로젝트 불러오는 기능
 	@GetMapping("/engineer/workDetail")
 	public ResponseEntity<Map<String, Object>> enWorkDetailToInfo(String eng_enid) {
 
-		eng_enid = "eng_a_3"; //추후 토큰이랑 연동해야됌
+		eng_enid = "eng_a_3"; // 추후 토큰이랑 연동해야됌
 
 		List<EngSerProInfoWorkInfoVO> eSPIWlist = engineerService.engProInfo(eng_enid);
 		List<ServerVO> serverList = engineerService.serverList();
@@ -60,10 +71,20 @@ public class EngineerController {
 
 		return new ResponseEntity<>(proInfoMap, HttpStatus.OK);
 	}
+	
+	
+	@GetMapping("/engineer/newProjectDetail/{pro_id}")
+	public ResponseEntity<Map<String,Object>> projectDetail(@PathVariable String pro_id){
+		//
+		Map<String,Object> map2 = engineerService.getProjectDetail(pro_id);
+		List<ServerVO> list = engineerService.getProjectServer(pro_id);
+		map2.put("list", list);
+		return new ResponseEntity<>(map2,HttpStatus.OK);
+	}
 
-	//작업상세내역서 등록 기능
+	// 작업상세내역서 등록 기능
 	@PostMapping("/engineer/workDetail")
-	public ResponseEntity<Integer> registWorkLogs(@RequestBody List<WorkInfoVO> ServerDetailsArray){
+	public ResponseEntity<Integer> registWorkLogs(@RequestBody List<WorkInfoVO> ServerDetailsArray) {
 
 		int result = engineerService.registWorkLog(ServerDetailsArray);
 		System.out.println(result);
@@ -79,11 +100,13 @@ public class EngineerController {
 //		return engineerService.engineerList(engineerVO);
 //	}
 
-	// 엔지니어 점검목록 리스트 
+
+	// 엔지니어 점검목록 리스트
 	@GetMapping("/engineer/inspectionList")
-	public List<WorkInfoVO> inspectionList(WorkInfoVO workInfoVO){
+	public List<WorkInfoVO> inspectionList(WorkInfoVO workInfoVO) {
 		return engineerService.inspectionList(workInfoVO);
 	}
+
 
 	//엔지니어 점검목록 리스트 -> 서버 모달
 	@PostMapping("/engineer/inspectionList2")
@@ -91,13 +114,13 @@ public class EngineerController {
 		String server_id = data.get("serverId").toString();
 		Map<String,Object> map2 = engineerService.serverDetailModal(server_id);
 		List<WorkInfoVO> list = engineerService.pastInspectionHistoryList(server_id);
+
+
 		map2.put("list", list);
 //		System.out.println(data.toString());
 		System.out.println(list.toString());
 
-		return new ResponseEntity<>(map2,HttpStatus.OK);
+		return new ResponseEntity<>(map2, HttpStatus.OK);
 	}
-
-
 
 }
