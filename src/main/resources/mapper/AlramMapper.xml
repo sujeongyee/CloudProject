@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-  <mapper namespace="com.server.cloud.alarm.service">
+  <mapper namespace="com.server.cloud.alarm.service.AlarmMapper">
   
   	<insert id="createProAlarm">
   		INSERT INTO ALARM (ALARM_CONTENT,ALARM_TYPE,ALARM_RECEIVER) 
@@ -32,7 +32,7 @@
   		
   	</select>
   	
-  	<insert id="">
+  	<!-- <insert id="">
   		INSERT INTO ALARM (ALARM_CONTENT, ALARM_TYPE, ALARM_RECEIVER)
 		VALUES ('요청하신 프로젝트가 승인 됐습니다. 엔지니어 배정 완료','CUS_ASS',#{user_id})
   	</insert>
@@ -60,7 +60,7 @@
   	<insert id="">
   		INSERT INTO ALARM (ALARM_CONTENT, ALARM_TYPE, ALARM_RECEIVER)
 		VALUES ('요청하신 프로젝트가 승인 됐습니다. 엔지니어 배정 완료','CUS_ASS',#{user_id})
-  	</insert>
+  	</insert> -->
  
   
   </mapper>
