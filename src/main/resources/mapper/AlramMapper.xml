@@ -70,9 +70,10 @@
   	</insert>
   	
   	<select id="getAlarmList">
-  		SELECT * FROM ALARM WEHRE ALARM_RECEIVER = #{user_id}
+  		SELECT * FROM ALARM; 
+  		
   	</select>
- 
+ 	
 
   
   
