@@ -15,7 +15,7 @@ public class Criteria {
 	private String startDate;
 	private String endDate;
 	
-	
+	private String role;//페이지네이션 조건
 	//기본생성자는 1,10 default값
 	public Criteria() {
 		this.page=1;
