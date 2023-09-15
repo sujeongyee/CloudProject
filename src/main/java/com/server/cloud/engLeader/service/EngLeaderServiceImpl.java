@@ -52,8 +52,13 @@ public class EngLeaderServiceImpl implements EngLeaderService{
 	}
 
 	@Override
-	public List<EngineerVO> getTeamEngList(String leader_id) {
-		return engLeaderMapper.getTeamEngList(leader_id);
+	public List<EngineerVO> getTeamEngList(String pro_pi,String leader_id) {
+		return engLeaderMapper.getTeamEngList(pro_pi,leader_id);
+	}
+	
+	@Override
+	public List<EngineerVO> getTeamEngList2(String leader_id) {
+		return engLeaderMapper.getTeamEngList2(leader_id);
 	}
 
 	@Override
