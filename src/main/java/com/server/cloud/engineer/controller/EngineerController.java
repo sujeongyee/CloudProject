@@ -29,7 +29,7 @@ import com.server.cloud.command.WorkInfoVO;
 import com.server.cloud.engineer.service.EngineerService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/main")
 public class EngineerController {
 
 	@Autowired
@@ -73,11 +73,11 @@ public class EngineerController {
 	}
 
 
-	//엔지니어팀 인원리스트 
-	@GetMapping("/engineer/engineerList")
-	public List<EngineerVO> engineerList(EngineerVO engineerVO){
-		return engineerService.engineerList(engineerVO);
-	}
+//	//엔지니어팀 인원리스트 
+//	@GetMapping("/engineer/engineerList")
+//	public List<EngineerVO> engineerList(EngineerVO engineerVO){
+//		return engineerService.engineerList(engineerVO);
+//	}
 
 	// 엔지니어 점검목록 리스트 
 	@GetMapping("/engineer/inspectionList")
@@ -85,14 +85,14 @@ public class EngineerController {
 		return engineerService.inspectionList(workInfoVO);
 	}
 
-	//	    엔지니어 점검목록 리스트 -> 서버 모달
+	//엔지니어 점검목록 리스트 -> 서버 모달
 	@PostMapping("/engineer/inspectionList2")
 	public ResponseEntity<Map<String, Object>>  serverDetailModal(@RequestBody Map<String, Object> data){
-		String server_name = data.get("serverName").toString();
-		Map<String,Object> map2 = engineerService.serverDetailModal(server_name);
-		List<WorkInfoVO> list = engineerService.pastInspectionHistoryList(server_name);
+		String server_id = data.get("serverId").toString();
+		Map<String,Object> map2 = engineerService.serverDetailModal(server_id);
+		List<WorkInfoVO> list = engineerService.pastInspectionHistoryList(server_id);
 		map2.put("list", list);
-		System.out.println(data.toString());
+//		System.out.println(data.toString());
 		System.out.println(list.toString());
 
 		return new ResponseEntity<>(map2,HttpStatus.OK);

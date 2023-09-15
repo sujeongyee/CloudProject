@@ -19,15 +19,15 @@ public interface EngineerMapper {
 	public List<EngSerProInfoWorkInfoVO> engProInfo(String eng_enid); 
 	public List<ServerVO> serverList();
 	public int registWorkLog(List<WorkInfoVO> ServerDetailsArray);
-	//엔지니어 팀원 리스트
-	public List<EngineerVO> engineerList(EngineerVO engineerVO);
+//	//엔지니어 팀원 리스트
+//	public List<EngineerVO> engineerList(EngineerVO engineerVO);
 
 	//점검목록 리스트
 	public List<WorkInfoVO> inspectionList(WorkInfoVO workInfoVO);
 
 	//점검목록 리스트 서버모달
-	public Map<String, Object> serverDetailModal(String server_name);
-	//정검목록 리스트 작업목록 모달
-	List<WorkInfoVO> pastInspectionHistoryList(String server_name);
+	public Map<String, Object> serverDetailModal(String server_id);
+	//점검목록 리스트 작업목록 모달
+	List<WorkInfoVO> pastInspectionHistoryList(String server_id);
 
 }
