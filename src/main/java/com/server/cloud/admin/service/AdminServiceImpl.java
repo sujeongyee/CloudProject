@@ -1,4 +1,3 @@
-
 package com.server.cloud.admin.service;
 
 import java.util.List;
@@ -25,44 +24,38 @@ public class AdminServiceImpl implements AdminService{
 		return adminMapper.getTotal();
 	}
 
-
-
-
-
 	@Override
 	public List< NoticeVO> getList(Criteria cri) {
 		// TODO Auto-generated method stub
 		return adminMapper.getList(cri);
 	}
-
-
-
-
-
 	@Override
 	public void setAnno(NoticeVO vo) {
 		awsMapper.setAnno(vo);
-		
-	}
-
-
-
-
-
+  }
 	@Override
 	public void UpAnno(NoticeVO vo) {
 		awsMapper.UpAnno(vo);
-		
 	};
-	
 //회원관리 - 엔지니어
 	@Override
 	public List<EngineerVO> adEngineerList(EngineerVO engineerVO) {
 		return adminMapper.adEngineerList(engineerVO);
+  }
+  	@Override
+	public int getTotal() {
+		// TODO Auto-generated method stub
+		return adminMapper.getTotal();
 	}
+	@Override
+	public List< NoticeVO> getList(Criteria cri) {
+		// TODO Auto-generated method stub
+		return adminMapper.getList(cri);
+	};
+	@Override
+	public List<CusVO> adClientList(CusVO cusVO) {
+		return adminMapper.adClientList(cusVO);
+	}
+
 }
 
-	
-
-
-}
