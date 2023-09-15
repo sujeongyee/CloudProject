@@ -39,7 +39,7 @@
 		#{cus_phone_number},
 		#{cus_email},
 		#{cus_business_id},
-		'ROLE_ADMIN'
+		'ROLE_USER'
 		);
 
 		insert into ROLE(
@@ -49,8 +49,11 @@
 		values(
 		#{cus_id},
 		#{cus_pw},
-		'ROLE_ADMIN'
+		'ROLE_USER'
 		);
+
+		
+
 
 	</insert>
 	<insert id="setPoto">
@@ -81,21 +84,24 @@
 
 	<select id="idCheck" resultType="CusVO">
 
-		select * from CUSTOMER where cus_id=#{cus_id};
+		select * from CUSTOMER where
+		cus_id=#{cus_id};
 
 	</select>
 
 	<insert id="updateInfo">
 
 		insert into CUSTOMER
-		(cus_num, cus_id,cus_company_name,cus_address1,
+		(cus_num,
+		cus_id,cus_company_name,cus_address1,
 		cus_address2,cus_managet_name,cus_email,cus_company_ph,cus_boss)
 
 		values
 		(#{cus_num},#{cus_id},#{cus_company_name},#{cus_address1},#{cus_address2},
 		#{cus_managet_name},#{cus_email},#{cus_company_ph},#{cus_boss})
 
-		on duplicate key update
+		on
+		duplicate key update
 
 		cus_num=#{cus_num},cus_id=#{cus_id},cus_company_name=#{cus_company_name},cus_address1=#{cus_address1},
 		cus_address2=#{cus_address2},cus_managet_name=#{cus_managet_name},cus_email=#{cus_email},
@@ -103,6 +109,40 @@
 	</insert>
 
 
+	<select id="SearchInfo" resultType="map">
+		SELECT *
+		FROM ${table}
+		WHERE ${columm} like concat('%',#{value},'%');
 
+	</select>
+	<select id="SearchCount" resultType="String">
+		SELECT count(*)
+		FROM ${table}
+		WHERE ${columm} like concat('%',#{value},'%');
+
+	</select>
+	<select id="getComment" resultType="NoticeCommentVO">
+		select * from NOTICE_COMMENT where notice_num=#{notice_num} order by com_regdate desc;
+	
+	</select>	
+	
+	
+	<insert id="CreateComments">
+		insert into NOTICE_COMMENT (com_writer,com_content,notice_num)
+		value(#{com_writer},#{com_content},#{notice_num})
+		
+	</insert>
+	<delete id="commentDel">
+	
+	delete from NOTICE_COMMENT where com_num=#{com_num}
+	</delete>
+	<insert id="commentUp">
+	
+	insert into NOTICE_COMMENT(com_num,com_content)
+	value(#{com_num},#{com_content})
+	on duplicate key update
+	com_num=#{com_num},com_content=#{com_content} 
+	</insert>
+	
 </mapper>
 
