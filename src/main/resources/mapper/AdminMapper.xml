@@ -26,7 +26,7 @@
 
 	<!-- 회원관리 - 엔지니어 -->
 	<select id="adEngineerList"
-		resultType="com.server.cloud.admin.command.EngineerVO">
+		resultType="com.server.cloud.command.EngineerVO">
 		select e.*, t.team_id
 		from engineer e
 		inner join eng_team t
