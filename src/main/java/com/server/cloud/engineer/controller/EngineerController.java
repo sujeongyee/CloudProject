@@ -61,8 +61,10 @@ public class EngineerController {
 		return new ResponseEntity<>(proInfoMap, HttpStatus.OK);
 	}
 	
+	
 	@GetMapping("/engineer/newProjectDetail/{pro_id}")
 	public ResponseEntity<Map<String,Object>> projectDetail(@PathVariable String pro_id){
+		//
 		Map<String,Object> map2 = engineerService.getProjectDetail(pro_id);
 		List<ServerVO> list = engineerService.getProjectServer(pro_id);
 		map2.put("list", list);
