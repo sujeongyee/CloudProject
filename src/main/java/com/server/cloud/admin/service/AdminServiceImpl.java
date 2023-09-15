@@ -7,6 +7,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.server.cloud.command.CsVO;
+import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.NoticeVO;
 import com.server.cloud.pagenation.Criteria;
 import com.server.cloud.s3.AwsMapper;
@@ -60,9 +62,39 @@ public class AdminServiceImpl implements AdminService{
 	public List<EngineerVO> adEngineerList(EngineerVO engineerVO) {
 		return adminMapper.adEngineerList(engineerVO);
 	}
+
+
+
+
+
+	@Override
+	public List<CsVO> csList(Criteria cri) {
+		// TODO Auto-generated method stub
+		return adminMapper.csList(cri);
+	}
+
+
+
+
+
+	@Override
+	public int csTotal() {
+		// TODO Auto-generated method stub
+		return adminMapper.csTotal();
+	}
+
+
+
+
+
+	@Override
+	public void csUpdate(CsVO vo) {
+		// TODO Auto-generated method stub
+		adminMapper.csUpdate(vo);
+	}
 }
 
 	
 
 
-}
+

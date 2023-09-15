@@ -2,6 +2,7 @@ package com.server.cloud.main.controller;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -37,8 +38,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import com.server.cloud.command.CusVO;
+import com.server.cloud.command.NoticeCommentVO;
+import com.server.cloud.command.NoticeVO;
+import com.server.cloud.command.SearchVO;
 import com.server.cloud.command.UserVO;
 import com.server.cloud.main.service.CusService;
+import com.server.cloud.pagenation.Criteria;
 import com.server.cloud.s3.FileVO;
 import com.server.cloud.security.JWTService;
 import com.server.cloud.security.MyUserDetails;
@@ -52,7 +57,7 @@ public class MainController {
 	@Autowired
 	private CusService userService;
 	
-	
+	private Criteria cri=new Criteria();
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
@@ -258,6 +263,48 @@ public class MainController {
 		   return new ResponseEntity<>(vo,HttpStatus.OK);
 		   
 	   }
+	   
+		@GetMapping("/api/main/SearchInfo")
+		public ResponseEntity<?>SearchInfo(SearchVO vo){
+			System.out.println(vo.toString());
+			
+			List<Map<String,String>>list= userService.SearchInfo(vo);
+			String count = userService.searchCount(vo);
+			Map<String, String>map=new HashMap<>();
+			map.put("count", count);
+			list.add(map);
+			return new ResponseEntity<>(list,HttpStatus.OK);
+		}
+	
+		@GetMapping("/api/main/getComment")
+		public ResponseEntity<?>getComment(@RequestParam("notice_num")String notice_num){
+			
+			
+			List<NoticeCommentVO>notice=userService.getComment(notice_num);
+			return new ResponseEntity<>(notice,HttpStatus.OK);
+		}
+		@PostMapping("/api/main/CreateComments")//댓글 생성하고 목록 가져오기
+		public ResponseEntity<?>CreateComments(@RequestBody NoticeCommentVO vo){
+			userService.CreateComments(vo);
+			List<NoticeCommentVO>notice=userService.getComment(vo.getNotice_num());//목록 다시 불러오기
+			return new ResponseEntity<>(notice,HttpStatus.OK);
+		}
+		@GetMapping("/api/main/commentDel")
+		public ResponseEntity<?>commentDel(NoticeCommentVO vo){
+			System.out.println(vo.toString());
+			userService.commentDel(vo);
+			List<NoticeCommentVO>notice=userService.getComment(vo.getNotice_num());//목록 다시 불러오기
+			return new ResponseEntity<>(notice,HttpStatus.OK);
+		}
+		@GetMapping("/api/main/commentUp")
+		public ResponseEntity<?>commentUp(NoticeCommentVO vo){
+			System.out.println(vo.toString());
+			userService.commentUp(vo);
+			List<NoticeCommentVO>notice=userService.getComment(vo.getNotice_num());//목록 다시 불러오기
+			return new ResponseEntity<>(notice,HttpStatus.OK);
+		}
+		
 	
 }
+
 
