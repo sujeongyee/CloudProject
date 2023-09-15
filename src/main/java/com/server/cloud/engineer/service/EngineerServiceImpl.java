@@ -43,12 +43,12 @@ public class EngineerServiceImpl implements EngineerService{
 
 		return engineerMapper.registWorkLog(ServerDetailsArray);}
 
-
-	//엔지니어 팀원 리스트
-	@Override
-	public List<EngineerVO> engineerList(EngineerVO engineerVO) {
-		return engineerMapper.engineerList(engineerVO);
-	}
+//
+//	//엔지니어 팀원 리스트
+//	@Override
+//	public List<EngineerVO> engineerList(EngineerVO engineerVO) {
+//		return engineerMapper.engineerList(engineerVO);
+//	}
 
 	//엔지니어 작업목록 리스트
 	@Override
@@ -58,14 +58,24 @@ public class EngineerServiceImpl implements EngineerService{
 
 	//점검목록 리스트 서버모달
 	@Override
-	public Map<String, Object> serverDetailModal(String server_name) {
-		// TODO Auto-generated method stub
-		return engineerMapper.serverDetailModal(server_name);
+	public Map<String, Object> serverDetailModal(String server_id) {
+		return engineerMapper.serverDetailModal(server_id);
+	}
+
+	//과거점검목록
+	@Override
+	public List<WorkInfoVO> pastInspectionHistoryList(String server_id) {
+		return engineerMapper.pastInspectionHistoryList(server_id);
 	}
 
 	@Override
-	public List<WorkInfoVO> pastInspectionHistoryList(String server_name) {
-		return engineerMapper.pastInspectionHistoryList(server_name);
+	public Map<String, Object> getProjectDetail(String pro_id) {
+		return engineerMapper.getProjectDetail(pro_id);
+	}
+	
+	@Override
+	public List<ServerVO> getProjectServer(String pro_id) {
+		return engineerMapper.getProjectServer(pro_id);
 	}
 
 
