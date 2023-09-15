@@ -32,7 +32,7 @@
   		
   	</select>
   	
-  	<insert id="">
+<!--   	<insert id="">
   		INSERT INTO ALARM (ALARM_CONTENT, ALARM_TYPE, ALARM_RECEIVER)
 		VALUES ('요청하신 프로젝트가 승인 됐습니다. 엔지니어 배정 완료','CUS_ASS',#{user_id})
   	</insert>
@@ -61,6 +61,6 @@
   		INSERT INTO ALARM (ALARM_CONTENT, ALARM_TYPE, ALARM_RECEIVER)
 		VALUES ('요청하신 프로젝트가 승인 됐습니다. 엔지니어 배정 완료','CUS_ASS',#{user_id})
   	</insert>
- 
+  -->
   
   </mapper>

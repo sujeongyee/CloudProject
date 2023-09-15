@@ -39,19 +39,19 @@
   	#{cus_phone_number},
   	#{cus_email},
   	#{cus_business_id},
-  	'ROLE_USER'
+  	'ROLE_ENGINEERLEADER'
   	);
   	
   	insert into ROLE(
   	USERNAME,
-  	password,
+  	PASSWORD,
   	ROLE)
   	values(
   	#{cus_id},
   	#{cus_pw},
-  	'ROLE_USER'
+  	'ROLE_ENGINEERLEADER'
   	);
-  	insert into file(
+  	insert into FILE(
   	file_name,
   	file_path,
   	file_type,

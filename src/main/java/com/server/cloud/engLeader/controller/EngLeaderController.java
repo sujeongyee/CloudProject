@@ -25,7 +25,7 @@ import com.server.cloud.command.ServerVO;
 import com.server.cloud.engLeader.service.EngLeaderService;
 
 @RestController
-@RequestMapping("/engleader")
+@RequestMapping("/api/main/engleader")
 public class EngLeaderController {
 
 	@Autowired
