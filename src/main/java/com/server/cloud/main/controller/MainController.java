@@ -39,9 +39,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.server.cloud.command.CusVO;
 import com.server.cloud.command.UserVO;
 import com.server.cloud.main.service.CusService;
+import com.server.cloud.s3.FileVO;
 import com.server.cloud.security.JWTService;
 import com.server.cloud.security.MyUserDetails;
 import com.server.cloud.security.MyUserDetailsService;
+
+import software.amazon.awssdk.services.transcribe.model.VocabularyFilterInfo;
 
 @RestController
 public class MainController {
@@ -83,10 +86,15 @@ public class MainController {
 			System.out.println(errM.toString());
 			return new ResponseEntity<>(errM,HttpStatus.OK);
 		}
-		
+		FileVO file=new FileVO().builder()
+				.user_id(vo.getCus_id())
+				.build();
+		System.out.println(file.toString());
 				userService.singIn(vo);
-			
+
+				userService.setPoto(file);
 		
+
 		return new ResponseEntity<>("로그인 성공",HttpStatus.OK);
 		}
 		return new ResponseEntity<>("잘못된 접근 입니다.",HttpStatus.OK);

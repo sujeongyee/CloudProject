@@ -1,7 +1,13 @@
 package com.server.cloud.s3;
 
 import java.sql.Timestamp;
+
+import java.util.ArrayList;
+
+import java.time.Instant;
+
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.http.protocol.HTTP;
@@ -9,39 +15,70 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.server.cloud.admin.service.AdminService;
 import com.server.cloud.command.CusVO;
+import com.server.cloud.command.NoticeVO;
+import com.server.cloud.main.service.CusService;
+
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+
 
 
 @RestController
 public class AwsApiController {
-
+	@Autowired
+	AdminService adminService;
 	
-	@Value("${aws_access_key_id")
+	@Value("${aws_access_key_id}")
 	private String aws_access_key_id;
 	
 	@Autowired
 	S3Service s3;
 	
+
+	@Autowired
+	CusService cusService;
 	
-	private 
 	
+	
+
 	@Autowired
 	AwsService awsService;
+	@PostMapping("/api/main/admin/noticeWrite")
+	public ResponseEntity<?> noticeWrite(@RequestBody NoticeVO vo){
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		vo.setNotice_regdate(timestamp);
+		adminService.setAnno(vo);
+		return new ResponseEntity<>("성공",HttpStatus.OK);
+	}
+	
+	@PostMapping("/api/main/admin/noticeUpdate")
+	public ResponseEntity<?> noticeUpdate(@RequestBody NoticeVO vo){
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		vo.setNotice_regdate(timestamp);
+		adminService.UpAnno(vo);
+		return new ResponseEntity<>("성공",HttpStatus.OK);
+	}
 	
 	@PostMapping("/api/main/cloudUpload")
 	public ResponseEntity<?>upload(@RequestParam("file_data")MultipartFile file,@RequestParam("userId")String userId,
-									@RequestParam("fileId")String fileId){
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		System.out.println(1);
+									String fileId){
+		Instant now = Instant.now();
+		Timestamp timestamp = Timestamp.from(now);
+		System.out.println(fileId);
 		try {
+			if(fileId!=null) {
+				
 			String originName=file.getOriginalFilename();
 			byte[]originData=file.getBytes();
 			String objectURI =s3.putS3Object(originName,originData);
@@ -58,6 +95,22 @@ public class AwsApiController {
 			
 			FileVO path=awsService.getImg(userId);
 			return new ResponseEntity<>(path,HttpStatus.OK);
+			}else {
+				String originName=file.getOriginalFilename();
+				byte[]originData=file.getBytes();
+				String objectURI =s3.putS3Object(originName,originData);
+				FileVO fileVO=new FileVO().builder()
+				.file_name(originName)
+				.file_path(objectURI)
+				.file_type(file.getContentType())
+				.user_id(userId)
+				.upload_date(timestamp)
+				.build();
+				System.out.println(fileVO.toString());
+				awsService.setFile(fileVO);
+				
+				return new ResponseEntity<>("성공",HttpStatus.OK);
+			}
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -65,18 +118,53 @@ public class AwsApiController {
 		
 		return new ResponseEntity<>("?",HttpStatus.OK);
 	}
+//	@PostMapping("/api/main/cloudUpload2")
+//	 public ResponseEntity<FileVO> addProduct(
+//	            @RequestPart(value = "key") ProductRequestDto productRequestDto,
+//	            @RequestPart(value = "multipartFile") List<MultipartFile> multipartFile,
+//	            @AuthenticationPrincipal UserDetailsImpl userDetails){
+//	        
+//	        // AwsS3Service의 uploadFile 메소드를 호출하여 S3에 저장하고,
+//	        // 그 반환값인 이미지파일 Dto 리스트를 ProductService의 addProduct 메소드의 매개변수로 전달하여
+//	        // 유저가 작성한 내용과 함께 이미지 파일 DB에 저장
+//	        return ResponseEntity.ok(productService.addProduct(productRequestDto,userDetails.getUser(), awsS3Service.uploadFile(multipartFile, dirName)));
+//	    }
+//
+//	
+	
+	
 	@PostMapping("/api/main/updateInfo")
 	public ResponseEntity<?> updateInfo(@RequestBody CusVO vo){
 		System.out.println(vo.toString());
-		
+		cusService.updateInfo(vo);
 		return new ResponseEntity<>("good",HttpStatus.OK);
 	}
+
+
 	@GetMapping("/api/main/getPoto")
-	public ResponseEntity<?>getPoto(@RequestParam("cus_id")String cus_id){
+	public ResponseEntity<?>getPoto(String cus_id){
+		System.out.println(cus_id);
+		if(cus_id!=null) {
+			
 		FileVO path=awsService.getImg(cus_id);
 		System.out.println(path);
 		return new ResponseEntity<>(path,HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>("파일 없음",HttpStatus.OK);
+		}
 	}
 	
+	@PostMapping("/api/main/AnnoDel")
+	public ResponseEntity<?>AnnoDel(@RequestBody Map<String, Object> deleteA ){
+		
+		System.out.println(deleteA.get("file_name"));
+		String value=(String)deleteA.get("file_name");
+		String file_num=(String)deleteA.get("file_id");
+		String notice_num=(String)deleteA.get("notice_num");
+		s3.deleteBucketObjects(value);
+		awsService.fileDel(file_num);
+		awsService.AnnoDel(notice_num);
+		return null;
+	}
 	
 }

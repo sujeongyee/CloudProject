@@ -10,6 +10,7 @@ import com.server.cloud.command.CusVO;
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.ProjectInfoVO;
 import com.server.cloud.command.QueryVO;
+import com.server.cloud.command.ScheduleVO;
 import com.server.cloud.command.ServerVO;
 
 @Service("engLeaderService")
@@ -88,6 +89,18 @@ public class EngLeaderServiceImpl implements EngLeaderService{
 	@Override
 	public List<ServerVO> getEngServer(String eng_enid) {
 		return engLeaderMapper.getEngServer(eng_enid);
+	}
+
+
+	@Override
+	public List<ScheduleVO> getEngSchedule(String eng_enid) {
+		return engLeaderMapper.getEngSchedule(eng_enid);
+	}
+
+
+	@Override
+	public List<ScheduleVO> getAllSchedule(String leader_id) {
+		return engLeaderMapper.getAllSchedule(leader_id);
 	}
 	
 	
