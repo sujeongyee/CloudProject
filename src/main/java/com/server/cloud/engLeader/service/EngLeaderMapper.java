@@ -10,6 +10,7 @@ import com.server.cloud.command.CusVO;
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.ProjectInfoVO;
 import com.server.cloud.command.QueryVO;
+import com.server.cloud.command.ScheduleVO;
 import com.server.cloud.command.ServerVO;
 
 @Mapper
@@ -32,8 +33,8 @@ public interface EngLeaderMapper {
 	public CusVO getClientInfo(String cus_id);
 	public List<ProjectInfoVO> clientProjects(String cus_id);
 	public List<ServerVO> getEngServer(String eng_enid);
-	
-	
+	public List<ScheduleVO> getEngSchedule(String eng_enid);
+	public List<ScheduleVO> getAllSchedule(String leader_id);
 
 
 
