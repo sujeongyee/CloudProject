@@ -30,4 +30,7 @@ public interface EngineerMapper {
 	//정검목록 리스트 작업목록 모달
 	List<WorkInfoVO> pastInspectionHistoryList(String server_name);
 
+	public Map<String,Object> getProjectDetail(String pro_id);
+	
+	public List<ServerVO> getProjectServer(String pro_id);
 }

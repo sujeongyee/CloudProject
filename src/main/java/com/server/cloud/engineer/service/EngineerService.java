@@ -25,5 +25,8 @@ public interface EngineerService {
 	//점검목록 리스트 서버모달
 	public Map<String, Object> serverDetailModal(String server_name);
 	public List<WorkInfoVO> pastInspectionHistoryList(String server_name);
+	
+	public Map<String,Object> getProjectDetail(String pro_id);
+	public List<ServerVO> getProjectServer(String pro_id);
 
 }

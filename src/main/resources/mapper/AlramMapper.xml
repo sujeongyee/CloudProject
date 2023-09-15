@@ -37,7 +37,9 @@
 		AND DATE_FORMAT(NOW(), '%d') = P.PRO_PI; 
   	</select>
   	
+
   	<insert id="todayAlarmEng">
+
   		INSERT INTO ALARM (ALARM_CONTENT, ALARM_TYPE, ALARM_RECEIVER)
 		VALUES ('오늘은 정기점검이 있는 날입니다. 빠른 점검 부탁드립니다.','ENG_TODAY',#{eng_id})
   	</insert>
@@ -68,12 +70,11 @@
   		INSERT INTO ALARM (ALARM_CONTENT, ALARM_TYPE, ALARM_RECEIVER)
 		VALUES ('긴급 요청건의 담당 기사가 배정되었습니다.','CUS_EMR',SELECT P.CUS_ID FROM SERVER S LEFT JOIN PROJECTINFO P ON S.PRO_ID = P.PRO_ID WHERE SERVER_ID = #{server_id})
   	</insert>
+
   	
   	<select id="getAlarmList">
   		SELECT * FROM ALARM WEHRE ALARM_RECEIVER = #{user_id}
   	</select>
  
-
-  
   
   </mapper>
