@@ -68,6 +68,16 @@ public class EngineerServiceImpl implements EngineerService{
 		return engineerMapper.pastInspectionHistoryList(server_name);
 	}
 
+	@Override
+	public Map<String, Object> getProjectDetail(String pro_id) {
+		return engineerMapper.getProjectDetail(pro_id);
+	}
+	
+	@Override
+	public List<ServerVO> getProjectServer(String pro_id) {
+		return engineerMapper.getProjectServer(pro_id);
+	}
+
 
 
 }
