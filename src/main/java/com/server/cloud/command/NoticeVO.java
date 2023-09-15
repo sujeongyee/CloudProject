@@ -21,5 +21,5 @@ public class NoticeVO {
 	private String notice_comment;
 	private String notice_target;
 	private String notice_writer;
-	
+	private String total;
 }

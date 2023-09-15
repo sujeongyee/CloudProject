@@ -13,20 +13,40 @@
 
 	<select id="getTotal" resultType="int">
 
-		select count(*) from NOTICE;
+		select count(*) from NOTICE
+		<if test="role!='ROLE_ADMIN'">
+		where notice_target=#{role} or notice_target='ALL' 
+		</if>
 
 
 	</select>
 
 
-	 <select id="getList" resultType="noticeVO">
-  
-  	select * from NOTICE order by notice_regdate desc limit   #{pageStart},#{amount} 
-  </select>
+	<select id="getList"
+		resultType="com.server.cloud.command.NoticeVO">
 
+		select * from NOTICE 
+		<if test="role!='ROLE_ADMIN'">
+		where notice_target=#{role} or notice_target='ALL' 
+		</if>
+		order by notice_regdate desc limit
+		#{pageStart},#{amount}
+	</select>
+	<select id="csList" resultType="com.server.cloud.command.CsVO">
+
+		select * from CS order by cs_regdate desc limit #{pageStart},#{amount}
+	</select>
+	<select id="csTotal" resultType="int">
+
+		select count(*) from CS;
+
+
+	</select>
 	<!-- 회원관리 - 엔지니어 -->
 
+
 	<select id="adEngineerList" resultType="com.server.cloud.command.EngineerVO">
+
 		select e.*, t.team_id
 		from engineer e
 		inner join eng_team t on e.team_num = t.team_num
@@ -39,7 +59,14 @@
 		join projectinfo p on c.cus_id = p.cus_id;
 		
 	</select>
+
+	<insert id="csUpdate">
 	
+	insert into CS(cs_num,cs_answer_yn)
+	 value(#{cs_num},#{cs_answer_yn})
+	 on duplicate key update
+	 cs_num=#{cs_num},cs_answer_yn=#{cs_answer_yn}
+	</insert>
 
 </mapper>
 
