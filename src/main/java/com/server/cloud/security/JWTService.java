@@ -21,17 +21,22 @@ public class JWTService {
 
 	 public static String getEnvironmentVariable(String variableName) {
 		    String value = System.getenv(variableName);
+
 		    System.out.println(variableName);
+
 		    if (value == null) {
 		        // 환경 변수가 존재하지 않는 경우 또는 값이 비어 있는 경우에 대한 처리를 여기에 추가할 수 있습니다.
 		        // 예를 들어, 기본값을 설정하거나 예외를 throw할 수 있습니다.
 		        throw new IllegalArgumentException("환경 변수 " + variableName + "가 설정되지 않았습니다.");
 		    }
-		    System.out.println(value);
 		    return value;
 		}
 	 
 	 static String secret = getEnvironmentVariable("secret_key");
+	
+	
+	@Value("${jwt_secret_key}")
+	private static String secret;
 	 
 //	@Value("${jwt_secret_key}")
 //	private static String secret;

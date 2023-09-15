@@ -63,16 +63,17 @@ public class ClientServiceImpl implements ClientService{
 	}
 	
 	
-	   @Override
-	   public ArrayList<ProjectListVO> projectDetailList() {
-	      return clientMapper.projectDetailList();
-	   }
+	//작업내역 목록 
+   @Override
+   public ArrayList<ProjectListVO> projectDetailList() {
+      return clientMapper.projectDetailList();
+   }
 
-	   
-	   @Override
-	   public ArrayList<ProjectListVO> projectDetailChart() {
-	      return clientMapper.projectDetailChart();
-	   }
+   //작업내역 로그 
+   @Override
+   public ArrayList<ProjectListVO> projectDetailChart() {
+      return clientMapper.projectDetailChart();
+   }
 
 	
 

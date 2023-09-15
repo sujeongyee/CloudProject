@@ -23,7 +23,7 @@ import com.server.cloud.command.AlarmVO;
 
 
 @RestController
-@RequestMapping("/api/alarm")
+@RequestMapping("/api/main/alarm")
 public class AlarmController {
 	
 //	관리자
@@ -81,7 +81,7 @@ public class AlarmController {
 
 	 @GetMapping("/getAlarmList/{user_id}")
 	 public ResponseEntity<List<AlarmVO>> getAlarmList(@PathVariable String user_id){
-		 
+		 System.out.println("-------------------------"+user_id);
 		 List<AlarmVO> list = alarmService.getAlarmList(user_id);
 		return new ResponseEntity<>(list,HttpStatus.OK); 
 	 }

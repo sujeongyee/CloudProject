@@ -15,5 +15,6 @@ public class FormDataVO {
 	
 	private ProjectInfoVO proInfo;
 	private ArrayList<ServerVO> serverInfo;
+	private String cus_id;
 	
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.server.cloud.admin.service.AdminService;
+import com.server.cloud.command.CusVO;
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.NoticeVO;
 import com.server.cloud.pagenation.Criteria;
@@ -53,10 +54,15 @@ public class AdminController {
 	
 
 	//회원관리 - 엔지니어
-	@GetMapping("/admin/engineerList")
+	@GetMapping("api/main/admin/engineerList")
 	public List<EngineerVO> adEngineerList(EngineerVO engineerVO){
 	       return adminService.adEngineerList(engineerVO);
 	}
 
-}
+	
+	//회원관리 - 기업
+	@GetMapping("api/main/admin/customerList")
+	public List<CusVO> adClientList(CusVO cusVO){
+		return adminService.adClientList(cusVO);
+	}
 
