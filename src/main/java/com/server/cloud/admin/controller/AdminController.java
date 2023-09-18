@@ -1,15 +1,18 @@
 package com.server.cloud.admin.controller;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +26,8 @@ import com.server.cloud.command.CusVO;
 
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.NoticeVO;
+import com.server.cloud.command.ProjectCusVO;
+import com.server.cloud.command.ServerVO;
 import com.server.cloud.pagenation.Criteria;
 
 @RestController
@@ -94,6 +99,46 @@ public class AdminController {
 	@GetMapping("api/main/admin/customerList")
 	public List<CusVO> adClientList(CusVO cusVO){
 		return adminService.adClientList(cusVO);
+	}
+	
+	@GetMapping("/api/main/admin")
+	public ResponseEntity<List<ProjectCusVO>> newProjectList () {
+		List<ProjectCusVO> newPL = adminService.newProjectList();
+		return new ResponseEntity<>(newPL, HttpStatus.OK);
+	}
+	
+	@GetMapping("/api/main/admin/projectDetail/{pro_id}")
+	public ResponseEntity<Map<String,Object>> projectDetail(@PathVariable String pro_id){
+		Map<String,Object> map2 = adminService.getRequestDetail(pro_id);
+		List<ServerVO> list = adminService.getRequestServer(pro_id);
+
+		
+		map2.put("list", list);
+		
+		return new ResponseEntity<>(map2,HttpStatus.OK);
+	}
+	//신규요청의 모달에 데이터 전달
+	@GetMapping("/api/main/admin/getTeam")
+	public ResponseEntity<Map<String, Object>> getTeam(){
+		Map<String, Object> team = new HashMap<>();
+		List<EngineerVO> teamLeader = adminService.getTeamLeader();
+		List<EngineerVO> teamMember = adminService.getTeamMember();
+		
+		team.put("teamLeader", teamLeader);
+		team.put("teamMember", teamMember);
+		
+		return new ResponseEntity<>(team, HttpStatus.OK);
+	}
+	
+	//팀 배정
+	@PostMapping("/api/main/admin/inputTeamNum")
+	public ResponseEntity<String> inputTeamNum(@RequestBody Map<String, String> teamNum) {
+		String pro_id=teamNum.get("pro_id");
+		String team_num=teamNum.get("team_num");
+		System.out.println(pro_id + team_num + "----");
+		int result = adminService.inputTeamNum(pro_id, team_num);
+		
+		return new ResponseEntity<>("ok", HttpStatus.OK);
 	}
 
 }

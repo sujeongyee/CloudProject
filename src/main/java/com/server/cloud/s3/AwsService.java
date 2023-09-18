@@ -7,6 +7,8 @@ public interface AwsService {
 	FileVO getImg(String userId);
 
 	void setFile(FileVO fileVO);
+	
+	void setFiles(FileVO fileVO);
 
 	FileVO getFile(String file_num);
 

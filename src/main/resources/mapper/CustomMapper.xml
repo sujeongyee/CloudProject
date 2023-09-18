@@ -44,7 +44,7 @@
 
 		insert into ROLE(
 		USERNAME,
-		password,
+		PASSWORD,
 		ROLE)
 		values(
 		#{cus_id},

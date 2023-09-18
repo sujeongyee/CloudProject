@@ -12,6 +12,8 @@ public interface AwsMapper {
 	FileVO getImg(String userId);
 
 	void setFile(FileVO fileVO);
+	
+	void setFiles(FileVO fileVO);
 
 	void setAnno(NoticeVO vo);
 

@@ -53,6 +53,13 @@ public class AwsServiceImpl implements AwsService{
 	}
 
 
+	@Override
+	public void setFiles(FileVO fileVO) {
+		// TODO Auto-generated method stub
+		awsMapper.setFiles(fileVO);
+	}
+
+
 	
 
 }

@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,20 +119,44 @@ public class AwsApiController {
 		
 		return new ResponseEntity<>("?",HttpStatus.OK);
 	}
-//	@PostMapping("/api/main/cloudUpload2")
-//	 public ResponseEntity<FileVO> addProduct(
-//	            @RequestPart(value = "key") ProductRequestDto productRequestDto,
-//	            @RequestPart(value = "multipartFile") List<MultipartFile> multipartFile,
-//	            @AuthenticationPrincipal UserDetailsImpl userDetails){
-//	        
-//	        // AwsS3Service의 uploadFile 메소드를 호출하여 S3에 저장하고,
-//	        // 그 반환값인 이미지파일 Dto 리스트를 ProductService의 addProduct 메소드의 매개변수로 전달하여
-//	        // 유저가 작성한 내용과 함께 이미지 파일 DB에 저장
-//	        return ResponseEntity.ok(productService.addProduct(productRequestDto,userDetails.getUser(), awsS3Service.uploadFile(multipartFile, dirName)));
-//	    }
-//
-//	
-	
+	@PostMapping("/api/main/cloudMultiUpload")
+	   public ResponseEntity<?> multiUpload(@RequestParam("file_data") List<MultipartFile> fileList,
+	                               @RequestParam("userId") String userId,
+	                                String fileId){
+	      Instant now = Instant.now();
+	      Timestamp timestamp = Timestamp.from(now);
+	      //System.out.println(fileId);
+	      System.out.println(fileList);
+	      
+	      fileList = fileList.stream().filter( f -> f.isEmpty() == false).collect(Collectors.toList());
+	      System.out.println(fileList.size()+"------------");
+	      for (MultipartFile file : fileList) {
+	      
+	      try {
+	         	String originName=file.getOriginalFilename();
+	            byte[]originData=file.getBytes();
+	            String objectURI =s3.putS3Object(originName,originData);
+	            FileVO fileVO=new FileVO().builder()
+	            .file_name(originName)
+	            .file_path(objectURI)
+	            .file_type(file.getContentType())
+	            .user_id(userId)
+	            .upload_date(timestamp)
+	            .build();
+	            System.out.println(fileVO.toString());
+	            awsService.setFiles(fileVO);
+	            
+	            return new ResponseEntity<>("성공",HttpStatus.OK);
+	         //}
+	      }catch (Exception e) {
+	         // TODO: handle exception
+	         e.printStackTrace();
+	      }
+	      }
+	      
+	      return new ResponseEntity<>("?",HttpStatus.OK);
+	   }
+
 	
 	@PostMapping("/api/main/updateInfo")
 	public ResponseEntity<?> updateInfo(@RequestBody CusVO vo){

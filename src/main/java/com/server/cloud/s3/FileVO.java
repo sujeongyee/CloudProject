@@ -22,5 +22,6 @@ public class FileVO {
 	private Timestamp upload_date ;
 	private String user_id;
 	private String user_num;
+	private String eng_enid;
 	
 }

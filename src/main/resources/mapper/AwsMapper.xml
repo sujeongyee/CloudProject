@@ -78,6 +78,21 @@
 		(#{file_name},#{file_path},#{file_type},#{upload_date},#{user_num},#{user_id})
 
 	</insert>
+	
+	<insert id="setFiles" parameterType="java.util.List">
+      <selectKey keyProperty="user_num" resultType="String"
+         order="BEFORE">
+         select work_num from WORKINFO where eng_enid =#{eng_enid}
+         order by work_date desc limit 1;
+      </selectKey>
+         insert into
+         File(file_name,file_path,file_type,upload_date,user_num,user_id)
+         <foreach collection="list" item="file" separator=",">      
+         value
+            (#{file_name},#{file_path},#{file_type},#{upload_date},#{user_num},#{user_id})
+         </foreach>
+    </insert> 
+	
 
 	<delete id="fileDel">
 	
