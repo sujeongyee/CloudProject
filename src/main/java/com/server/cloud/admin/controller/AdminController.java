@@ -1,6 +1,7 @@
 package com.server.cloud.admin.controller;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +25,9 @@ import com.server.cloud.command.CusVO;
 
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.NoticeVO;
+import com.server.cloud.command.ProjectDetailVO;
+import com.server.cloud.command.ProjectInfoVO;
+import com.server.cloud.command.WorkInfoVO;
 import com.server.cloud.pagenation.Criteria;
 
 @RestController
@@ -95,5 +100,34 @@ public class AdminController {
 	public List<CusVO> adClientList(CusVO cusVO){
 		return adminService.adClientList(cusVO);
 	}
+	
+	
+	//프로젝트 리스트 불러오기
+	@GetMapping("/api/main/admin/projectList")
+	public ResponseEntity<?> adProList() {
+		
+		ArrayList<ProjectInfoVO> proList = adminService.getProList();
+		
+		return new ResponseEntity<>(proList,HttpStatus.OK);
+	}
+	
+	// 프로젝트 디테일 (모달)
+	@GetMapping("/api/main/admin/AdProDetailModal/{pro_id}")
+	public ResponseEntity<?> adProListDetail(@PathVariable("pro_id") String pro_id) {
+		
+		ArrayList<ProjectDetailVO> proListDetail = adminService.getProListDetail(pro_id);
+		
+		return new ResponseEntity<>(proListDetail,HttpStatus.OK);
+	}
+	
+	// 서버 점검내역 (모달)
+	@GetMapping("/api/main/admin/AdProDetailInsModal/{server_id}")
+	public ResponseEntity<?> adServerInsList(@PathVariable("server_id") String server_id) {
+		
+		ArrayList<WorkInfoVO> serverInsList = adminService.getServerInsList(server_id);
+		
+		return new ResponseEntity<>(serverInsList,HttpStatus.OK);
+	}
+	
 
 }

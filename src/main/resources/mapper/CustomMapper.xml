@@ -39,7 +39,7 @@
 		#{cus_phone_number},
 		#{cus_email},
 		#{cus_business_id},
-		'ROLE_USER'
+		'ROLE_ENGLEADER'
 		);
 
 		insert into ROLE(
@@ -49,7 +49,7 @@
 		values(
 		#{cus_id},
 		#{cus_pw},
-		'ROLE_USER'
+		'ROLE_ENGLEADER'
 		);
 
 		
