@@ -93,5 +93,8 @@ public class CusVO {
 	private String cus_boss;
 	private String role_type;
 	
+	private String pro_status;
+	private String pro_startdate;
+	private String pro_enddate;
 	
 }

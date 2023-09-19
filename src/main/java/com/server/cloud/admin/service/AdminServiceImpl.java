@@ -1,6 +1,7 @@
 
 package com.server.cloud.admin.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,14 @@ import com.server.cloud.command.CsVO;
 import com.server.cloud.command.CusVO;
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.NoticeVO;
+
+import com.server.cloud.command.ProjectCusVO;
+import com.server.cloud.command.ServerVO;
+
+import com.server.cloud.command.ProjectDetailVO;
+import com.server.cloud.command.ProjectInfoVO;
+import com.server.cloud.command.WorkInfoVO;
+
 import com.server.cloud.pagenation.Criteria;
 import com.server.cloud.s3.AwsMapper;
 
@@ -21,14 +30,8 @@ public class AdminServiceImpl implements AdminService{
 	AdminMapper adminMapper;
 	@Autowired
 	AwsMapper awsMapper;
-	
-	
 
-	@Override
-	public List< NoticeVO> getList(Criteria cri) {
-		// TODO Auto-generated method stub
-		return adminMapper.getList(cri);
-	}
+
 	@Override
 	public void setAnno(NoticeVO vo) {
 		awsMapper.setAnno(vo);
@@ -37,10 +40,11 @@ public class AdminServiceImpl implements AdminService{
 	public void UpAnno(NoticeVO vo) {
 		awsMapper.UpAnno(vo);
 	};
-//회원관리 - 엔지니어
+	//회원관리 - 엔지니어
 	@Override
 	public List<EngineerVO> adEngineerList(EngineerVO engineerVO) {
 		return adminMapper.adEngineerList(engineerVO);
+
   }
   	@Override
 	public int getTotal(String role) {
@@ -54,18 +58,11 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 
-
-
-
-
 	@Override
 	public List<CsVO> csList(Criteria cri) {
 		// TODO Auto-generated method stub
 		return adminMapper.csList(cri);
 	}
-
-
-
 
 
 	@Override
@@ -75,14 +72,12 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 
-
-
-
 	@Override
 	public void csUpdate(CsVO vo) {
 		// TODO Auto-generated method stub
 		adminMapper.csUpdate(vo);
 	}
+
 	@Override
 	public int csUserTotal(String cs_writer) {
 		// TODO Auto-generated method stub
@@ -119,6 +114,69 @@ public class AdminServiceImpl implements AdminService{
 		return adminMapper.csEnLeaderListMy(cri);
 	}
 }
+
+
+
+	
+
+	
+	@Override
+	public List<ProjectCusVO> newProjectList() {
+		// TODO Auto-generated method stub
+		return adminMapper.newProjectList();
+	}
+	@Override
+	public List<ServerVO> getRequestServer(String pro_id) {
+		// TODO Auto-generated method stub
+		return adminMapper.getRequestServer(pro_id);
+	}
+	@Override
+	public Map<String, Object> getRequestDetail(String pro_id) {
+		// TODO Auto-generated method stub
+		return adminMapper.getRequestDetail(pro_id);
+	}
+	@Override
+	public List<EngineerVO> getTeamLeader() {
+		// TODO Auto-generated method stub
+		return adminMapper.getTeamLeader();
+	}
+	@Override
+	public List<EngineerVO> getTeamMember() {
+		// TODO Auto-generated method stub
+		return adminMapper.getTeamMember();
+	}
+	@Override
+	public int inputTeamNum(String pro_id, String team_num) {
+		// TODO Auto-generated method stub
+		return adminMapper.inputTeamNum(pro_id, team_num);
+	}
+		
+	
+	
+	
+}
+
+
+	//프로젝트 리스트 불러오기 
+	@Override
+	public ArrayList<ProjectInfoVO> getProList() {
+		return adminMapper.getProList();
+	}
+	
+	//프로젝트 디테일 (모달)
+	@Override
+	public ArrayList<ProjectDetailVO> getProListDetail(String pro_id) {
+		return adminMapper.getProListDetail(pro_id);
+	}
+	
+	//서버 점검내역 (모달)
+	@Override
+	public ArrayList<WorkInfoVO> getServerInsList(String server_id) {
+		return adminMapper.getServerInsList(server_id);
+	}
+	
+}
+
 
 
 

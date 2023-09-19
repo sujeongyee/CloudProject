@@ -124,11 +124,9 @@
 		resultType="com.server.cloud.command.CusVO">
 		select c.*, p.pro_status, p.pro_startdate, p.pro_enddate
 		from customer c
-		join projectinfo p on c.cus_id = p.cus_id;
-
-	</select>
-
-	<insert id="csUpdate">
+    left join projectinfo p on c.cus_id = p.cus_id;
+    </select>
+  	<insert id="csUpdate">
 
 		insert into CS(cs_num,cs_answer_yn)
 		value(#{cs_num},#{cs_answer_yn})
@@ -139,5 +137,90 @@
 	
 	select * from engineer where eng_enid=#{cs_writer}
 	</select>
+
+
+	
+	
+	
+	<!-- 프로젝트 리스트 불러오기 -->
+	<select id="getProList" resultType="ProjectInfoVO">
+		select p.pro_id, p.pro_name, c.cus_company_name, p.pro_rep, p.pro_startdate, p.pro_enddate, p.pro_status, p.pro_pi
+		from PROJECTINFO p
+		left join CUSTOMER c
+		on p.cus_id = c.cus_id;
+	</select>
+	
+	<!-- 프로젝트 디테일 (프로젝트) -->
+	<select id="getProListDetail" resultType="ProjectDetailVO">
+	  select * from PROJECTINFO p 
+	  left join SERVER s 
+	  on p.pro_id = s.pro_id
+	  left join ENGINEER e
+	  on s.eng_enid = e.eng_enid
+	  left join ENG_TEAM team
+	  on e.team_num = team.team_num
+	  where p.pro_id = #{pro_id}
+	</select>
+	
+	<!-- 서버 점검내역 -->
+	<select id="getServerInsList" resultType="WorkInfoVO">
+     select s.server_id, s.server_name,
+     	    w.work_date, w.work_division, w.work_time, w.work_cpu, w.work_ram, w.work_hdd, w.work_status, 
+     	    e.eng_name
+     from SERVER s
+	 left join WORKINFO W
+	 on s.server_id = w.server_id
+	 left join ENGINEER e
+ 	 on w.eng_enid = e.eng_enid
+	 where s.server_id = #{server_id};
+	</select>
+	
+	
+
+	<select id="newProjectList" resultType="com.server.cloud.command.ProjectCusVO">
+		select P.PRO_NAME,
+			   P.PRO_STARTDATE,
+		       P.PRO_STATUS,
+		       P.PRO_ID,
+		       C.CUS_MANAGET_NAME,
+		       CUS_EMAIL
+		from PROJECTINFO P
+		left join CUSTOMER C ON P.CUS_ID = C.CUS_ID
+		where P.TEAM_NUM is null
+		limit 5;
+	</select>
+	
+	<select id ="getRequestServer">
+  		SELECT S.*,E.ENG_NAME
+  		FROM SERVER S 
+  		LEFT JOIN ENGINEER E 
+  		ON S.ENG_ENID = E.ENG_ENID 
+  		WHERE S.PRO_ID=#{pro_id}
+  	</select>
+  	
+  	<select id="getRequestDetail">
+  		SELECT * FROM CUSTOMER C
+		LEFT JOIN PROJECTINFO P
+		ON C.CUS_ID = P.CUS_ID
+		WHERE P.PRO_ID=#{pro_id}
+  	</select>
+  	
+  	<select id="getTeamLeader">
+  		SELECT ET.TEAM_NUM, ET.TEAM_ID, E.ENG_RANK, E.ENG_NAME
+  		FROM ENG_TEAM ET
+		LEFT JOIN ENGINEER E ON ET.TEAM_NUM = E.TEAM_NUM
+		WHERE ENG_RANK = '팀장';
+  	</select>
+  	<select id="getTeamMember">
+		SELECT ET.TEAM_NUM, ET.TEAM_ID, E.ENG_RANK, E.ENG_NAME 
+		FROM ENG_TEAM ET
+		LEFT JOIN ENGINEER E ON ET.TEAM_NUM = E.TEAM_NUM
+		WHERE ENG_RANK = '팀원';
+  	</select>
+  	
+  	<insert id="inputTeamNum">
+  		UPDATE PROJECTINFO SET TEAM_NUM =#{team_num} WHERE PRO_ID =#{pro_id};
+  	</insert>
+  	
 </mapper>
 

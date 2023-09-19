@@ -46,6 +46,7 @@ import com.google.gson.JsonParser;
 import com.server.cloud.command.CsVO;
 import com.server.cloud.command.CusVO;
 import com.server.cloud.command.EmailVO;
+import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.NoticeCommentVO;
 import com.server.cloud.command.NoticeVO;
 import com.server.cloud.command.SearchVO;
@@ -294,7 +295,16 @@ public class MainController {
 			return new ResponseEntity<>("ok",HttpStatus.OK);
 		}
 	}
-
+	  @GetMapping("/api/main/getInfoEng")
+	   public ResponseEntity<?> getInfo2(@RequestParam("eng_id") String eng_id){
+		   
+		   EngineerVO vo= userService.idCheckEng(eng_id);
+		   
+		   System.out.println(1);
+		   
+		   return new ResponseEntity<>(vo,HttpStatus.OK);
+		   
+	   }
 	@PostMapping("/api/main/emailSend")
 	public ResponseEntity<?>emailSend(@RequestBody EmailVO request){
 		String email=request.getEmail();

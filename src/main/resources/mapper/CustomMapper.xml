@@ -66,7 +66,7 @@
 
 		insert into ROLE(
 		USERNAME,
-		password,
+		PASSWORD,
 		ROLE)
 		values(
 		#{cus_id},
@@ -110,12 +110,23 @@
 		cus_id=#{cus_id};
 
 	</select>
+
 	<select id="emailCheck" resultType="CusVO">
 
 		select * from CUSTOMER where
 		cus_email=#{cus_email};
+  </select>
+
+	
+	<select id="idCheckEng" resultType="EngineerVO">
+
+		select * from ENGINEER where
+		eng_enid=#{eng_enid};
 
 	</select>
+	
+
+	
 	<insert id="updateInfo">
 
 		insert into CUSTOMER
