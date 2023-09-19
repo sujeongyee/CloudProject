@@ -34,9 +34,9 @@ public class JWTService {
 	 
 	 static String secret = getEnvironmentVariable("secret_key");
 	
-	
-	@Value("${jwt_secret_key}")
-	private static String secret;
+//	
+//	@Value("${jwt_secret_key}")
+//	private static String secret;
 	 
 //	@Value("${jwt_secret_key}")
 //	private static String secret;
