@@ -45,12 +45,14 @@ public class AdminServiceImpl implements AdminService{
 	public void UpAnno(NoticeVO vo) {
 		awsMapper.UpAnno(vo);
 	};
-//회원관리 - 엔지니어
+	//회원관리 - 엔지니어
 	@Override
 	public List<EngineerVO> adEngineerList(EngineerVO engineerVO) {
 		return adminMapper.adEngineerList(engineerVO);
-  }
-
+	}
+  
+  
+	//회원관리 - 기업
 
 	@Override
 	public List<CusVO> adClientList(CusVO cusVO) {
@@ -70,7 +72,6 @@ public class AdminServiceImpl implements AdminService{
 		// TODO Auto-generated method stub
 		return adminMapper.csTotal();
 	}
-
 
 
 	@Override

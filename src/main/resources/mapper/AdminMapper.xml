@@ -56,7 +56,7 @@
 	<select id = "adClientList" resultType="com.server.cloud.command.CusVO">
 		select c.*, p.pro_status, p.pro_startdate, p.pro_enddate
 		from customer c
-		join projectinfo p on c.cus_id = p.cus_id;
+		left join projectinfo p on c.cus_id = p.cus_id;
 		
 	</select>
 

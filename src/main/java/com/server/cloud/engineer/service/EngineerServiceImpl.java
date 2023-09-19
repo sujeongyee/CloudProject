@@ -44,11 +44,11 @@ public class EngineerServiceImpl implements EngineerService{
 		return engineerMapper.registWorkLog(ServerDetailsArray);}
 
 //
-//	//엔지니어 팀원 리스트
-//	@Override
-//	public List<EngineerVO> engineerList(EngineerVO engineerVO) {
-//		return engineerMapper.engineerList(engineerVO);
-//	}
+	//엔지니어 리스트
+	@Override
+	public List<EngineerVO> engineerList(EngineerVO engineerVO) {
+		return engineerMapper.engineerList(engineerVO);
+	}
 
 	//엔지니어 작업목록 리스트
 	@Override
