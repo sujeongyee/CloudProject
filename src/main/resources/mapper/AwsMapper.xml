@@ -10,7 +10,7 @@
 	<insert id="setInfo">
 
 		insert into
-		file(file_id,file_name,file_path,file_type,upload_date,user_id)
+		FILE(file_id,file_name,file_path,file_type,upload_date,user_id)
 		values
 		(
 		#{file_id},#{file_name},#{file_path},#{file_type},#{upload_date},#{user_id}
@@ -72,18 +72,61 @@
 			select notice_num from NOTICE where notice_writer=#{user_id}
 			order by notice_regdate desc limit 1;
 		</selectKey>
+		
+		
 		insert into
-		file(file_name,file_path,file_type,upload_date,user_num,user_id)
+		FILE(file_name,file_path,file_type,upload_date,user_num,user_id)
 		value
 		(#{file_name},#{file_path},#{file_type},#{upload_date},#{user_num},#{user_id})
 
+
+
+
 	</insert>
+
+<insert id="setFileCs">
+		<selectKey keyProperty="user_num" resultType="String"
+			order="BEFORE">
+			select cs_num from CS where cs_writer=#{user_id}
+			order by cs_regdate desc limit 1;
+		</selectKey>
+		
+		
+		insert into
+		FILE(file_name,file_path,file_type,upload_date,user_num,user_id)
+		value
+		(#{file_name},#{file_path},#{file_type},#{upload_date},#{user_num},#{user_id})
+	</insert>
+
+
+    <insert id="setFiles" >
+      <selectKey keyProperty="work_num" resultType="String"
+         order="BEFORE">
+         select work_num from WORKINFO where eng_enid =#{user_id}
+         order by work_date desc limit 1;
+      </selectKey>
+         insert into
+         File(file_name,file_path,file_type,upload_date,user_num,user_id)
+         values
+         <foreach collection="list" item="list" separator=",">      
+            (#{list.file_name},#{list.file_path},#{list.file_type},#{list.upload_date},#{work_num},#{list.user_id})
+         </foreach>
+   	 </insert> 
+    
+	
+
+
 
 	<delete id="fileDel">
 	
-	delete from file where file_id=#{file_num}
+	delete from FILE where file_id=#{file_num}
 	</delete>
 	<delete id="AnnoDel">
-	delete from notice where notice_num=#{notice_num}
+	delete from NOTICE where notice_num=#{notice_num};
+	delete from notice_comment where notice_num=#{notice_num};
+	</delete>
+	<delete id="inQuryDel">
+	delete from CS where cs_num=#{notice_num};
+	delete from notice_comment where notice_num=#{notice_num};
 	</delete>
 </mapper>

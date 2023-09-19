@@ -64,5 +64,13 @@ public class AlarmServiceImpl implements AlarmService{
 		List<AlarmVO> alarmVO=alarmMapper.getAlarmList(user_id);
 		return alarmVO;
 	}
+	@Override
+	public List<AlarmVO> getAllAlarm(String user_id) {
+		return alarmMapper.getAllAlarm(user_id);
+	}
+	@Override
+	public void changeAlarm(String alarm_num) {
+		alarmMapper.changeAlarm(alarm_num);
+	}
 
 }

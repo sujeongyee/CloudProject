@@ -8,24 +8,27 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.server.cloud.command.CsVO;
 import com.server.cloud.command.CusVO;
+import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.NoticeCommentVO;
 import com.server.cloud.command.NoticeVO;
 import com.server.cloud.command.SearchVO;
+import com.server.cloud.command.ServerVO;
 import com.server.cloud.s3.FileVO;
 
 @Service
 public class CusServiceImpl implements CusService{
 
-	
+
 	@Autowired
 	private CusMapper userMapper;
-	
+
 	@Override
 	public void singIn(CusVO vo) {
 
 		userMapper.singIn(vo);
-		
+
 	}
 
 	@Override
@@ -37,7 +40,7 @@ public class CusServiceImpl implements CusService{
 	@Override
 	public void updateInfo(CusVO vo) {
 		userMapper.updateInfo(vo);
-		
+
 	}
 
 
@@ -81,6 +84,49 @@ public class CusServiceImpl implements CusService{
 	public void commentUp(NoticeCommentVO vo) {
 		// TODO Auto-generated method stub
 		userMapper.commentUp(vo);
+	}
+
+	@Override
+
+	public List<ServerVO> getServerList(String pro_id) {
+		// TODO Auto-generated method stub
+		return userMapper.getServerList(pro_id);
+	}
+
+	@Override
+	public void quryeWrite(CsVO csVo) {
+		// TODO Auto-generated method stub
+		userMapper.quryeWrite(csVo);
+	}
+
+	@Override
+	public String getId(CusVO id) {
+		// TODO Auto-generated method stub
+		return userMapper.getId(id);
+	}
+
+	@Override
+	public CusVO emailCheck(String email) {
+		// TODO Auto-generated method stub
+		return userMapper.emailCheck(email);
+	}
+
+	@Override
+	public String getIdPw(CusVO id) {
+		// TODO Auto-generated method stub
+		return userMapper.getIdPw(id);
+	}
+
+	@Override
+	public void resetPw(CusVO vo) {
+		// TODO Auto-generated method stub
+		userMapper.resetPw(vo);
+	}
+	@Override
+	public EngineerVO idCheckEng(String eng_id) {
+		// TODO Auto-generated method stub
+		return userMapper.idCheckEng(eng_id);
+
 	}
 
 

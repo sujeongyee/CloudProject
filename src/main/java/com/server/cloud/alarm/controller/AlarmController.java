@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.server.cloud.alarm.service.AlarmService;
@@ -43,17 +42,17 @@ public class AlarmController {
 	@Qualifier("alarmService")
 	private AlarmService alarmService;
 	
-	 @PostMapping("/createPro") //클라이언트가 프로젝트 요청했을 때 (관리자에게 알림) UserApply
+	 @PostMapping("/createPro") //클라이언트가 프로젝트 등록 했을 때 (관리자에게 알림)
 	 public void createPro(@RequestBody Map<String, Object> map){
-		 alarmService.createProAlarm(map.get("proname").toString());//프로젝트명 필요	    
+		 alarmService.createProAlarm(map.get("proname").toString());//프로젝트명,관리자아이디 필요	    
 	 }
 	 
-	 @PostMapping("/assignTeam") // 관리자가 팀 배정 했을 때 (해당 팀 팀장에게 알림) AdminproModal
+	 @PostMapping("/assignTeam") // 관리자가 팀 배정 했을 때 (해당 팀 팀장에게 알림)
 	 public void assignTeam(@RequestBody Map<String, Object> map) {
 		 alarmService.assignTeam(map.get("select_team").toString()); //팀명 필요
 		 
 	 }
-	 @PostMapping("/assignEngineer") // 팀장이 팀원 배정했을 때 (해당 팀원 , 클라이언트에게 알림) EnL_TeamassginmentModal
+	 @PostMapping("/assignEngineer") // 팀장이 팀원 배정했을 때 (해당 팀원 , 클라이언트에게 알림)
 	 public void assignEngineer(@RequestBody Map<String,Object> map) {
 		 alarmService.assignEngineer(map.get("engId").toString()); //엔지니어아이디 필요
 		 alarmService.assignClient(map.get("cusId").toString()); //프로젝트 담당자 아이디 필요
@@ -79,11 +78,22 @@ public class AlarmController {
 		 alarmService.assignEmerCus(map.get("serverId").toString());		 
 	 }
 
-	 @GetMapping("/getAlarmList/{user_id}")
-	 public ResponseEntity<List<AlarmVO>> getAlarmList(@PathVariable String user_id){
-		 System.out.println("-------------------------"+user_id);
+	 @GetMapping("/getAlarmList")
+	 public ResponseEntity<List<AlarmVO>> getAlarmList(@RequestParam("user_id") String user_id){		 
 		 List<AlarmVO> list = alarmService.getAlarmList(user_id);
 		return new ResponseEntity<>(list,HttpStatus.OK); 
+	 }
+	 
+	 @GetMapping("/getAllAlarm")
+	 public ResponseEntity<List<AlarmVO>> getAllAlarm(@RequestParam("user_id") String user_id){
+		 List<AlarmVO> list = alarmService.getAllAlarm(user_id);
+		 return new ResponseEntity<>(list,HttpStatus.OK);
+	 }
+	 
+	 @PostMapping("/changeAlarm")
+	 public void changeAlarm(@RequestBody Map<String, String> data) {
+		alarmService.changeAlarm(data.get("alarmNum"));
+		 
 	 }
 
 	 

@@ -51,10 +51,11 @@ public class EngineerController {
 	}
 
 	// 엔지니어별로 배정받은 프로젝트 불러오는 기능
-	@GetMapping("/engineer/workDetail")
-	public ResponseEntity<Map<String, Object>> enWorkDetailToInfo(String eng_enid) {
+	@GetMapping("/engineer/workDetail/{eng_enid}")
+	public ResponseEntity<Map<String, Object>> enWorkDetailToInfo(@PathVariable String eng_enid) {
 
-		eng_enid = "eng_a_3"; // 추후 토큰이랑 연동해야됌
+		System.out.println(eng_enid+"dfsdfs");
+		// 추후 토큰이랑 연동해야됌
 
 		List<EngSerProInfoWorkInfoVO> eSPIWlist = engineerService.engProInfo(eng_enid);
 		List<ServerVO> serverList = engineerService.serverList();

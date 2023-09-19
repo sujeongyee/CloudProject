@@ -9,9 +9,11 @@ import com.server.cloud.command.ProjectInfoVO;
 import com.server.cloud.command.QueryVO;
 import com.server.cloud.command.ScheduleVO;
 import com.server.cloud.command.ServerVO;
+import com.server.cloud.command.WorkInfoVO;
 
 public interface EngLeaderService {
 	
+	public Map<String,String> getLeaderInfo(String leader_id);
 	public List<ProjectInfoVO> getNewProject(String leader_id);
 	public List<QueryVO> getInspection(String leader_id);
 	public QueryVO getAllMain(String leader_id);
@@ -28,4 +30,5 @@ public interface EngLeaderService {
 	public List<ServerVO> getEngServer(String eng_enid);
 	public List<ScheduleVO> getEngSchedule(String eng_enid);
 	public List<ScheduleVO> getAllSchedule(String leader_id);
+	public List<WorkInfoVO> getWorkInfo(String server_id);
 }
