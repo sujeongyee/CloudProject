@@ -18,6 +18,10 @@ public interface AwsService {
 
 	void AnnoDel(String notice_num);
 
+	void inQuryDel(String notice_num);
+
+	void setFileCs(FileVO fileVO);
+
 
 
 }

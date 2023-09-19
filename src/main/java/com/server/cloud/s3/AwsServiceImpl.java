@@ -56,10 +56,25 @@ public class AwsServiceImpl implements AwsService{
 
 
 	@Override
+
+	public void inQuryDel(String notice_num) {
+		// TODO Auto-generated method stub
+		awsMapper.inQuryDel(notice_num);
+	}
+
+
+	@Override
+	public void setFileCs(FileVO fileVO) {
+		// TODO Auto-generated method stub
+		awsMapper.setFileCs(fileVO);
+    }
+	@Override
 	public int setFiles(List<FileVO> list, String user_id) {
 	
 		return awsMapper.setFiles(list, user_id);
-	}
+}
+
+	
 
 
 	
