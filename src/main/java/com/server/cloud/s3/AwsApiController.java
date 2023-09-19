@@ -39,19 +39,19 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 public class AwsApiController {
 	@Autowired
 	AdminService adminService;
-	
+
 	@Value("${aws_access_key_id}")
 	private String aws_access_key_id;
-	
+
 	@Autowired
 	S3Service s3;
-	
+
 
 	@Autowired
 	CusService cusService;
-	
-	
-	
+
+
+
 
 	@Autowired
 	AwsService awsService;
@@ -62,7 +62,7 @@ public class AwsApiController {
 		adminService.setAnno(vo);
 		return new ResponseEntity<>("성공",HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/api/main/admin/noticeUpdate")
 	public ResponseEntity<?> noticeUpdate(@RequestBody NoticeVO vo){
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -70,94 +70,96 @@ public class AwsApiController {
 		adminService.UpAnno(vo);
 		return new ResponseEntity<>("성공",HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/api/main/cloudUpload")
 	public ResponseEntity<?>upload(@RequestParam("file_data")MultipartFile file,@RequestParam("userId")String userId,
-									String fileId){
+			String fileId){
 		Instant now = Instant.now();
 		Timestamp timestamp = Timestamp.from(now);
 		System.out.println(fileId);
 		try {
 			if(fileId!=null) {
-				
-			String originName=file.getOriginalFilename();
-			byte[]originData=file.getBytes();
-			String objectURI =s3.putS3Object(originName,originData);
-			FileVO fileVO=new FileVO().builder()
-			.file_id(fileId)
-			.file_name(originName)
-			.file_path(objectURI)
-			.file_type(file.getContentType())
-			.upload_date(timestamp)
-			.user_id(userId)
-			.build();
-			System.out.println(fileVO.toString());
-			awsService.setInfo(fileVO);
-			
-			FileVO path=awsService.getImg(userId);
-			return new ResponseEntity<>(path,HttpStatus.OK);
+
+				String originName=file.getOriginalFilename();
+				byte[]originData=file.getBytes();
+				String objectURI =s3.putS3Object(originName,originData);
+				FileVO fileVO=new FileVO().builder()
+						.file_id(fileId)
+						.file_name(originName)
+						.file_path(objectURI)
+						.file_type(file.getContentType())
+						.upload_date(timestamp)
+						.user_id(userId)
+						.build();
+				awsService.setInfo(fileVO);
+
+				FileVO path=awsService.getImg(userId);
+				return new ResponseEntity<>(path,HttpStatus.OK);
 			}else {
 				String originName=file.getOriginalFilename();
 				byte[]originData=file.getBytes();
 				String objectURI =s3.putS3Object(originName,originData);
 				FileVO fileVO=new FileVO().builder()
-				.file_name(originName)
-				.file_path(objectURI)
-				.file_type(file.getContentType())
-				.user_id(userId)
-				.upload_date(timestamp)
-				.build();
+						.file_name(originName)
+						.file_path(objectURI)
+						.file_type(file.getContentType())
+						.user_id(userId)
+						.upload_date(timestamp)
+						.build();
 				System.out.println(fileVO.toString());
 				awsService.setFile(fileVO);
-				
+
 				return new ResponseEntity<>("성공",HttpStatus.OK);
 			}
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
+
 		return new ResponseEntity<>("?",HttpStatus.OK);
 	}
-	@PostMapping("/api/main/cloudMultiUpload")
-	   public ResponseEntity<?> multiUpload(@RequestParam("file_data") List<MultipartFile> fileList,
-	                               @RequestParam("userId") String userId,
-	                                String fileId){
-	      Instant now = Instant.now();
-	      Timestamp timestamp = Timestamp.from(now);
-	      //System.out.println(fileId);
-	      System.out.println(fileList);
-	      
-	      fileList = fileList.stream().filter( f -> f.isEmpty() == false).collect(Collectors.toList());
-	      System.out.println(fileList.size()+"------------");
-	      for (MultipartFile file : fileList) {
-	      
-	      try {
-	         	String originName=file.getOriginalFilename();
-	            byte[]originData=file.getBytes();
-	            String objectURI =s3.putS3Object(originName,originData);
-	            FileVO fileVO=new FileVO().builder()
-	            .file_name(originName)
-	            .file_path(objectURI)
-	            .file_type(file.getContentType())
-	            .user_id(userId)
-	            .upload_date(timestamp)
-	            .build();
-	            System.out.println(fileVO.toString());
-	            awsService.setFiles(fileVO);
-	            
-	            return new ResponseEntity<>("성공",HttpStatus.OK);
-	         //}
-	      }catch (Exception e) {
-	         // TODO: handle exception
-	         e.printStackTrace();
-	      }
-	      }
-	      
-	      return new ResponseEntity<>("?",HttpStatus.OK);
-	   }
 
-	
+	@PostMapping("/api/main/cloudMultiUpload")
+	public ResponseEntity<Integer> multiUpload(@RequestParam("file_data") List<MultipartFile> fileList,
+			@RequestParam("userId") String userId) {
+		Instant now = Instant.now();
+		Timestamp timestamp = Timestamp.from(now);
+		//System.out.println(fileId);
+		System.out.println(fileList);
+		System.out.println(userId);
+
+		fileList = fileList.stream().filter( f -> f.isEmpty() == false).collect(Collectors.toList());
+		System.out.println(fileList.size()+"------------");
+		int result = 0;
+		try {
+			List<FileVO> list = new ArrayList<>();
+		for (MultipartFile file : fileList) {
+			
+				String originName=file.getOriginalFilename();
+				byte[]originData=file.getBytes();
+				String objectURI =s3.putS3Object(originName,originData);
+				FileVO fileVO=new FileVO().builder()
+						.file_name(originName)
+						.file_path(objectURI)
+						.file_type(file.getContentType())
+						.user_id(userId)
+						.upload_date(timestamp)
+						.build();
+//				System.out.println(fileVO.toString());
+				list.add(fileVO);
+		}
+		System.out.println(list.toString());
+		result = awsService.setFiles(list, userId);
+				//}
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return new ResponseEntity<>(result,HttpStatus.OK);
+
+	}
+
+
 	@PostMapping("/api/main/updateInfo")
 	public ResponseEntity<?> updateInfo(@RequestBody CusVO vo){
 		System.out.println(vo.toString());
@@ -170,18 +172,18 @@ public class AwsApiController {
 	public ResponseEntity<?>getPoto(String cus_id){
 		System.out.println(cus_id);
 		if(cus_id!=null) {
-			
-		FileVO path=awsService.getImg(cus_id);
-		System.out.println(path);
-		return new ResponseEntity<>(path,HttpStatus.OK);
+
+			FileVO path=awsService.getImg(cus_id);
+			System.out.println(path);
+			return new ResponseEntity<>(path,HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>("파일 없음",HttpStatus.OK);
 		}
 	}
-	
+
 	@PostMapping("/api/main/AnnoDel")
 	public ResponseEntity<?>AnnoDel(@RequestBody Map<String, Object> deleteA ){
-		
+
 		System.out.println(deleteA.get("file_name"));
 		String value=(String)deleteA.get("file_name");
 		String file_num=(String)deleteA.get("file_id");
@@ -191,5 +193,5 @@ public class AwsApiController {
 		awsService.AnnoDel(notice_num);
 		return null;
 	}
-	
+
 }

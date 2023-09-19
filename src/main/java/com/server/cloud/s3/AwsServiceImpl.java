@@ -1,5 +1,7 @@
 package com.server.cloud.s3;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,9 +56,9 @@ public class AwsServiceImpl implements AwsService{
 
 
 	@Override
-	public void setFiles(FileVO fileVO) {
-		// TODO Auto-generated method stub
-		awsMapper.setFiles(fileVO);
+	public int setFiles(List<FileVO> list, String user_id) {
+	
+		return awsMapper.setFiles(list, user_id);
 	}
 
 

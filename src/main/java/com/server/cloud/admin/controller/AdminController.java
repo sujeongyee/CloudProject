@@ -130,7 +130,7 @@ public class AdminController {
 		return new ResponseEntity<>(team, HttpStatus.OK);
 	}
 	
-	//팀 배정
+	//신규 프로젝트 팀 배정
 	@PostMapping("/api/main/admin/inputTeamNum")
 	public ResponseEntity<String> inputTeamNum(@RequestBody Map<String, String> teamNum) {
 		String pro_id=teamNum.get("pro_id");

@@ -88,6 +88,14 @@
 		cus_id=#{cus_id};
 
 	</select>
+	
+	<select id="idCheckEng" resultType="EngineerVO">
+
+		select * from ENGINEER where
+		eng_enid=#{eng_enid};
+
+	</select>
+	
 
 	<insert id="updateInfo">
 

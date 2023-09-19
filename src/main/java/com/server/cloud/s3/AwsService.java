@@ -1,5 +1,7 @@
 package com.server.cloud.s3;
 
+import java.util.List;
+
 public interface AwsService {
 
 	void setInfo(FileVO fileVO);
@@ -8,7 +10,7 @@ public interface AwsService {
 
 	void setFile(FileVO fileVO);
 	
-	void setFiles(FileVO fileVO);
+	int setFiles(List<FileVO> list, String user_id);
 
 	FileVO getFile(String file_num);
 

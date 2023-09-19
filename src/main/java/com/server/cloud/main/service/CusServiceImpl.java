@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.server.cloud.command.CusVO;
+import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.NoticeCommentVO;
 import com.server.cloud.command.NoticeVO;
 import com.server.cloud.command.SearchVO;
@@ -81,6 +82,12 @@ public class CusServiceImpl implements CusService{
 	public void commentUp(NoticeCommentVO vo) {
 		// TODO Auto-generated method stub
 		userMapper.commentUp(vo);
+	}
+
+	@Override
+	public EngineerVO idCheckEng(String eng_id) {
+		// TODO Auto-generated method stub
+		return userMapper.idCheckEng(eng_id);
 	}
 
 

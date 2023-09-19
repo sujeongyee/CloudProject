@@ -79,19 +79,33 @@
 
 	</insert>
 	
-	<insert id="setFiles" parameterType="java.util.List">
-      <selectKey keyProperty="user_num" resultType="String"
+<!-- 	<insert id="setFiles" >
+      <selectKey keyProperty="work_num" resultType="String"
          order="BEFORE">
-         select work_num from WORKINFO where eng_enid =#{eng_enid}
+         select work_num from WORKINFO where eng_enid =#{user_id}
          order by work_date desc limit 1;
       </selectKey>
          insert into
          File(file_name,file_path,file_type,upload_date,user_num,user_id)
-         <foreach collection="list" item="file" separator=",">      
+         <foreach collection="list" item="fileVOs" separator=",">      
          value
-            (#{file_name},#{file_path},#{file_type},#{upload_date},#{user_num},#{user_id})
+            (#{fileVOs.file_name},#{fileVOs.file_path},#{fileVOs.file_type},#{fileVOs.upload_date},#{work_num},#{fileVOs.user_id})
          </foreach>
-    </insert> 
+    </insert>  -->
+    <insert id="setFiles" >
+      <selectKey keyProperty="work_num" resultType="String"
+         order="BEFORE">
+         select work_num from WORKINFO where eng_enid =#{user_id}
+         order by work_date desc limit 1;
+      </selectKey>
+         insert into
+         File(file_name,file_path,file_type,upload_date,user_num,user_id)
+         values
+         <foreach collection="list" item="list" separator=",">      
+            (#{list.file_name},#{list.file_path},#{list.file_type},#{list.upload_date},#{work_num},#{list.user_id})
+         </foreach>
+   	 </insert> 
+    
 	
 
 	<delete id="fileDel">

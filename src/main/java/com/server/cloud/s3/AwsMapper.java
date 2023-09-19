@@ -1,6 +1,9 @@
 package com.server.cloud.s3;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.server.cloud.command.NoticeVO;
 
@@ -13,7 +16,7 @@ public interface AwsMapper {
 
 	void setFile(FileVO fileVO);
 	
-	void setFiles(FileVO fileVO);
+	int setFiles(@Param("list") List<FileVO> list, @Param("user_id") String user_id);
 
 	void setAnno(NoticeVO vo);
 
