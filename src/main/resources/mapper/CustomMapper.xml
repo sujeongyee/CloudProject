@@ -44,7 +44,7 @@
 
 		insert into ROLE(
 		USERNAME,
-		password,
+		PASSWORD,
 		ROLE)
 		values(
 		#{cus_id},
@@ -88,6 +88,14 @@
 		cus_id=#{cus_id};
 
 	</select>
+	
+	<select id="idCheckEng" resultType="EngineerVO">
+
+		select * from ENGINEER where
+		eng_enid=#{eng_enid};
+
+	</select>
+	
 
 	<insert id="updateInfo">
 

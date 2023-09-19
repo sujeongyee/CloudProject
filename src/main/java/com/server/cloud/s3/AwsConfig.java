@@ -20,9 +20,7 @@ public class AwsConfig {
 	@Value("${aws_secret_access_key}")
 	private String aws_secret_access_key;
 	
-//	@Value("${aws_region")
-//	private String region;
-//	
+
 	@Bean
 	public StaticCredentialsProvider staticCredentialsProvider() {
 		AwsBasicCredentials credentials=AwsBasicCredentials.create(aws_access_key_id, aws_secret_access_key);
@@ -45,17 +43,6 @@ public class AwsConfig {
 	}
 	
 
-//	@Bean
-//	public AmazonS3Client amazonS3Client() {
-//	    BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials(aws_access_key_id, aws_secret_access_key);
-//	    return (AmazonS3Client) AmazonS3ClientBuilder
-//	        .standard()
-//	        .withCredentials(new AWSStaticCredentialsProvider(basicAWSCredentials))
-//	        .withRegion(region)
-//	        .build();
-//	  }
-//	
-//	
 
 	@Bean
 	public AwsBasicCredentials awsBasicCredentials() {

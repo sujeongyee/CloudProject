@@ -1,6 +1,7 @@
 package com.server.cloud.s3;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import com.server.cloud.command.CusVO;
 
@@ -22,5 +23,7 @@ public class FileVO {
 	private Timestamp upload_date ;
 	private String user_id;
 	private String user_num;
+	private String eng_enid;
+	
 	
 }
