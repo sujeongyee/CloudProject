@@ -37,6 +37,7 @@ public class WorkInfoVO {
     private String eng_name;
     private String pro_name; //프로젝트명
     private String server_name; //서버 이름
+    private String server_status;
 
 	
 	

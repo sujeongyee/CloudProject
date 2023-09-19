@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.server.cloud.command.CsVO;
+import com.server.cloud.command.CusVO;
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.NoticeVO;
 import com.server.cloud.pagenation.Criteria;
@@ -40,39 +41,22 @@ public class AdminServiceImpl implements AdminService{
 	public void UpAnno(NoticeVO vo) {
 		awsMapper.UpAnno(vo);
 	};
-//회원관리 - 엔지니어
+	//회원관리 - 엔지니어
 	@Override
 	public List<EngineerVO> adEngineerList(EngineerVO engineerVO) {
 		return adminMapper.adEngineerList(engineerVO);
-  }
-  	@Override
-	public int getTotal() {
-		// TODO Auto-generated method stub
-		return adminMapper.getTotal();
 	}
-	@Override
-	public List< NoticeVO> getList(Criteria cri) {
-		// TODO Auto-generated method stub
-		return adminMapper.getList(cri);
-	};
+	//회원관리 - 기업
 	@Override
 	public List<CusVO> adClientList(CusVO cusVO) {
 		return adminMapper.adClientList(cusVO);
 	}
-
-
-
-
-
 
 	@Override
 	public List<CsVO> csList(Criteria cri) {
 		// TODO Auto-generated method stub
 		return adminMapper.csList(cri);
 	}
-
-
-
 
 
 	@Override
@@ -82,9 +66,6 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 
-
-
-
 	@Override
 	public void csUpdate(CsVO vo) {
 		// TODO Auto-generated method stub
@@ -92,7 +73,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 }
 
-}
+
 
 
 
