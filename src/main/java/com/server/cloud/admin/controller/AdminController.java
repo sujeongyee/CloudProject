@@ -93,6 +93,8 @@ public class AdminController {
 	//회원관리 - 기업
 	@GetMapping("api/main/admin/customerList")
 	public List<CusVO> adClientList(CusVO cusVO){
+		List<CusVO> list = adminService.adClientList(cusVO);
+		System.out.println(list.toString());
 		return adminService.adClientList(cusVO);
 	}
 
