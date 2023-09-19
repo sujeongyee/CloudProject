@@ -12,9 +12,14 @@ import com.server.cloud.command.CsVO;
 import com.server.cloud.command.CusVO;
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.NoticeVO;
+
+import com.server.cloud.command.ProjectCusVO;
+import com.server.cloud.command.ServerVO;
+
 import com.server.cloud.command.ProjectDetailVO;
 import com.server.cloud.command.ProjectInfoVO;
 import com.server.cloud.command.WorkInfoVO;
+
 import com.server.cloud.pagenation.Criteria;
 import com.server.cloud.s3.AwsMapper;
 
@@ -25,18 +30,7 @@ public class AdminServiceImpl implements AdminService{
 	AdminMapper adminMapper;
 	@Autowired
 	AwsMapper awsMapper;
-	
-	@Override
-	public int getTotal() {
-		// TODO Auto-generated method stub
-		return adminMapper.getTotal();
-	}
 
-	@Override
-	public List< NoticeVO> getList(Criteria cri) {
-		// TODO Auto-generated method stub
-		return adminMapper.getList(cri);
-	}
 	@Override
 	public void setAnno(NoticeVO vo) {
 		awsMapper.setAnno(vo);
@@ -80,6 +74,45 @@ public class AdminServiceImpl implements AdminService{
 		adminMapper.csUpdate(vo);
 	}
 	
+
+	
+	@Override
+	public List<ProjectCusVO> newProjectList() {
+		// TODO Auto-generated method stub
+		return adminMapper.newProjectList();
+	}
+	@Override
+	public List<ServerVO> getRequestServer(String pro_id) {
+		// TODO Auto-generated method stub
+		return adminMapper.getRequestServer(pro_id);
+	}
+	@Override
+	public Map<String, Object> getRequestDetail(String pro_id) {
+		// TODO Auto-generated method stub
+		return adminMapper.getRequestDetail(pro_id);
+	}
+	@Override
+	public List<EngineerVO> getTeamLeader() {
+		// TODO Auto-generated method stub
+		return adminMapper.getTeamLeader();
+	}
+	@Override
+	public List<EngineerVO> getTeamMember() {
+		// TODO Auto-generated method stub
+		return adminMapper.getTeamMember();
+	}
+	@Override
+	public int inputTeamNum(String pro_id, String team_num) {
+		// TODO Auto-generated method stub
+		return adminMapper.inputTeamNum(pro_id, team_num);
+	}
+		
+	
+	
+	
+}
+
+
 	//프로젝트 리스트 불러오기 
 	@Override
 	public ArrayList<ProjectInfoVO> getProList() {

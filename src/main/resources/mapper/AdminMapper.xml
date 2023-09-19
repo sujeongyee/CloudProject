@@ -104,5 +104,50 @@
 	
 	
 
+	<select id="newProjectList" resultType="com.server.cloud.command.ProjectCusVO">
+		select P.PRO_NAME,
+			   P.PRO_STARTDATE,
+		       P.PRO_STATUS,
+		       P.PRO_ID,
+		       C.CUS_MANAGET_NAME,
+		       CUS_EMAIL
+		from PROJECTINFO P
+		left join CUSTOMER C ON P.CUS_ID = C.CUS_ID
+		where P.TEAM_NUM is null
+		limit 5;
+	</select>
+	
+	<select id ="getRequestServer">
+  		SELECT S.*,E.ENG_NAME
+  		FROM SERVER S 
+  		LEFT JOIN ENGINEER E 
+  		ON S.ENG_ENID = E.ENG_ENID 
+  		WHERE S.PRO_ID=#{pro_id}
+  	</select>
+  	
+  	<select id="getRequestDetail">
+  		SELECT * FROM CUSTOMER C
+		LEFT JOIN PROJECTINFO P
+		ON C.CUS_ID = P.CUS_ID
+		WHERE P.PRO_ID=#{pro_id}
+  	</select>
+  	
+  	<select id="getTeamLeader">
+  		SELECT ET.TEAM_NUM, ET.TEAM_ID, E.ENG_RANK, E.ENG_NAME
+  		FROM ENG_TEAM ET
+		LEFT JOIN ENGINEER E ON ET.TEAM_NUM = E.TEAM_NUM
+		WHERE ENG_RANK = '팀장';
+  	</select>
+  	<select id="getTeamMember">
+		SELECT ET.TEAM_NUM, ET.TEAM_ID, E.ENG_RANK, E.ENG_NAME 
+		FROM ENG_TEAM ET
+		LEFT JOIN ENGINEER E ON ET.TEAM_NUM = E.TEAM_NUM
+		WHERE ENG_RANK = '팀원';
+  	</select>
+  	
+  	<insert id="inputTeamNum">
+  		UPDATE PROJECTINFO SET TEAM_NUM =#{team_num} WHERE PRO_ID =#{pro_id};
+  	</insert>
+  	
 </mapper>
 
