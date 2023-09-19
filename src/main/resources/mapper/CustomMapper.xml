@@ -189,11 +189,11 @@
 		com_num=#{com_num},com_content=#{com_content}
 	</insert>
 	<select id="getServerList">
-		select * from server where pro_id=#{pro_id}
+		select * from SERVER where pro_id=#{pro_id}
 	</select>
 	<insert id="quryeWrite">
 		insert into
-		cs(cs_title,cs_content,cs_answer_yn,cs_type,cs_project,cs_server,cs_writer)
+		CS(cs_title,cs_content,cs_answer_yn,cs_type,cs_project,cs_server,cs_writer)
 		values(
 		#{cs_title},
 		#{cs_content},

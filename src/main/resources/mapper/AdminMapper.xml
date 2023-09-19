@@ -48,7 +48,7 @@
 	<select id="csEnList" resultType="com.server.cloud.command.CsVO">
 
 		select cs_num,cs_title,cs_content,cs_writer,cs_regdate,cs_answer_yn,cs_type,cs_project,cs_server 
-		from (select * from cs c right join projectinfo p on c.cs_project=p.pro_id where team_num=#{eng_team_num}) as eng
+		from (select * from CS c right join PROJECTINFO p on c.cs_project=p.pro_id where team_num=#{eng_team_num}) as eng
 		<where> 
 			<if test="role=='ROLE_ENGINEER'">
 				or cs_server=#{cs_writer}
@@ -63,7 +63,7 @@
 	</select>
 	<select id="csEnLeaderList" resultType="com.server.cloud.command.CsVO">
 
-		select * from cs c right join projectinfo p on c.cs_project=p.pro_id 
+		select * from CS c right join projectinfo p on c.cs_project=p.pro_id 
 		where team_num=#{eng_team_num} or team_num='ALL'
 		order by
 		cs_regdate desc
@@ -71,16 +71,16 @@
 	</select>
 	<select id="csEnListMy" resultType="com.server.cloud.command.CsVO">
 	
-	select * from cs where cs_writer=#{cs_writer}
+	select * from CS where cs_writer=#{cs_writer}
 	</select>
 	<select id="csEnLeaderListMy" resultType="com.server.cloud.command.CsVO">
 	
-	select * from cs where cs_writer=#{cs_writer}
+	select * from CS where cs_writer=#{cs_writer}
 	</select>
 	<select id="csEnTotal" resultType="int">
 
 		select count(*)
-		from (select * from cs c right join projectinfo p on c.cs_project=p.pro_id where team_num=#{eng_team_num}) as eng
+		from (select * from CS c right join PROJECTINFO p on c.cs_project=p.pro_id where team_num=#{eng_team_num}) as eng
 		<where> 
 			<if test="role=='ROLE_ENGINEER'">
 				or cs_server=#{cs_writer}
@@ -114,8 +114,8 @@
 		resultType="com.server.cloud.command.EngineerVO">
 
 		select e.*, t.team_id
-		from engineer e
-		inner join eng_team t
+		from ENGINEER e
+		inner join ENG_TEAM t
 		on e.team_num = t.team_num
 	</select>
 
@@ -123,8 +123,8 @@
 	<select id="adClientList"
 		resultType="com.server.cloud.command.CusVO">
 		select c.*, p.pro_status, p.pro_startdate, p.pro_enddate
-		from customer c
-    left join projectinfo p on c.cus_id = p.cus_id;
+		from CUSTOMER c
+    left join PROJECTINFO p on c.cus_id = p.cus_id;
     </select>
   	<insert id="csUpdate">
 
@@ -135,7 +135,7 @@
 	</insert>
 	<select id="engGetinfo" resultType="com.server.cloud.command.EngineerVO">
 	
-	select * from engineer where eng_enid=#{cs_writer}
+	select * from ENGINEER where eng_enid=#{cs_writer}
 	</select>
 
 
