@@ -56,7 +56,7 @@
 	<select id = "adClientList" resultType="com.server.cloud.command.CusVO">
 		select c.*, p.pro_status, p.pro_startdate, p.pro_enddate
 		from customer c
-		join projectinfo p on c.cus_id = p.cus_id;
+		left join projectinfo p on c.cus_id = p.cus_id;
 		
 	</select>
 
@@ -67,6 +67,42 @@
 	 on duplicate key update
 	 cs_num=#{cs_num},cs_answer_yn=#{cs_answer_yn}
 	</insert>
+	
+	
+	<!-- 프로젝트 리스트 불러오기 -->
+	<select id="getProList" resultType="ProjectInfoVO">
+		select p.pro_id, p.pro_name, c.cus_company_name, p.pro_rep, p.pro_startdate, p.pro_enddate, p.pro_status, p.pro_pi
+		from PROJECTINFO p
+		left join CUSTOMER c
+		on p.cus_id = c.cus_id;
+	</select>
+	
+	<!-- 프로젝트 디테일 (프로젝트) -->
+	<select id="getProListDetail" resultType="ProjectDetailVO">
+	  select * from PROJECTINFO p 
+	  left join SERVER s 
+	  on p.pro_id = s.pro_id
+	  left join ENGINEER e
+	  on s.eng_enid = e.eng_enid
+	  left join ENG_TEAM team
+	  on e.team_num = team.team_num
+	  where p.pro_id = #{pro_id}
+	</select>
+	
+	<!-- 서버 점검내역 -->
+	<select id="getServerInsList" resultType="WorkInfoVO">
+     select s.server_id, s.server_name,
+     	    w.work_date, w.work_division, w.work_time, w.work_cpu, w.work_ram, w.work_hdd, w.work_status, 
+     	    e.eng_name
+     from SERVER s
+	 left join WORKINFO W
+	 on s.server_id = w.server_id
+	 left join ENGINEER e
+ 	 on w.eng_enid = e.eng_enid
+	 where s.server_id = #{server_id};
+	</select>
+	
+	
 
 	<select id="newProjectList" resultType="com.server.cloud.command.ProjectCusVO">
 		select P.PRO_NAME,

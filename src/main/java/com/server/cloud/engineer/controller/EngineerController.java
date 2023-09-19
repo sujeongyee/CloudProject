@@ -36,15 +36,8 @@ public class EngineerController {
 	@Autowired
 	private EngineerService engineerService;
 
-
-
-
-
 	@Value("@{aws_bucket_name}")
 	private String aws_bucket_name;
-
-
-	
 
 
 	//팀원 프로젝트 리스트 
@@ -96,11 +89,11 @@ public class EngineerController {
 	}
 
 
-//	//엔지니어팀 인원리스트 
-//	@GetMapping("/engineer/engineerList")
-//	public List<EngineerVO> engineerList(EngineerVO engineerVO){
-//		return engineerService.engineerList(engineerVO);
-//	}
+	//엔지니어 인원리스트 
+	@GetMapping("/engineer/engineerList")
+	public List<EngineerVO> engineerList(EngineerVO engineerVO){
+		return engineerService.engineerList(engineerVO);
+	}
 
 
 	// 엔지니어 점검목록 리스트
@@ -116,10 +109,7 @@ public class EngineerController {
 		String server_id = data.get("serverId").toString();
 		Map<String,Object> map2 = engineerService.serverDetailModal(server_id);
 		List<WorkInfoVO> list = engineerService.pastInspectionHistoryList(server_id);
-
-
 		map2.put("list", list);
-//		System.out.println(data.toString());
 		System.out.println(list.toString());
 
 		return new ResponseEntity<>(map2, HttpStatus.OK);

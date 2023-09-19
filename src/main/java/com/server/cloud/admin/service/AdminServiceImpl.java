@@ -1,6 +1,7 @@
 
 package com.server.cloud.admin.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,8 +12,14 @@ import com.server.cloud.command.CsVO;
 import com.server.cloud.command.CusVO;
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.NoticeVO;
+
 import com.server.cloud.command.ProjectCusVO;
 import com.server.cloud.command.ServerVO;
+
+import com.server.cloud.command.ProjectDetailVO;
+import com.server.cloud.command.ProjectInfoVO;
+import com.server.cloud.command.WorkInfoVO;
+
 import com.server.cloud.pagenation.Criteria;
 import com.server.cloud.s3.AwsMapper;
 
@@ -32,29 +39,19 @@ public class AdminServiceImpl implements AdminService{
 	public void UpAnno(NoticeVO vo) {
 		awsMapper.UpAnno(vo);
 	};
-//회원관리 - 엔지니어
+	//회원관리 - 엔지니어
 	@Override
 	public List<EngineerVO> adEngineerList(EngineerVO engineerVO) {
 		return adminMapper.adEngineerList(engineerVO);
-  }
-  	@Override
-	public int getTotal() {
-		// TODO Auto-generated method stub
-		return adminMapper.getTotal();
 	}
-	@Override
-	public List< NoticeVO> getList(Criteria cri) {
-		// TODO Auto-generated method stub
-		return adminMapper.getList(cri);
-	};
+  
+  
+	//회원관리 - 기업
+
 	@Override
 	public List<CusVO> adClientList(CusVO cusVO) {
 		return adminMapper.adClientList(cusVO);
 	}
-
-
-
-
 
 
 	@Override
@@ -64,17 +61,11 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 
-
-
-
 	@Override
 	public int csTotal() {
 		// TODO Auto-generated method stub
 		return adminMapper.csTotal();
 	}
-
-
-
 
 
 	@Override
@@ -83,6 +74,7 @@ public class AdminServiceImpl implements AdminService{
 		adminMapper.csUpdate(vo);
 	}
 	
+
 	
 	@Override
 	public List<ProjectCusVO> newProjectList() {
@@ -119,6 +111,28 @@ public class AdminServiceImpl implements AdminService{
 	
 	
 }
+
+
+	//프로젝트 리스트 불러오기 
+	@Override
+	public ArrayList<ProjectInfoVO> getProList() {
+		return adminMapper.getProList();
+	}
+	
+	//프로젝트 디테일 (모달)
+	@Override
+	public ArrayList<ProjectDetailVO> getProListDetail(String pro_id) {
+		return adminMapper.getProListDetail(pro_id);
+	}
+	
+	//서버 점검내역 (모달)
+	@Override
+	public ArrayList<WorkInfoVO> getServerInsList(String server_id) {
+		return adminMapper.getServerInsList(server_id);
+	}
+	
+}
+
 
 
 

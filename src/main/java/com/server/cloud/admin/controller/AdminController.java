@@ -26,8 +26,14 @@ import com.server.cloud.command.CusVO;
 
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.NoticeVO;
+
 import com.server.cloud.command.ProjectCusVO;
 import com.server.cloud.command.ServerVO;
+
+import com.server.cloud.command.ProjectDetailVO;
+import com.server.cloud.command.ProjectInfoVO;
+import com.server.cloud.command.WorkInfoVO;
+
 import com.server.cloud.pagenation.Criteria;
 
 @RestController
@@ -98,9 +104,12 @@ public class AdminController {
 	//회원관리 - 기업
 	@GetMapping("api/main/admin/customerList")
 	public List<CusVO> adClientList(CusVO cusVO){
+		List<CusVO> list = adminService.adClientList(cusVO);
+		System.out.println(list.toString());
 		return adminService.adClientList(cusVO);
 	}
 	
+
 	@GetMapping("/api/main/admin")
 	public ResponseEntity<List<ProjectCusVO>> newProjectList () {
 		List<ProjectCusVO> newPL = adminService.newProjectList();
@@ -140,5 +149,35 @@ public class AdminController {
 		
 		return new ResponseEntity<>("ok", HttpStatus.OK);
 	}
+
+	
+	//프로젝트 리스트 불러오기
+	@GetMapping("/api/main/admin/projectList")
+	public ResponseEntity<?> adProList() {
+		
+		ArrayList<ProjectInfoVO> proList = adminService.getProList();
+		
+		return new ResponseEntity<>(proList,HttpStatus.OK);
+	}
+	
+	// 프로젝트 디테일 (모달)
+	@GetMapping("/api/main/admin/AdProDetailModal/{pro_id}")
+	public ResponseEntity<?> adProListDetail(@PathVariable("pro_id") String pro_id) {
+		
+		ArrayList<ProjectDetailVO> proListDetail = adminService.getProListDetail(pro_id);
+		
+		return new ResponseEntity<>(proListDetail,HttpStatus.OK);
+	}
+	
+	// 서버 점검내역 (모달)
+	@GetMapping("/api/main/admin/AdProDetailInsModal/{server_id}")
+	public ResponseEntity<?> adServerInsList(@PathVariable("server_id") String server_id) {
+		
+		ArrayList<WorkInfoVO> serverInsList = adminService.getServerInsList(server_id);
+		
+		return new ResponseEntity<>(serverInsList,HttpStatus.OK);
+	}
+	
+
 
 }
