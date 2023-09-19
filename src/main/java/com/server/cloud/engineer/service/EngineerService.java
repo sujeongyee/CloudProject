@@ -15,7 +15,7 @@ public interface EngineerService {
 	public List<EngSerProInfoWorkInfoVO> engProInfo(String eng_enid);
 	public List<ServerVO> serverList();
 	public int registWorkLog(List<WorkInfoVO> ServerDetailsArray);
-//	//엔지니어 리스트
+	//엔지니어 리스트
 	public List<EngineerVO> engineerList(EngineerVO engineerVO);
 
 
@@ -25,8 +25,6 @@ public interface EngineerService {
 	//점검목록 리스트 서버모달
 	public Map<String, Object> serverDetailModal(String server_id);
 	public List<WorkInfoVO> pastInspectionHistoryList(String server_id);
-
-
 	
 	public Map<String,Object> getProjectDetail(String pro_id);
 	public List<ServerVO> getProjectServer(String pro_id);

@@ -34,13 +34,11 @@ public class JWTService {
 	 
 	 static String secret = getEnvironmentVariable("secret_key");
 	
-//	
-//	@Value("${jwt_secret_key}")
-//	private static String secret;
 	 
 //	@Value("${jwt_secret_key}")
 //	private static String secret;
-	
+
+
 	
 	//토큰생성
 		public static String createToken(MyUserDetails userDetails) {
