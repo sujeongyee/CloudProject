@@ -2,6 +2,8 @@ package com.server.cloud.client.controller;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,6 +28,7 @@ import com.server.cloud.command.CusVO;
 import com.server.cloud.command.FormDataVO;
 import com.server.cloud.command.ProjectInfoVO;
 import com.server.cloud.command.ProjectListVO;
+import com.server.cloud.command.QueryVO;
 import com.server.cloud.command.ProjectDetailVO;
 import com.server.cloud.command.ServerVO;
 
@@ -110,35 +113,51 @@ public class ClientController {
 	
 	   
    //작업 내역 목록 리스트
-   @GetMapping("/client/projectDetailList")
-   public ArrayList<ProjectListVO> projectDetailList() {
-
-      return clientService.projectDetailList();
+   @GetMapping("/user/projectDetailList/{cus_id}")
+   public ResponseEntity<ArrayList<ProjectDetailVO>> projectDetailList(@PathVariable("cus_id") String cus_id) {
+	 ArrayList<ProjectDetailVO> proDetailList =clientService.projectDetailList(cus_id);
+      return new ResponseEntity<>(proDetailList,HttpStatus.OK) ;
    }
    
    //작업 내역 로그 
-   @GetMapping("/client/projectDetailChart")
-   public ArrayList<ProjectListVO> projectDetailChart() {
+   @GetMapping("/user/projectDetailChart/{pro_id}/{server_id}")
+   public ResponseEntity<ArrayList<ProjectDetailVO>> projectDetailChart(
+		   						@PathVariable("pro_id") String pro_id,
+		   						@PathVariable("server_id") String server_id) {
+		ArrayList<ProjectDetailVO> projectDetailChart = clientService.projectDetailChart(pro_id, server_id);
+		return new ResponseEntity<>(projectDetailChart,HttpStatus.OK);
+	}
+	
 
-      return clientService.projectDetailChart();
+   //유저 메인 프로젝트 리스트
+   @GetMapping("/user/{cus_id}")
+   @ResponseBody
+   public ResponseEntity<Map<String,Object>> mainProject(@PathVariable String cus_id){
+	   
+	   List<ProjectDetailVO> mainProjectList = clientService.projectMain(cus_id);
+	   
+		List<QueryVO> inspectionList = clientService.getInspection(cus_id); //월별점검내역리스트
+		List<Integer> periodic = new ArrayList<>(); //정기
+		List<Integer> disability = new ArrayList<>(); //장애
+		List<Integer> maintenance = new ArrayList<>(); //유지		
+
+		for(QueryVO vo : inspectionList) {
+		
+			periodic.add(vo.getPeriodic()); //월별 정기점검 모음
+			disability.add(vo.getDisability()); //월별 장애대응 모음
+			maintenance.add(vo.getMaintenance()); //월별 유지보수 모음
+			 }
+
+		Map<String,Object> map = new HashMap<>();
+		map.put("mainProjectList",mainProjectList);
+		map.put("periodic",periodic);
+		map.put("disability", disability);
+		map.put("maintenance", maintenance);
+
+		
+	   return new ResponseEntity<>(map,HttpStatus.OK);
    }
-
-
-
 	
-
-	
-	//댓글기능
-//    @GetMapping("/eng/{notice_num}")
-//    public List<CommentVO> getCommentsByNoticeId(@RequestParam("notice_num") String notice_num) {
-//        return clientService.getComment(notice_num);
-//    }
-
-//    @PostMapping("/eng/comments")
-//    public void createComment(@RequestBody CommentVO comment) {
-//    	clientService.createComment(comment);
-//    }
-
 
 	
 

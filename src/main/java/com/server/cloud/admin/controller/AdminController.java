@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.server.cloud.admin.service.AdminService;
+
+import com.server.cloud.command.CsVO;
+
 import com.server.cloud.command.CusVO;
+
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.NoticeVO;
 import com.server.cloud.pagenation.Criteria;
@@ -32,16 +36,15 @@ public class AdminController {
 	private Criteria cri=new Criteria();
 	
 	@GetMapping("/api/main/AnnoList")//공지사항 게시판 목록 불러오기
-	public ResponseEntity<?> getList(@RequestParam("currentPage") int currentPage,@RequestParam("postsPerPage")int postsPerPage){
+	public ResponseEntity<?> getList(@RequestParam("currentPage") int currentPage,@RequestParam("postsPerPage")int postsPerPage,String role){
+	
 		Map<String, Integer>page= new HashMap<>();
-		System.out.println(currentPage+"??");
 		cri.setPage(currentPage);
 		cri.setAmount(postsPerPage);
-	
+		cri.setRole(role);
 		
 		List<NoticeVO> notice=adminService.getList(cri);
 		
-		System.out.println(notice);
 		
 		
 		return new ResponseEntity<>(notice,HttpStatus.OK);
@@ -54,6 +57,33 @@ public class AdminController {
 	
 
 	//회원관리 - 엔지니어
+
+	@GetMapping("/api/main/csList")//문의사항 목록 불러오기
+	public ResponseEntity<?> csList(@RequestParam("currentPage") int currentPage,@RequestParam("postsPerPage")int postsPerPage){
+		Map<String, Integer>page= new HashMap<>();
+		cri.setPage(currentPage);
+		cri.setAmount(postsPerPage);
+	
+		
+		List<CsVO> notice=adminService.csList(cri);
+		
+		
+		
+		return new ResponseEntity<>(notice,HttpStatus.OK);
+	}
+	@GetMapping("/api/main/admin/csTotal")
+	public ResponseEntity<?>csTotal(){
+		return new ResponseEntity<>(adminService.csTotal(),HttpStatus.OK);
+	}
+	@GetMapping("/api/main/csUpdate")
+	public ResponseEntity<?>csUpdate(CsVO vo){
+		
+		adminService.csUpdate(vo);
+		
+		return new ResponseEntity<>("업데이트가 완료되었습니다.",HttpStatus.OK);
+	}
+
+
 	@GetMapping("api/main/admin/engineerList")
 	public List<EngineerVO> adEngineerList(EngineerVO engineerVO){
 	       return adminService.adEngineerList(engineerVO);
@@ -65,5 +95,6 @@ public class AdminController {
 	public List<CusVO> adClientList(CusVO cusVO){
 		return adminService.adClientList(cusVO);
 	}
-}
 
+
+}

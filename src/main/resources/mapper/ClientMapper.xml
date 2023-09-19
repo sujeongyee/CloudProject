@@ -97,66 +97,77 @@
 	
 	
    <!-- 작업 내역 목록 -->      
-   <select id="projectDetailList" resultType="ProjectListVO">
+   <select id="projectDetailList">
    
-		WITH RankedWorkInfo AS (
-		     SELECT
-		         W.PRO_ID as pro_id,
-		         W.WORK_DATE as work_date,
-		         W.WORK_DIVISION as work_info,
-		         W.WORK_TIME as work_time,
-		         W.WORK_CPU as work_cpu,
-		         W.WORK_RAM as work_ram,
-		         W.WORK_HDD as work_hdd,
-		        S.SERVER_STATUS AS server_status,
-		        W.WORK_STATUS AS work_status,
-		         W.WORK_NOTE as work_note,
-		         W.WORK_ESTIMATE as work_estimate,
-		         W.SERVER_ID as server_id,
-		         W.ENG_ENID as eng_enid,
-		         S.SERVER_NAME as server_name,
-		         E.ENG_NAME as eng_name,
-		         E.eng_phone as eng_phone,
-		         P.PRO_NAME as pro_name,
-		         T.TEAM_ID as team_id,
-		         ROW_NUMBER() OVER (PARTITION BY W.SERVER_ID ORDER BY W.WORK_DATE DESC) AS RowNum
-		     FROM WORKINFO W
-		     JOIN SERVER S ON W.SERVER_ID = S.SERVER_ID
-		     JOIN ENGINEER E ON W.ENG_ENID = E.ENG_ENID
-		     JOIN PROJECTINFO P ON W.PRO_ID = P.PRO_ID
-		     LEFT JOIN ENG_TEAM T ON E.TEAM_NUM = T.TEAM_NUM
-		     WHERE P.PRO_ID = '5afd9eaa-4be1-11ee-8c2a-0ef820116d74'
-		 )
-		 SELECT
-		     R.PRO_ID as pro_id,
-		     R.WORK_DATE as work_date,
-		     R.work_info as work_division,
-		     R.WORK_TIME as work_time,
-		     R.WORK_CPU as work_cpu,
-		     R.WORK_RAM as work_ram,
-		     R.WORK_HDD as work_hdd,
-		    R.SERVER_STATUS AS server_status,
-		    R.WORK_STATUS AS work_status,
-		     R.WORK_NOTE as work_note,
-		     R.WORK_ESTIMATE as work_estimate,
-		     R.SERVER_ID as server_id,
-		     R.ENG_ENID as eng_enid,
-		     R.eng_phone as eng_phone,
-		     R.SERVER_NAME as server_name,
-		     R.ENG_NAME as eng_name,
-		     R.PRO_NAME as pro_name,
-		     R.team_id
-		 FROM RankedWorkInfo R
-		 WHERE R.RowNum = 1;
+	WITH RankedWorkInfo AS (
+	    SELECT
+	        W.PRO_ID as pro_id,
+	        W.WORK_DATE as work_date,
+	        W.WORK_DIVISION as work_info,
+	W.WORK_TIME as work_time,
+	        MAX(W.WORK_CPU) as work_cpu,
+	        MAX(W.WORK_RAM) as work_ram,
+	        MAX(W.WORK_HDD) as work_hdd,
+	        W.WORK_STATUS as work_status,
+	        W.WORK_NOTE as work_note,
+	        W.WORK_ESTIMATE as work_estimate,
+	        W.SERVER_ID as server_id,
+	        W.ENG_ENID as eng_enid,
+	        S.SERVER_NAME as server_name,
+	        E.ENG_NAME as eng_name,
+	        P.PRO_NAME as pro_name,
+	        P.cus_id  as cus_id,
+	        ROW_NUMBER() OVER (PARTITION BY S.SERVER_NAME ORDER BY W.WORK_DATE DESC) AS RowNum
+	    FROM WORKINFO W
+	    JOIN SERVER S ON W.SERVER_ID = S.SERVER_ID
+	    JOIN ENGINEER E ON W.ENG_ENID = E.ENG_ENID
+	    JOIN PROJECTINFO P ON W.PRO_ID = P.PRO_ID
+	    WHERE P.CUS_ID = #{cus_id}
+	    GROUP BY
+	        W.PRO_ID,
+	        W.WORK_DATE,
+	        W.WORK_DIVISION,
+	        W.WORK_STATUS,
+	        W.WORK_NOTE,
+	        W.WORK_TIME,
+	        W.WORK_ESTIMATE,
+	        W.SERVER_ID,
+	        W.ENG_ENID,
+	        S.SERVER_NAME,
+	        E.ENG_NAME,
+	        P.PRO_NAME,
+	        p.cus_id
+	)
+	
+	SELECT
+	    R.pro_id,
+	    R.work_date,
+	    R.work_info as work_division,
+	    R.work_time,
+	    R.work_cpu,
+	    R.work_ram,
+	    R.work_hdd,
+	    R.work_status,
+	    R.work_note,
+	    R.work_estimate,
+	    R.server_id,
+	    R.eng_enid,
+	    R.server_name,
+	    R.eng_name,
+	    R.pro_name,
+	    R.cus_id
+	FROM RankedWorkInfo R
+	WHERE R.RowNum = 1;
 
    </select>
    
    
    <!-- 작업 내역 로그 -->
-   <select id="projectDetailChart" resultType="ProjectListVO">
+   <select id="projectDetailChart">
          
 	   SELECT distinct 
 	       P.PRO_NAME AS pro_name,
+	       P.CUS_ID as cus_id ,
 	       S.SERVER_NAME AS server_name,
 	       E.ENG_NAME AS eng_name,
 	       E.eng_phone as eng_phone,
@@ -177,14 +188,40 @@
 	   JOIN ENGINEER E ON W.ENG_ENID = E.ENG_ENID
 	   JOIN PROJECTINFO P ON W.PRO_ID = P.PRO_ID
 	   LEFT JOIN ENG_TEAM T ON E.TEAM_NUM = T.TEAM_NUM
-	   WHERE P.PRO_ID = '5afd9eaa-4be1-11ee-8c2a-0ef820116d74' AND S.SERVER_ID = '1c4f9f68-4be2-11ee-8c2a-0ef820116d74'
+	   WHERE P.PRO_ID = #{pro_id} and S.SERVER_ID = #{server_id}
 	   ORDER BY work_date;
    
    </select>
    
-	
+	<!--  메인 화면 프로젝트 정보 불러오기 --> 
+	<select id="projectMain">
+		
+	  select * from PROJECTINFO p 
+	  left join SERVER s 
+	  on p.pro_id = s.pro_id
+	  left join ENGINEER e
+	  on s.eng_enid = e.eng_enid
+	  where p.cus_id = #{cus_id}
+		
+	</select>
 
-	
+
+  	<select id="getInspection">
+		SELECT 
+		    P.PRO_NAME AS pro_name,
+		    SUM(CASE WHEN W.WORK_DIVISION = '정기점검' THEN 1 ELSE 0 END) AS PERIODIC,
+		    SUM(CASE WHEN W.WORK_DIVISION = '장애대응' THEN 1 ELSE 0 END) AS DISABILITY,
+		    SUM(CASE WHEN W.WORK_DIVISION = '기타등등' THEN 1 ELSE 0 END) AS MAINTENANCE
+		FROM WORKINFO W
+		LEFT JOIN PROJECTINFO P ON W.PRO_ID = P.PRO_ID
+		LEFT JOIN CUSTOMER C ON P.CUS_ID = C.CUS_ID
+		WHERE C.CUS_ID = #{cus_id}
+		GROUP BY P.PRO_NAME
+		
+		
+
+
+  	</select>
 
 
 </mapper>
