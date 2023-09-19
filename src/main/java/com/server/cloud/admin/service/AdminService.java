@@ -11,9 +11,14 @@ import com.server.cloud.command.CusVO;
 
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.NoticeVO;
+
+import com.server.cloud.command.ProjectCusVO;
+import com.server.cloud.command.ServerVO;
+
 import com.server.cloud.command.ProjectDetailVO;
 import com.server.cloud.command.ProjectInfoVO;
 import com.server.cloud.command.WorkInfoVO;
+
 import com.server.cloud.pagenation.Criteria;
 
 public interface AdminService {
@@ -41,6 +46,9 @@ public interface AdminService {
 	//회원관리 - 기업
 	public List<CusVO> adClientList(CusVO cusVO);
 	
+
+	public List<ProjectCusVO> newProjectList();
+
 	
 	//프로젝트 리스트 불러오기
 	public ArrayList<ProjectInfoVO> getProList();
@@ -51,4 +59,11 @@ public interface AdminService {
 	//서버 점검 리스트 (모달)
 	public ArrayList<WorkInfoVO> getServerInsList(String server_id);
 
+
+	public List<ServerVO> getRequestServer(String pro_id);
+	public Map<String,Object> getRequestDetail(String pro_id);
+	public List<EngineerVO> getTeamLeader();
+	public List<EngineerVO> getTeamMember();
+	
+	public int inputTeamNum(String pro_id, String team_num);
 }

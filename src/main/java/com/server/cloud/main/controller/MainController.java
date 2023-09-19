@@ -38,6 +38,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import com.server.cloud.command.CusVO;
+import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.NoticeCommentVO;
 import com.server.cloud.command.NoticeVO;
 import com.server.cloud.command.SearchVO;
@@ -257,6 +258,17 @@ public class MainController {
 	   public ResponseEntity<?> getInfo(@RequestParam("cus_id") String cus_id){
 		   
 		   CusVO vo= userService.idCheck(cus_id);
+		   
+		   System.out.println(1);
+		   
+		   return new ResponseEntity<>(vo,HttpStatus.OK);
+		   
+	   }
+	   
+	   @GetMapping("/api/main/getInfoEng")
+	   public ResponseEntity<?> getInfo2(@RequestParam("eng_id") String eng_id){
+		   
+		   EngineerVO vo= userService.idCheckEng(eng_id);
 		   
 		   System.out.println(1);
 		   
