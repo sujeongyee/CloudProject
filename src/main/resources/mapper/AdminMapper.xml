@@ -12,61 +12,132 @@
 
 
 	<select id="getTotal" resultType="int">
-
-		select count(*) from NOTICE
-		<if test="role!='ROLE_ADMIN'">
-		where notice_target=#{role} or notice_target='ALL' 
-		</if>
-
-
+		SELECT COUNT(*) FROM NOTICE
+		<where>
+			<if test="role!='ROLE_ADMIN'">
+				AND (notice_target = #{role} OR notice_target = 'ALL')
+			</if>
+		</where>
 	</select>
 
 
 	<select id="getList"
 		resultType="com.server.cloud.command.NoticeVO">
 
-		select * from NOTICE 
-		<if test="role!='ROLE_ADMIN'">
-		where notice_target=#{role} or notice_target='ALL' 
-		</if>
+		select * from NOTICE
+		<where>
+			<if test="role!='ROLE_ADMIN' and role!=null">
+				AND (notice_target=#{role} or notice_target='ALL')
+			</if>
+		</where>
 		order by notice_regdate desc limit
 		#{pageStart},#{amount}
 	</select>
 	<select id="csList" resultType="com.server.cloud.command.CsVO">
 
-		select * from CS order by cs_regdate desc limit #{pageStart},#{amount}
+		select * from CS
+		<where>
+			<if test="cs_writer!=null">
+				AND (cs_writer=#{cs_writer})
+			</if>
+		</where>
+		order by
+		cs_regdate desc limit #{pageStart},#{amount}
 	</select>
+
+	<select id="csEnList" resultType="com.server.cloud.command.CsVO">
+
+		select cs_num,cs_title,cs_content,cs_writer,cs_regdate,cs_answer_yn,cs_type,cs_project,cs_server 
+		from (select * from cs c right join projectinfo p on c.cs_project=p.pro_id where team_num=#{eng_team_num}) as eng
+		<where> 
+			<if test="role=='ROLE_ENGINEER'">
+				or cs_server=#{cs_writer}
+			</if>
+			<if test="role=='ROLE_ENGINEER'">
+				or cs_server='ALL'
+			</if>
+			</where>
+		order by
+		cs_regdate desc
+
+	</select>
+	<select id="csEnLeaderList" resultType="com.server.cloud.command.CsVO">
+
+		select * from cs c right join projectinfo p on c.cs_project=p.pro_id 
+		where team_num=#{eng_team_num} or team_num='ALL'
+		order by
+		cs_regdate desc
+
+	</select>
+	<select id="csEnListMy" resultType="com.server.cloud.command.CsVO">
+	
+	select * from cs where cs_writer=#{cs_writer}
+	</select>
+	<select id="csEnLeaderListMy" resultType="com.server.cloud.command.CsVO">
+	
+	select * from cs where cs_writer=#{cs_writer}
+	</select>
+	<select id="csEnTotal" resultType="int">
+
+		select count(*)
+		from (select * from cs c right join projectinfo p on c.cs_project=p.pro_id where team_num=#{eng_team_num}) as eng
+		<where> 
+			<if test="role=='ROLE_ENGINEER'">
+				or cs_server=#{cs_writer}
+			</if>
+			<if test="role=='ROLE_ENGINEER'">
+				or cs_server='ALL'
+			</if>
+			</where>
+	
+
+	</select>
+
 	<select id="csTotal" resultType="int">
 
 		select count(*) from CS;
 
 
 	</select>
+	<select id="csUserTotal" resultType="int">
+
+		select count(*) from CS
+		where cs_writer=#{cs_writer}
+		;
+
+
+	</select>
 	<!-- 회원관리 - 엔지니어 -->
 
 
-	<select id="adEngineerList" resultType="com.server.cloud.command.EngineerVO">
+	<select id="adEngineerList"
+		resultType="com.server.cloud.command.EngineerVO">
 
 		select e.*, t.team_id
 		from engineer e
-		inner join eng_team t on e.team_num = t.team_num
+		inner join eng_team t
+		on e.team_num = t.team_num
 	</select>
-	
+
 	<!-- 회원관리 - 기업 -->
-	<select id = "adClientList" resultType="com.server.cloud.command.CusVO">
+	<select id="adClientList"
+		resultType="com.server.cloud.command.CusVO">
 		select c.*, p.pro_status, p.pro_startdate, p.pro_enddate
 		from customer c
 		join projectinfo p on c.cus_id = p.cus_id;
-		
+
 	</select>
 
 	<insert id="csUpdate">
-	
-	insert into CS(cs_num,cs_answer_yn)
-	 value(#{cs_num},#{cs_answer_yn})
-	 on duplicate key update
-	 cs_num=#{cs_num},cs_answer_yn=#{cs_answer_yn}
-	</insert>
 
+		insert into CS(cs_num,cs_answer_yn)
+		value(#{cs_num},#{cs_answer_yn})
+		on duplicate key update
+		cs_num=#{cs_num},cs_answer_yn=#{cs_answer_yn}
+	</insert>
+	<select id="engGetinfo" resultType="com.server.cloud.command.EngineerVO">
+	
+	select * from engineer where eng_enid=#{cs_writer}
+	</select>
 </mapper>
 

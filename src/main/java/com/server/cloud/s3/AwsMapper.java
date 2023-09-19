@@ -23,5 +23,9 @@ public interface AwsMapper {
 
 	void AnnoDel(String notice_num);
 
+	void inQuryDel(String notice_num);
+
+	void setFileCs(FileVO fileVO);
+
 
 }

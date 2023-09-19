@@ -14,7 +14,7 @@ import com.server.cloud.pagenation.Criteria;
 
 public interface AdminService {
 
-	int getTotal();
+	int getTotal(String role);
 
 	List<NoticeVO>  getList(Criteria cri);
 
@@ -36,5 +36,20 @@ public interface AdminService {
 
 	//회원관리 - 기업
 	public List<CusVO> adClientList(CusVO cusVO);
+
+	int csUserTotal(String cs_writer);
+
+	List<CsVO> csEnList(Criteria cri);
+
+	//엔지니어 정보 불러오기
+	EngineerVO engGetinfo(String cs_writer);
+
+	int csEnTotal(Criteria cri);
+
+	List<CsVO> csEnListMy(Criteria cri);
+
+	List<CsVO> csEnLeaderList(Criteria cri);
+
+	List<CsVO> csEnLeaderListMy(Criteria cri);
 
 }

@@ -7,10 +7,12 @@ import javax.validation.Valid;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.server.cloud.command.CsVO;
 import com.server.cloud.command.CusVO;
 import com.server.cloud.command.NoticeCommentVO;
 import com.server.cloud.command.NoticeVO;
 import com.server.cloud.command.SearchVO;
+import com.server.cloud.command.ServerVO;
 import com.server.cloud.s3.FileVO;
 
 
@@ -36,6 +38,18 @@ public interface CusMapper {
 	void commentDel(NoticeCommentVO vo);
 
 	void commentUp(NoticeCommentVO vo);
+
+	List<ServerVO> getServerList(String pro_id);
+
+	void quryeWrite(CsVO csVo);
+
+	String getId(CusVO id);
+
+	CusVO emailCheck(String email);
+
+	String getIdPw(CusVO id);
+
+	void resetPw(CusVO vo);
 
 
 	

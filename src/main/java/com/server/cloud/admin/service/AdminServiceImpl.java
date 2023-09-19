@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.server.cloud.command.CsVO;
+import com.server.cloud.command.CusVO;
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.NoticeVO;
 import com.server.cloud.pagenation.Criteria;
@@ -21,11 +22,7 @@ public class AdminServiceImpl implements AdminService{
 	@Autowired
 	AwsMapper awsMapper;
 	
-	@Override
-	public int getTotal() {
-		// TODO Auto-generated method stub
-		return adminMapper.getTotal();
-	}
+	
 
 	@Override
 	public List< NoticeVO> getList(Criteria cri) {
@@ -46,15 +43,11 @@ public class AdminServiceImpl implements AdminService{
 		return adminMapper.adEngineerList(engineerVO);
   }
   	@Override
-	public int getTotal() {
+	public int getTotal(String role) {
 		// TODO Auto-generated method stub
-		return adminMapper.getTotal();
+		return adminMapper.getTotal(role);
 	}
-	@Override
-	public List< NoticeVO> getList(Criteria cri) {
-		// TODO Auto-generated method stub
-		return adminMapper.getList(cri);
-	};
+
 	@Override
 	public List<CusVO> adClientList(CusVO cusVO) {
 		return adminMapper.adClientList(cusVO);
@@ -90,9 +83,44 @@ public class AdminServiceImpl implements AdminService{
 		// TODO Auto-generated method stub
 		adminMapper.csUpdate(vo);
 	}
+	@Override
+	public int csUserTotal(String cs_writer) {
+		// TODO Auto-generated method stub
+		return adminMapper.csUserTotal(cs_writer);
+	}
+	@Override
+	public List<CsVO> csEnList(Criteria cri) {
+		// TODO Auto-generated method stub
+		return adminMapper.csEnList(cri);
+	}
+	@Override
+	public EngineerVO engGetinfo(String cs_writer) {
+		// TODO Auto-generated method stub
+		return adminMapper.engGetinfo(cs_writer);
+	}
+	@Override
+	public int csEnTotal(Criteria cri) {
+		// TODO Auto-generated method stub
+		return adminMapper.csEnTotal(cri);
+	}
+	@Override
+	public List<CsVO> csEnListMy(Criteria cri) {
+		// TODO Auto-generated method stub
+		return adminMapper.csEnListMy(cri);
+	}
+	@Override
+	public List<CsVO> csEnLeaderList(Criteria cri) {
+		// TODO Auto-generated method stub
+		return adminMapper.csEnLeaderList(cri);
+	}
+	@Override
+	public List<CsVO> csEnLeaderListMy(Criteria cri) {
+		// TODO Auto-generated method stub
+		return adminMapper.csEnLeaderListMy(cri);
+	}
 }
 
-}
+
 
 
 
