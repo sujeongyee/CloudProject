@@ -31,6 +31,7 @@ public class AdminServiceImpl implements AdminService{
 	@Autowired
 	AwsMapper awsMapper;
 
+
 	@Override
 	public void setAnno(NoticeVO vo) {
 		awsMapper.setAnno(vo);
@@ -43,10 +44,13 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public List<EngineerVO> adEngineerList(EngineerVO engineerVO) {
 		return adminMapper.adEngineerList(engineerVO);
+
+  }
+  	@Override
+	public int getTotal(String role) {
+		// TODO Auto-generated method stub
+		return adminMapper.getTotal(role);
 	}
-  
-  
-	//회원관리 - 기업
 
 	@Override
 	public List<CusVO> adClientList(CusVO cusVO) {
@@ -73,6 +77,46 @@ public class AdminServiceImpl implements AdminService{
 		// TODO Auto-generated method stub
 		adminMapper.csUpdate(vo);
 	}
+
+	@Override
+	public int csUserTotal(String cs_writer) {
+		// TODO Auto-generated method stub
+		return adminMapper.csUserTotal(cs_writer);
+	}
+	@Override
+	public List<CsVO> csEnList(Criteria cri) {
+		// TODO Auto-generated method stub
+		return adminMapper.csEnList(cri);
+	}
+	@Override
+	public EngineerVO engGetinfo(String cs_writer) {
+		// TODO Auto-generated method stub
+		return adminMapper.engGetinfo(cs_writer);
+	}
+	@Override
+	public int csEnTotal(Criteria cri) {
+		// TODO Auto-generated method stub
+		return adminMapper.csEnTotal(cri);
+	}
+	@Override
+	public List<CsVO> csEnListMy(Criteria cri) {
+		// TODO Auto-generated method stub
+		return adminMapper.csEnListMy(cri);
+	}
+	@Override
+	public List<CsVO> csEnLeaderList(Criteria cri) {
+		// TODO Auto-generated method stub
+		return adminMapper.csEnLeaderList(cri);
+	}
+	@Override
+	public List<CsVO> csEnLeaderListMy(Criteria cri) {
+		// TODO Auto-generated method stub
+		return adminMapper.csEnLeaderListMy(cri);
+	}
+}
+
+
+
 	
 
 	
@@ -132,6 +176,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 }
+
 
 
 
