@@ -24,6 +24,7 @@ import com.server.cloud.command.ProjectInfoVO;
 import com.server.cloud.command.QueryVO;
 import com.server.cloud.command.ScheduleVO;
 import com.server.cloud.command.ServerVO;
+import com.server.cloud.command.WorkInfoVO;
 import com.server.cloud.engLeader.service.EngLeaderService;
 
 @RestController
@@ -33,15 +34,18 @@ public class EngLeaderController {
 	@Autowired
 	@Qualifier("engLeaderService")
 	private EngLeaderService engLeaderService;
+	
+	@GetMapping("/info")
+	public ResponseEntity<Map<String,String>> getLeaderInfo(@RequestParam("user_id") String leaderId){
+		Map<String,String> map = engLeaderService.getLeaderInfo(leaderId);
+		System.out.println(map.toString());
+		return new ResponseEntity<>(map,HttpStatus.OK);
+	}
 
-	@GetMapping("/main/{leaderId}")
-	public ResponseEntity<Map<String,Object>> getMain(@PathVariable String leaderId){
-		//팀의 팀원수 , 진행중 프로젝, 총 서버수
-		//새로 배정된 프로젝트 리스트
-		//이번달에 신규계약, 계약종료
-		//여태 작업 내역 중 월별 점검현황 (정기점검, 장애대응, 긴급출동)
-		// teamCount,projectCount,serverCount,thisMonthStart,thisMonthEnd
+	@GetMapping("/main")
+	public ResponseEntity<Map<String,Object>> getMain(@RequestParam("userId") String leaderId){
 
+		System.out.println(leaderId);
 		QueryVO vo = engLeaderService.getAllMain(leaderId); //팀의 팀원수 , 진행중 프로젝, 총 서버수, 이번달에 신규계약수, 계약종료
 		List<ProjectInfoVO> list = engLeaderService.getNewProject(leaderId); //신규요청리스트
 		List<QueryVO> inspectionList = engLeaderService.getInspection(leaderId); //월별점검내역리스트
@@ -53,14 +57,14 @@ public class EngLeaderController {
 			disability.add(vo2.getDisability()); //월별 장애대응 모음
 			maintenance.add(vo2.getMaintenance()); //월별 유지보수 모음
 		}
-		Map<String,Object> map = new HashMap<>();
-		map.put("vo", vo);
-		map.put("list", list);
-		map.put("periodic",periodic);
-		map.put("disability", disability);
-		map.put("maintenance", maintenance);
+		Map<String,Object> map2 = new HashMap<>();
+		map2.put("vo", vo);
+		map2.put("list", list);
+		map2.put("periodic",periodic);
+		map2.put("disability", disability);
+		map2.put("maintenance", maintenance);
 
-		return new ResponseEntity<>(map,HttpStatus.OK);
+		return new ResponseEntity<>(map2,HttpStatus.OK);
 	}
 
 	@GetMapping("/requestDetail/{pro_id}")
@@ -86,8 +90,8 @@ public class EngLeaderController {
 		return new ResponseEntity<>("ok",HttpStatus.OK);	
 	}
 
-	@GetMapping("/getAllPro/{leader_id}")
-	public ResponseEntity<List<ProjectInfoVO>> getAllPro(@PathVariable String leader_id){	
+	@GetMapping("/getAllPro")
+	public ResponseEntity<List<ProjectInfoVO>> getAllPro(@RequestParam("userId") String leader_id){	
 		List<ProjectInfoVO> list=engLeaderService.getAllPro(leader_id);	
 		return new ResponseEntity<>(list,HttpStatus.OK);
 	}
@@ -102,14 +106,14 @@ public class EngLeaderController {
 		return new ResponseEntity<>(map2,HttpStatus.OK);
 	}
 	
-	@GetMapping("/getClient/{leader_id}")
-	public ResponseEntity<List<CusVO>> getClient(@PathVariable String leader_id){
+	@GetMapping("/getClient")
+	public ResponseEntity<List<CusVO>> getClient(@RequestParam("userId") String leader_id){
 		List<CusVO> list = engLeaderService.getClient(leader_id);
 		return new ResponseEntity<>(list,HttpStatus.OK);
 	}
 	
-	@GetMapping("/getEngineerList/{leader_id}")
-	public ResponseEntity<List<EngineerVO>> getEngineerList(@PathVariable String leader_id){
+	@GetMapping("/getEngineerList")
+	public ResponseEntity<List<EngineerVO>> getEngineerList(@RequestParam("userId") String leader_id){
 		List<EngineerVO> list = engLeaderService.getTeamEngList2(leader_id);
 		return new ResponseEntity<>(list,HttpStatus.OK);
 	}
@@ -134,12 +138,16 @@ public class EngLeaderController {
 		return new ResponseEntity<>(map,HttpStatus.OK);
 	}
 	
-	@GetMapping("/getAllSche/{leader_id}")
-	public ResponseEntity<List<ScheduleVO>> getAllSche(@PathVariable String leader_id){
+	@GetMapping("/getAllSche")
+	public ResponseEntity<List<ScheduleVO>> getAllSche(@RequestParam("userId") String leader_id){
 		
-		List<ScheduleVO> list = engLeaderService.getAllSchedule(leader_id);
-
-		
+		List<ScheduleVO> list = engLeaderService.getAllSchedule(leader_id);		
+		return new ResponseEntity<>(list,HttpStatus.OK);
+	}
+	
+	@GetMapping("/getWorkInfo")
+	public ResponseEntity<List<WorkInfoVO>> getWorkInfo(@RequestParam("server_id") String server_id){
+		List<WorkInfoVO> list = engLeaderService.getWorkInfo(server_id);	
 		return new ResponseEntity<>(list,HttpStatus.OK);
 	}
 

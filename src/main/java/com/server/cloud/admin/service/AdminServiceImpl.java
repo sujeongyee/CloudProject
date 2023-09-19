@@ -113,11 +113,7 @@ public class AdminServiceImpl implements AdminService{
 		// TODO Auto-generated method stub
 		return adminMapper.csEnLeaderListMy(cri);
 	}
-}
 
-
-
-	
 
 	
 	@Override
@@ -151,11 +147,6 @@ public class AdminServiceImpl implements AdminService{
 		return adminMapper.inputTeamNum(pro_id, team_num);
 	}
 		
-	
-	
-	
-}
-
 
 	//프로젝트 리스트 불러오기 
 	@Override
@@ -173,6 +164,10 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public ArrayList<WorkInfoVO> getServerInsList(String server_id) {
 		return adminMapper.getServerInsList(server_id);
+	}
+	@Override
+	public List<NoticeVO> getList(Criteria cri) {	
+		return adminMapper.getList(cri);
 	}
 	
 }

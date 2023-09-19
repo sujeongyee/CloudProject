@@ -12,6 +12,7 @@ import com.server.cloud.command.ProjectInfoVO;
 import com.server.cloud.command.QueryVO;
 import com.server.cloud.command.ScheduleVO;
 import com.server.cloud.command.ServerVO;
+import com.server.cloud.command.WorkInfoVO;
 
 @Service("engLeaderService")
 public class EngLeaderServiceImpl implements EngLeaderService{
@@ -106,6 +107,18 @@ public class EngLeaderServiceImpl implements EngLeaderService{
 	@Override
 	public List<ScheduleVO> getAllSchedule(String leader_id) {
 		return engLeaderMapper.getAllSchedule(leader_id);
+	}
+
+
+	@Override
+	public Map<String, String> getLeaderInfo(String leader_id) {
+		return engLeaderMapper.getLeaderInfo(leader_id);
+	}
+
+
+	@Override
+	public List<WorkInfoVO> getWorkInfo(String server_id) {
+		return engLeaderMapper.getWorkInfo(server_id);
 	}
 	
 	

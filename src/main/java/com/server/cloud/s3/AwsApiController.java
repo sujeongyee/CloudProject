@@ -95,7 +95,7 @@ public class AwsApiController {
 				FileVO path=awsService.getImg(userId);
 				return new ResponseEntity<>(path,HttpStatus.OK);
 			}else {
-				
+
 				String originName=file.getOriginalFilename();
 				byte[]originData=file.getBytes();
 				String objectURI =s3.putS3Object(originName,originData);
@@ -119,28 +119,28 @@ public class AwsApiController {
 		return new ResponseEntity<>("?",HttpStatus.OK);
 	}	@PostMapping("/api/main/cloudUploadCs")
 	public ResponseEntity<?>cloudUploadCs(@RequestParam("file_data")MultipartFile file,@RequestParam("userId")String userId,
-									String fileId){
+			String fileId){
 		Instant now = Instant.now();
 		Timestamp timestamp = Timestamp.from(now);
 		try {String originName=file.getOriginalFilename();
-				byte[]originData=file.getBytes();
-				String objectURI =s3.putS3Object(originName,originData);
-				FileVO fileVO=new FileVO().builder()
+		byte[]originData=file.getBytes();
+		String objectURI =s3.putS3Object(originName,originData);
+		FileVO fileVO=new FileVO().builder()
 				.file_name(originName)
 				.file_path(objectURI)
 				.file_type(file.getContentType())
 				.user_id(userId)
 				.upload_date(timestamp)
 				.build();
-				System.out.println(fileVO.toString());
-				awsService.setFileCs(fileVO);
-				
-				return new ResponseEntity<>("성공",HttpStatus.OK);
-	}catch (Exception e) {
+		System.out.println(fileVO.toString());
+		awsService.setFileCs(fileVO);
+
+		return new ResponseEntity<>("성공",HttpStatus.OK);
+		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-  return new ResponseEntity<>("?",HttpStatus.OK);
+		return new ResponseEntity<>("?",HttpStatus.OK);
 	}
 
 
@@ -158,8 +158,8 @@ public class AwsApiController {
 		int result = 0;
 		try {
 			List<FileVO> list = new ArrayList<>();
-		for (MultipartFile file : fileList) {
-			
+			for (MultipartFile file : fileList) {
+
 				String originName=file.getOriginalFilename();
 				byte[]originData=file.getBytes();
 				String objectURI =s3.putS3Object(originName,originData);
@@ -170,16 +170,18 @@ public class AwsApiController {
 						.user_id(userId)
 						.upload_date(timestamp)
 						.build();
-//				System.out.println(fileVO.toString());
+				//				System.out.println(fileVO.toString());
 				list.add(fileVO);
-		}
-		System.out.println(list.toString());
-		result = awsService.setFiles(list, userId);
-				//}
-      return new ResponseEntity<>(result,HttpStatus.OK);
+				System.out.println(list.toString());
+				result = awsService.setFiles(list, userId);
+			}}catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		return new ResponseEntity<>(result,HttpStatus.OK);
 
 	}
-		
+
 
 	@PostMapping("/api/main/updateInfo")
 	public ResponseEntity<?> updateInfo(@RequestBody CusVO vo){
@@ -212,7 +214,7 @@ public class AwsApiController {
 			s3.deleteBucketObjects(value);
 			awsService.fileDel(file_num);//파일삭제
 		}
-		
+
 		String notice_num=(String)deleteA.get("notice_num");
 		awsService.AnnoDel(notice_num);//댓글,글 삭제
 		return null;
@@ -221,11 +223,11 @@ public class AwsApiController {
 	public ResponseEntity<?>inQuryDel(@RequestBody Map<String, Object> deleteA ){
 		if(deleteA.get("file_name")!=null) {
 
-		System.out.println(deleteA.get("file_name"));
-		String value=(String)deleteA.get("file_name");
-		String file_num=(String)deleteA.get("file_id");
-		s3.deleteBucketObjects(value);
-		awsService.fileDel(file_num);//파일삭제
+			System.out.println(deleteA.get("file_name"));
+			String value=(String)deleteA.get("file_name");
+			String file_num=(String)deleteA.get("file_id");
+			s3.deleteBucketObjects(value);
+			awsService.fileDel(file_num);//파일삭제
 		}
 		String notice_num=(String)deleteA.get("notice_num");
 		awsService.inQuryDel(notice_num);//댓글,글 삭제

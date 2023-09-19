@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.server.cloud.command.EngSerProInfoWorkInfoVO;
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.ProjectCusVO;
+import com.server.cloud.command.ScheduleVO;
 import com.server.cloud.command.ServerVO;
 import com.server.cloud.command.WorkInfoVO;
 
@@ -77,6 +78,15 @@ public class EngineerServiceImpl implements EngineerService{
 	public List<ServerVO> getProjectServer(String pro_id) {
 		return engineerMapper.getProjectServer(pro_id);
 	}
+
+
+	@Override
+	public void editSchedule(ScheduleVO vo) {
+		engineerMapper.editSchedule(vo);
+		
+	}
+	
+	
 
 
 

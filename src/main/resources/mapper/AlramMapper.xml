@@ -73,9 +73,19 @@
 
   	
   	<select id="getAlarmList">
-  		SELECT * FROM ALARM;	
+  		SELECT * FROM ALARM WHERE ALARM_RECEIVER = 'customer1'
+  		AND ALARM_CHECK_YN = 'N'
+  		ORDER BY ALARM_DATE DESC	
   	</select>
-
+  	
+  	<select id="getAllAlarm">
+  		SELECT * FROM ALARM WHERE ALARM_RECEIVER = 'customer1'
+  		ORDER BY ALARM_DATE DESC
+  	</select>
+	
+	<update id="changeAlarm">
+		UPDATE ALARM SET ALARM_CHECK_YN = 'Y' WHERE ALARM_NUM=#{alarm_num}
+	</update>
  
   
   </mapper>

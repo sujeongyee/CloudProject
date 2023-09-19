@@ -121,5 +121,12 @@
   		ON S.ENG_ENID = E.ENG_ENID 
   		WHERE S.PRO_ID=#{pro_id}
   	</select>
+  	
+  	<update id="editSchedule">
+  		UPDATE ENG_SCHEDULE SET
+  		SCHE_STARTDATE = #{sche_startdate},
+  		SCHE_ENDDATE = #{sche_enddate}
+  		WHERE SCHE_NUM = #{sche_num}
+  	</update>
 
 </mapper>

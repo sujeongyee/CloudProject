@@ -20,15 +20,15 @@ import com.server.cloud.s3.FileVO;
 @Service
 public class CusServiceImpl implements CusService{
 
-	
+
 	@Autowired
 	private CusMapper userMapper;
-	
+
 	@Override
 	public void singIn(CusVO vo) {
 
 		userMapper.singIn(vo);
-		
+
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class CusServiceImpl implements CusService{
 	@Override
 	public void updateInfo(CusVO vo) {
 		userMapper.updateInfo(vo);
-		
+
 	}
 
 
@@ -121,7 +121,8 @@ public class CusServiceImpl implements CusService{
 	public void resetPw(CusVO vo) {
 		// TODO Auto-generated method stub
 		userMapper.resetPw(vo);
-  @Override
+	}
+	@Override
 	public EngineerVO idCheckEng(String eng_id) {
 		// TODO Auto-generated method stub
 		return userMapper.idCheckEng(eng_id);
