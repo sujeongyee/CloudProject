@@ -68,9 +68,9 @@ public class ClientController {
 		int endyear = Integer.parseInt(year) + 1;
 		String endDate = String.valueOf(endyear) + dataVO.getProInfo().getPro_startdate().substring(4, 10);
 		
-		//System.out.println("끝? "+endDate);
 		dataVO.getProInfo().setPro_enddate(endDate);
-
+		
+		//project data insert
 		clientService.proApplyForm(dataVO.getProInfo());
 		
 		//serverVO에 uuid값 넣기 
@@ -78,7 +78,7 @@ public class ClientController {
 			server.setPro_id(uuidPro);
 		}
 		
-		
+		//server data insert
 		clientService.serverApplyForm(dataVO.getServerInfo());
 				
 		
@@ -157,12 +157,11 @@ public class ClientController {
 		
 	   return new ResponseEntity<>(map,HttpStatus.OK);
    }
-	
-
+}
 	
 
     
 
 
 	
-}
+

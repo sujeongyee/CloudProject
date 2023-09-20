@@ -31,7 +31,8 @@
 								 pro_rep,
 								 pro_info, 
 								 pro_pi,
-								 cus_id
+								 cus_id,
+								 pro_enddate
 								 )
 		VALUES (#{pro_id},
 				#{pro_name}, 
@@ -39,7 +40,8 @@
 			 	#{pro_rep},  
 			 	#{pro_info}, 
 			 	#{pro_pi},
-			 	#{cus_id}
+			 	#{cus_id},
+			 	#{pro_enddate}
 			 	)
 			 	
 	
@@ -90,6 +92,8 @@
 	  on p.pro_id = s.pro_id
 	  left join ENGINEER e
 	  on s.eng_enid = e.eng_enid
+	  left join ENG_TEAM team
+	  on e.team_num = team.team_num
 	  where p.pro_id = #{pro_id}
 		
 	</select>

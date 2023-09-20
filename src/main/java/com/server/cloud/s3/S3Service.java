@@ -68,7 +68,7 @@ public class S3Service {
 	
 	public String putS3Object(String originName, byte[] originData) {
 		// TODO Auto-generated method stub
-		
+		System.out.println(originName);
 		try {
 			Map<String, String>metaData=new HashMap<>();
 			metaData.put("x-amz-meta-myVal", "test");

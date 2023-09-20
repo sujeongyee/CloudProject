@@ -36,15 +36,8 @@ public class EngineerController {
 	@Autowired
 	private EngineerService engineerService;
 
-
-
-
-
 	@Value("@{aws_bucket_name}")
 	private String aws_bucket_name;
-
-
-	
 
 
 	//팀원 프로젝트 리스트 
@@ -58,10 +51,11 @@ public class EngineerController {
 	}
 
 	// 엔지니어별로 배정받은 프로젝트 불러오는 기능
-	@GetMapping("/engineer/workDetail")
-	public ResponseEntity<Map<String, Object>> enWorkDetailToInfo(String eng_enid) {
+	@GetMapping("/engineer/workDetail/{eng_enid}")
+	public ResponseEntity<Map<String, Object>> enWorkDetailToInfo(@PathVariable String eng_enid) {
 
-		eng_enid = "eng_a_3"; // 추후 토큰이랑 연동해야됌
+		System.out.println(eng_enid+"dfsdfs");
+		// 추후 토큰이랑 연동해야됌
 
 		List<EngSerProInfoWorkInfoVO> eSPIWlist = engineerService.engProInfo(eng_enid);
 		List<ServerVO> serverList = engineerService.serverList();
@@ -95,11 +89,11 @@ public class EngineerController {
 	}
 
 
-//	//엔지니어팀 인원리스트 
-//	@GetMapping("/engineer/engineerList")
-//	public List<EngineerVO> engineerList(EngineerVO engineerVO){
-//		return engineerService.engineerList(engineerVO);
-//	}
+	//엔지니어 인원리스트 
+	@GetMapping("/engineer/engineerList")
+	public List<EngineerVO> engineerList(EngineerVO engineerVO){
+		return engineerService.engineerList(engineerVO);
+	}
 
 
 	// 엔지니어 점검목록 리스트
@@ -115,10 +109,7 @@ public class EngineerController {
 		String server_id = data.get("serverId").toString();
 		Map<String,Object> map2 = engineerService.serverDetailModal(server_id);
 		List<WorkInfoVO> list = engineerService.pastInspectionHistoryList(server_id);
-
-
 		map2.put("list", list);
-//		System.out.println(data.toString());
 		System.out.println(list.toString());
 
 		return new ResponseEntity<>(map2, HttpStatus.OK);

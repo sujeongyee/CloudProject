@@ -23,5 +23,6 @@ public interface AlarmMapper {
 	public void assignEmerEng(String eng_id);
 	public void assignEmerCus(String server_id);
 	public List<AlarmVO> getAlarmList(String user_id);
-	
+	public List<AlarmVO> getAllAlarm(String user_id);
+	public void changeAlarm(String alarm_num);
 }
