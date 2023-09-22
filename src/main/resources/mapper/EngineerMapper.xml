@@ -66,28 +66,30 @@
 		</foreach>
 	</insert>
 
-	<select id="engineerList"
-		resultType="com.server.cloud.command.EngineerVO">
+	<select id="engineerListMap"
+		resultType="EngineerVO">
 		select e.*, t.team_id
 		from ENGINEER e
-		inner join ENG_TEAM t on e.team_num = t.team_num
-		where e.team_num='8fcc9b5c-4bd8-11ee-8c2a-0ef820116d74';
+		join ENG_TEAM t on e.team_num = t.team_num
+		where e.team_num = (
+		    select team_num
+		    from ENGINEER
+		    where eng_enid = #{eng_enid}
+		);
 		
-		<!-- where e.team_num=#{team_num}; -->
 	</select> 
 
-
-	<select id="inspectionList"
-		resultType="com.server.cloud.command.WorkInfoVO">
- 		select wi.*, si.server_name, ei.eng_name, ei.eng_num, si.server_status, pi.pro_name
+	<select id="inspectionListMap"
+		resultType="WorkInfoVO"> 
+ 		select wi.*, si.server_name, ei.eng_name, ei.eng_enid, ei.eng_num, si.server_status, pi.pro_name
 		from WORKINFO wi
-		join SERVER si on wi.server_id = si.server_id
-		join ENGINEER ei on wi.eng_enid = ei.eng_enid
-		join PROJECTINFO pi on wi.pro_id = pi.pro_id
-		where ei.eng_num='048cf5a5-4c8c-11ee-9346-8cb0e993217c';
-		<!-- where ei.eng_num ={eng_num}; -->
+		inner join SERVER si on wi.server_id = si.server_id
+		inner join ENGINEER ei on wi.eng_enid = ei.eng_enid
+		inner join PROJECTINFO pi on wi.pro_id = pi.pro_id
+		where ei.eng_enid = #{eng_enid};
 
 	</select>
+	
 
 	<select id="serverDetailModal">
 		select s.*, p.pro_name
@@ -97,10 +99,6 @@
 	</select>
 
  	<select id="pastInspectionHistoryList">
-<!-- 		select wi.*, s.server_name, s.server_id
-		from workinfo wi
-		inner join server s on wi.server_id = s.server_id
-		where server_id=#{server_id}; -->
 		select wi.*, s.server_name
 		from WORKINFO wi
 		inner join SERVER s on wi.server_id = s.server_id

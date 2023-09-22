@@ -106,7 +106,7 @@
          order by work_date desc limit 1;
       </selectKey>
          insert into
-         File(file_name,file_path,file_type,upload_date,user_num,user_id)
+         FILE(file_name,file_path,file_type,upload_date,user_num,user_id)
          values
          <foreach collection="list" item="list" separator=",">      
             (#{list.file_name},#{list.file_path},#{list.file_type},#{list.upload_date},#{work_num},#{list.user_id})

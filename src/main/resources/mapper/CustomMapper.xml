@@ -61,7 +61,7 @@
 		#{cus_phone_number},
 		#{cus_email},
 		#{cus_business_id},
-		'ROLE_ENGLEADER'
+		'ROLE_ADMIN'
 		);
 
 		insert into ROLE(
@@ -71,7 +71,7 @@
 		values(
 		#{cus_id},
 		#{cus_pw},
-		'ROLE_ENGLEADER'
+		'ROLE_ADMIN'
 		);
 
 
@@ -85,7 +85,7 @@
 			select cus_num from CUSTOMER where cus_id=#{user_id}
 
 		</selectKey>
-		insert into file(
+		insert into FILE(
 		file_name,
 		file_path,
 		file_type,

@@ -349,6 +349,7 @@ public class MainController {
 
 
 		CusVO result = userService.idCheck(authenticationRequest.getUsername());
+		System.out.println("아이디 비밀번호"+result.toString());
 		if(result==null) {//아이디가 없을경우
 			System.out.println(1);
 			return new ResponseEntity<>("아이디 또는 비밀번호를 확인하세요", HttpStatus.BAD_REQUEST);
