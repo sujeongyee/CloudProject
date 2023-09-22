@@ -12,9 +12,6 @@
 		LEFT OUTER JOIN CUSTOMER C ON P.CUS_ID = C.CUS_ID;
 	</select>
 
-
-
-
 	<select id="engProInfo" resultType="EngSerProInfoWorkInfoVO">
 		SELECT DISTINCT
 		E.ENG_ENID,
@@ -76,7 +73,6 @@
 		<!-- where e.team_num=#{team_num}; -->
 	</select> 
 
-
 	<select id="inspectionList"
 		resultType="com.server.cloud.command.WorkInfoVO">
  		select wi.*, si.server_name, ei.eng_name, ei.eng_num, si.server_status, pi.pro_name
@@ -86,7 +82,6 @@
 		join PROJECTINFO pi on wi.pro_id = pi.pro_id
 		where ei.eng_num='048cf5a5-4c8c-11ee-9346-8cb0e993217c';
 		<!-- where ei.eng_num ={eng_num}; -->
-
 	</select>
 
 	<select id="serverDetailModal">
@@ -97,10 +92,6 @@
 	</select>
 
  	<select id="pastInspectionHistoryList">
-<!-- 		select wi.*, s.server_name, s.server_id
-		from workinfo wi
-		inner join server s on wi.server_id = s.server_id
-		where server_id=#{server_id}; -->
 		select wi.*, s.server_name
 		from WORKINFO wi
 		inner join SERVER s on wi.server_id = s.server_id
@@ -128,5 +119,12 @@
   		SCHE_ENDDATE = #{sche_enddate}
   		WHERE SCHE_NUM = #{sche_num}
   	</update>
-
+	
+	
+	<select id="getServer" resultType="com.server.cloud.command.ServerVO">
+	
+	select * from SERVER where eng_enid=#{eng_enid}
+	
+	</select>
+	
 </mapper>

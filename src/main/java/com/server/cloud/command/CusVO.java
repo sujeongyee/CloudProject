@@ -62,7 +62,7 @@ public class CusVO {
 	
 	@NotEmpty(message="휴대폰 번호를 입력하세요")
 	@NotNull(message="휴대폰 번호를 입력하세요")
-	@Pattern(message = "휴대폰 번호는 000-0000-0000으로 표기부탁드립니다", regexp = "^(\\d{2,3}-\\d{4}-\\d{4})$")
+	@Pattern(message = "휴대폰 번호는 000-0000-0000으로 표기부탁드립니다", regexp = "^(\\d{2,3}-\\d{3,4}-\\d{4})$")
 	private String cus_phone_number;
 	
 	@NotEmpty(message="이메일을 입력하세요")
@@ -86,7 +86,7 @@ public class CusVO {
 	
 	@NotEmpty(message="회사 번호를 입력하세요")
 	@NotNull(message="회사 번호를 입력하세요")
-	@Pattern(message = "회사 번호는 000(또는 00)-0000-0000으로 표기부탁드립니다", regexp = "^(\\d{2,3}-\\d{4}-\\d{4})$")
+	@Pattern(message = "회사 번호는 000(또는 00)-0000(또는 00)-0000으로 표기부탁드립니다", regexp = "^(\\d{2,3}-\\d{3,4}-\\d{4})$")
 	private String cus_company_ph;
 	
 	@NotEmpty(message="대표자 성함을 입력하세요")

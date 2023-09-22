@@ -42,7 +42,7 @@
 			</if>
 		</where>
 		order by
-		cs_regdate desc limit #{pageStart},#{amount}
+		cs_regdate desc
 	</select>
 
 	<select id="csEnList" resultType="com.server.cloud.command.CsVO">

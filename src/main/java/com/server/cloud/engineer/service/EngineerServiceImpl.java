@@ -85,6 +85,13 @@ public class EngineerServiceImpl implements EngineerService{
 		engineerMapper.editSchedule(vo);
 		
 	}
+
+	//승용 서버 가져오기
+	@Override
+	public List<ServerVO> getServer(String eng_enid) {
+		// TODO Auto-generated method stub
+		return engineerMapper.getServer(eng_enid);
+	}
 	
 	
 
