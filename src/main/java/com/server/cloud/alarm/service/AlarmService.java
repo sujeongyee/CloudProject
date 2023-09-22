@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 
 import com.server.cloud.command.AlarmVO;
+import com.server.cloud.command.ServerVO;
 
 public interface AlarmService {
 	
@@ -22,4 +23,7 @@ public interface AlarmService {
 	public List<AlarmVO> getAlarmList(String user_id);
 	public List<AlarmVO> getAllAlarm(String user_id);
 	public void changeAlarm(String alarm_num);
+	public ServerVO getServerVO(String sche_num);
+	public void editSchedule(String msg,String sche_num);
+	
 }

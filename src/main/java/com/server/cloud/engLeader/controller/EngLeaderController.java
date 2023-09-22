@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.server.cloud.alarm.service.AlarmService;
 import com.server.cloud.command.CusVO;
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.InsRequestVO;
@@ -35,6 +36,10 @@ public class EngLeaderController {
 	@Autowired
 	@Qualifier("engLeaderService")
 	private EngLeaderService engLeaderService;
+	
+	@Autowired
+	@Qualifier("alarmService")
+	private AlarmService alarmService;
 	
 	@GetMapping("/info")
 	public ResponseEntity<Map<String,String>> getLeaderInfo(@RequestParam("user_id") String leaderId){
@@ -89,6 +94,9 @@ public class EngLeaderController {
 		String server_id = data.get("server_id").toString();
 		engLeaderService.assignEng(eng_enid, server_id);
 		engLeaderService.registSchedule(eng_enid, server_id);
+		alarmService.assignEngineer(eng_enid); 
+		alarmService.assignClient(pro_id); 
+
 		return new ResponseEntity<>("ok",HttpStatus.OK);	
 	}
 

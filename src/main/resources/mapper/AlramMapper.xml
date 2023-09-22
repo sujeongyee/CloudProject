@@ -6,9 +6,9 @@
   <mapper namespace="com.server.cloud.alarm.service.AlarmMapper">
   
   	<insert id="createProAlarm">
-  		INSERT INTO ALARM (ALARM_CONTENT,ALARM_TYPE,ALARM_RECEIVER) 
-  		VALUES('새로운 프로젝트가 등록 됐습니다 팀 배정 해주세요 ('||#{project_name}||')','AD_PRO','admin')
-  	</insert>
+  INSERT INTO ALARM (ALARM_CONTENT, ALARM_TYPE, ALARM_RECEIVER) 
+  VALUES(#{project_name},'AD_PRO','admin')
+</insert>
   	
   	<insert id="assignEngineer">
   		INSERT INTO ALARM (ALARM_CONTENT,ALARM_TYPE,ALARM_RECEIVER) 
@@ -17,15 +17,15 @@
   	
   	<insert id="assignTeam">
   		INSERT INTO ALARM (ALARM_CONTENT, ALARM_TYPE, ALARM_RECEIVER)
-		SELECT '새로운 프로젝트가 배정 됐습니다. 팀원을 배정해주세요.', 'ENGL_ASS', E.ENG_ENID
+		VALUES('새로운 프로젝트가 배정 됐습니다. 팀원을 배정해주세요.', 'ENGL_ASS', (SELECT E.ENG_ENID
 		FROM ENGINEER E
 		LEFT JOIN ENG_TEAM T ON E.TEAM_NUM = T.TEAM_NUM
-		WHERE T.TEAM_ID = #{eng_team} AND E.ENG_RANK = '팀장'
+		WHERE T.TEAM_NUM = #{eng_team} AND E.ENG_RANK = '팀장'))
   	</insert>
   	
   	<insert id="assignClient">
   		INSERT INTO ALARM (ALARM_CONTENT, ALARM_TYPE, ALARM_RECEIVER)
-		VALUES ('요청하신 프로젝트가 승인 됐습니다. 엔지니어 배정 완료','CUS_ASS',#{user_id}) 
+		VALUES ('요청하신 프로젝트가 승인 됐습니다. 엔지니어 배정 완료','CUS_ASS',(SELECT CUS_ID FROM PROJECTINFO WHERE PRO_ID = #{user_id})) 
   	</insert>
   	
   	<select id="todayAlarmCheck">
@@ -73,19 +73,27 @@
 
   	
   	<select id="getAlarmList">
-  		SELECT * FROM ALARM WHERE ALARM_RECEIVER = 'customer1'
+  		SELECT * FROM ALARM WHERE ALARM_RECEIVER = #{user_id}
   		AND ALARM_CHECK_YN = 'N'
   		ORDER BY ALARM_DATE DESC	
   	</select>
   	
   	<select id="getAllAlarm">
-  		SELECT * FROM ALARM WHERE ALARM_RECEIVER = 'customer1'
+  		SELECT * FROM ALARM WHERE ALARM_RECEIVER = #{user_id}
   		ORDER BY ALARM_DATE DESC
   	</select>
 	
 	<update id="changeAlarm">
 		UPDATE ALARM SET ALARM_CHECK_YN = 'Y' WHERE ALARM_NUM=#{alarm_num}
 	</update>
- 
+	
+	<select id = "getServerVO">
+		SELECT * FROM SERVER S LEFT JOIN ENG_SCHEDULE E ON S.SERVER_ID = E.SERVER_ID WHERE E.SCHE_NUM = #{sche_num}; 
+	</select>
+ 	
+ 	<insert id = "editSchedule">
+ 		INSERT INTO ALARM (ALARM_CONTENT, ALARM_TYPE, ALARM_RECEIVER)
+		VALUES (#{msg},'CUS_EDIT',(SELECT P.CUS_ID FROM SERVER S LEFT JOIN ENG_SCHEDULE E ON S.SERVER_ID = E.SERVER_ID LEFT JOIN PROJECTINFO P ON S.PRO_ID = P.PRO_ID WHERE E.SCHE_NUM = #{sche_num}))
+ 	</insert>
   
   </mapper>

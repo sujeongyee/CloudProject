@@ -157,9 +157,10 @@
   	</select>
   	
   	<insert id="registSchedule">
-        CALL GenerateSchedules((SELECT P.PRO_PI FROM PROJECTINFO P LEFT JOIN SERVER S ON P.PRO_ID = S.PRO_ID WHERE S.SERVER_ID = #{server_id}) ,#{eng_enid},#{server_id});
-     </insert>
+  		CALL GenerateSchedules((SELECT P.PRO_PI FROM PROJECTINFO P LEFT JOIN SERVER S ON P.PRO_ID = S.PRO_ID WHERE S.SERVER_ID = #{server_id}) ,#{eng_enid},#{server_id});
+  	</insert>
   	
+
   	
   	<!-- 점검요청목록 -->
   	<select id="getInsRequestList" resultType="InsRequestVO">
@@ -175,6 +176,6 @@
 		on ir.server_id = s.server_id
 		where ir.insrequest_check_yn = 'n';
   	</select>
-  	
+
   </mapper>
 

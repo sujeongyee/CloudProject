@@ -12,10 +12,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class AlarmVO {
-   private String alam_num;
-   private String alarm_content;
-   private String alarm_type;
-   private Timestamp alarm_date;
-   private String alarm_check_yn;
-   private String alarm_receiver;
+
+	private String alarm_num;
+	private String alarm_content;
+	private String alarm_type;
+	private Timestamp alarm_date;
+	private String alarm_check_yn;
+	private String alarm_receiver;
 }
+

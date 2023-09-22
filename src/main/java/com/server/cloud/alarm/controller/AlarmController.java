@@ -42,37 +42,37 @@ public class AlarmController {
 	@Qualifier("alarmService")
 	private AlarmService alarmService;
 	
-	 @PostMapping("/createPro") //클라이언트가 프로젝트 등록 했을 때 (관리자에게 알림)
-	 public void createPro(@RequestBody Map<String, Object> map){
-		 alarmService.createProAlarm(map.get("proname").toString());//프로젝트명,관리자아이디 필요	    
-	 }
-	 
-	 @PostMapping("/assignTeam") // 관리자가 팀 배정 했을 때 (해당 팀 팀장에게 알림)
-	 public void assignTeam(@RequestBody Map<String, Object> map) {
-		 alarmService.assignTeam(map.get("select_team").toString()); //팀명 필요
-		 
-	 }
-	 @PostMapping("/assignEngineer") // 팀장이 팀원 배정했을 때 (해당 팀원 , 클라이언트에게 알림)
-	 public void assignEngineer(@RequestBody Map<String,Object> map) {
-		 alarmService.assignEngineer(map.get("engId").toString()); //엔지니어아이디 필요
-		 alarmService.assignClient(map.get("cusId").toString()); //프로젝트 담당자 아이디 필요
-	 }
+//	 @PostMapping("/createPro") //클라이언트가 프로젝트 등록 했을 때 (관리자에게 알림)
+//	 public void createPro(@RequestBody Map<String, Object> map){
+//		 alarmService.createProAlarm(map.get("proname").toString());//프로젝트명,관리자아이디 필요	    
+//	 }
+//	 
+//	 @PostMapping("/assignTeam") // 관리자가 팀 배정 했을 때 (해당 팀 팀장에게 알림)
+//	 public void assignTeam(@RequestBody Map<String, Object> map) {
+//		 alarmService.assignTeam(map.get("select_team").toString()); //팀명 필요
+//		 
+//	 }
+//	 @PostMapping("/assignEngineer") // 팀장이 팀원 배정했을 때 (해당 팀원 , 클라이언트에게 알림)
+//	 public void assignEngineer(@RequestBody Map<String,Object> map) {
+//		 alarmService.assignEngineer(map.get("engId").toString()); //엔지니어아이디 필요
+//		 alarmService.assignClient(map.get("cusId").toString()); //프로젝트 담당자 아이디 필요
+//	 }
 
-	 @GetMapping("/todayAlarmEng")
-	 public void todayAlarmEng(@RequestBody Map<String,Object> map) { // 로그인 후에 오늘의 정기점검 여부 확인
-		 String eng_id = map.get("eng_id").toString();
-		 int a = alarmService.todayAlarmCheck(eng_id);//확인
-		 if(a>0) alarmService.todayAlarmEng(eng_id);
-		 String cus_id = map.get("cus_id").toString();
-		 int b = alarmService.todayAlarmCheck2(cus_id);//확인
-		 if(b>0)alarmService.todayAlarmCus(cus_id);
-	 }
+//	 @GetMapping("/todayAlarmEng")
+//	 public void todayAlarmEng(@RequestBody Map<String,Object> map) { // 로그인 후에 오늘의 정기점검 여부 확인
+//		 String eng_id = map.get("eng_id").toString();
+//		 int a = alarmService.todayAlarmCheck(eng_id);//확인
+//		 if(a>0) alarmService.todayAlarmEng(eng_id);
+//		 String cus_id = map.get("cus_id").toString();
+//		 int b = alarmService.todayAlarmCheck2(cus_id);//확인
+//		 if(b>0)alarmService.todayAlarmCus(cus_id);
+//	 }
 
-	 @PostMapping("/emergencyRequest")
-	 public void emergencyRequest(@RequestBody Map<String,Object> map) { //긴급 요청 들어오면 팀장에게 알림
+	 @PostMapping("/emergencyRequest") // 요청 들어오면 팀장에게 알림
+	 public void emergencyRequest(@RequestBody Map<String,Object> map) { 
 		 alarmService.emergencyRequest(map.get("serverName").toString(), map.get("proName").toString());
 	 }
-	 @GetMapping("/assignEmer/") // 긴급요청 배정되면 엔지니어한테 알림
+	 @GetMapping("/assignEmer/") // 긴급요청 배정되면 엔지니어, 클라이언트한테 알림
 	 public void assignEmer(@RequestBody Map<String,Object> map) {
 		 alarmService.assignEmerEng(map.get("engid").toString());
 		 alarmService.assignEmerCus(map.get("serverId").toString());		 
@@ -90,7 +90,7 @@ public class AlarmController {
 		 return new ResponseEntity<>(list,HttpStatus.OK);
 	 }
 	 
-	 @PostMapping("/changeAlarm")
+	 @PostMapping("/changeAlarm") // 읽음으로 수정하게
 	 public void changeAlarm(@RequestBody Map<String, String> data) {
 		alarmService.changeAlarm(data.get("alarmNum"));
 		 

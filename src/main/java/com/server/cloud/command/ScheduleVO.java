@@ -19,6 +19,7 @@ public class ScheduleVO {
 	private String sche_name;
 	private String eng_enid;
 	private String server_name;
+	private String server_id;
 	private String pro_name;
 	private String pro_id;
 	private String eng_name;

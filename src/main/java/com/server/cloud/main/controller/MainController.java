@@ -18,6 +18,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -43,6 +44,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.server.cloud.alarm.service.AlarmService;
 import com.server.cloud.command.CsVO;
 import com.server.cloud.command.CusVO;
 import com.server.cloud.command.EmailVO;
@@ -59,6 +61,7 @@ import com.server.cloud.s3.FileVO;
 import com.server.cloud.security.JWTService;
 import com.server.cloud.security.MyUserDetails;
 import com.server.cloud.security.MyUserDetailsService;
+import com.server.cloud.security.UserMapper;
 
 import lombok.Builder;
 import software.amazon.awssdk.services.transcribe.model.VocabularyFilterInfo;
@@ -87,6 +90,13 @@ public class MainController {
 
 	@Autowired
 	private EmailService emailService;
+
+	@Autowired
+	@Qualifier("alarmService")
+	private AlarmService alarmService;
+
+	@Autowired
+	private UserMapper userMapper;
 
 	@PostMapping("/api/main/sing-up")
 	public ResponseEntity<? > singUp(@Valid @RequestBody CusVO vo,BindingResult bindingResult) {//회원가입
@@ -127,22 +137,22 @@ public class MainController {
 
 	@PostMapping("/api/main/passwordReset")
 	public ResponseEntity<?>passwordReset(@RequestBody CusVO vo){
-		
-		
-		
+
+
+
 		if (!isValidUserPw(((String)vo.getCus_pw()))) {
 			return new ResponseEntity<>("최소 8자, 특수문자 소문자 숫자 최소 1회 포함",HttpStatus.BAD_REQUEST);
 		}
 		String pw=bCryptPasswordEncoder.encode(vo.getCus_pw());
 		vo.setCus_pw(pw);
-		
+
 		userService.resetPw(vo);
-		
-		
+
+
 		return  new ResponseEntity<>("ok",HttpStatus.OK);
 	}
 	private boolean isValidUserPw(String userPw) {
-		
+
 		return userPw.matches("^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$");
 	}
 	@PostMapping("/api/main/pw_check")
@@ -189,10 +199,10 @@ public class MainController {
 	@PostMapping("/api/main/EmailCheck")
 	public ResponseEntity<?> EmailCheck(@RequestBody Map<String,Object> emailCheck) {//이메일 중복 검사
 
-	
+
 
 		if (((String)emailCheck.get("cus_email")).isEmpty()) {
-			
+
 			return new ResponseEntity<>("이메일을 입력해주세요",HttpStatus.BAD_REQUEST);
 		}
 
@@ -295,16 +305,16 @@ public class MainController {
 			return new ResponseEntity<>("ok",HttpStatus.OK);
 		}
 	}
-	  @GetMapping("/api/main/getInfoEng")
-	   public ResponseEntity<?> getInfo2(@RequestParam("eng_id") String eng_id){
-		   
-		   EngineerVO vo= userService.idCheckEng(eng_id);
-		   
-		   System.out.println(1);
-		   
-		   return new ResponseEntity<>(vo,HttpStatus.OK);
-		   
-	   }
+	@GetMapping("/api/main/getInfoEng")
+	public ResponseEntity<?> getInfo2(@RequestParam("eng_id") String eng_id){
+
+		EngineerVO vo= userService.idCheckEng(eng_id);
+
+		System.out.println(1);
+
+		return new ResponseEntity<>(vo,HttpStatus.OK);
+
+	}
 	@PostMapping("/api/main/emailSend")
 	public ResponseEntity<?>emailSend(@RequestBody EmailVO request){
 		String email=request.getEmail();
@@ -346,10 +356,20 @@ public class MainController {
 	}
 	@RequestMapping(value = "/api/main/login", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody UserVO authenticationRequest) throws Exception {//로그인
-
-
+    
 		CusVO result = userService.idCheck(authenticationRequest.getUsername());
+		
+		String role = userMapper.login(authenticationRequest.getUsername()).getRole();
+		System.out.println(role);
+		if(role.equals("ROLE_ENGINEER")) {
+			int a = alarmService.todayAlarmCheck(authenticationRequest.getUsername());
+			if(a>0) alarmService.todayAlarmEng(authenticationRequest.getUsername());
+		}else if(role.equals("ROLE_USER")) {
+			int b = alarmService.todayAlarmCheck2(authenticationRequest.getUsername());
+			if(b>0)alarmService.todayAlarmCus(authenticationRequest.getUsername());
+		}
 		System.out.println("아이디 비밀번호"+result.toString());
+
 		if(result==null) {//아이디가 없을경우
 			System.out.println(1);
 			return new ResponseEntity<>("아이디 또는 비밀번호를 확인하세요", HttpStatus.BAD_REQUEST);
