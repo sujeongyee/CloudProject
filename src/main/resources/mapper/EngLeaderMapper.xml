@@ -1,15 +1,15 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+
 <mapper namespace="com.server.cloud.engLeader.service.EngLeaderMapper">
 
-	<select id = "getLeaderInfo">
+	<select id="getLeaderInfo">
 		SELECT CUS_MANAGET_NAME FROM CUSTOMER WHERE CUS_ID = #{leader_id};
 	</select>
-		
-  	<select id="getNewProject">
-  		SELECT * FROM PROJECTINFO WHERE PRO_ID IN 
+
+	<select id="getNewProject">
+		SELECT * FROM PROJECTINFO WHERE PRO_ID IN 
 		(SELECT P.PRO_ID FROM PROJECTINFO P 
 		LEFT JOIN ENGINEER E 
 		ON P.TEAM_NUM = E.TEAM_NUM 
@@ -17,12 +17,11 @@
 		ON S.PRO_ID = P.PRO_ID 
 		WHERE E.ENG_ENID = #{leader_id}
 		AND S.ENG_ENID IS NULL
-        ORDER BY P.PRO_STARTDATE DESC) limit 5
+		ORDER BY P.PRO_STARTDATE DESC) limit 5
+	</select>
 
-  	</select>
-  	
-  	<select id="getInspection">
-  		SELECT 
+	<select id="getInspection">
+		SELECT 
     	DATE_FORMAT(A.WORK_DATE, '%m') AS Month,
     		SUM(CASE WHEN A.WORK_DIVISION = '정기점검' THEN 1 ELSE 0 END) AS PERIODIC, -- 정기점검
     		SUM(CASE WHEN A.WORK_DIVISION = '장애대응' THEN 1 ELSE 0 END) AS DISABILITY, -- 장애대응
@@ -39,10 +38,10 @@
     		<![CDATA[A.WORK_DATE <= '2023-09-30']]>
 		GROUP BY DATE_FORMAT(A.WORK_DATE, '%m')
 		ORDER BY Month
-  	</select>
-  	
-  	<select id="getAllMain">
-  		SELECT 
+	</select>
+
+	<select id="getAllMain">
+		SELECT 
     		(SELECT COUNT(*) 
      		FROM ENGINEER E1
      		LEFT JOIN ENGINEER E2
@@ -70,28 +69,28 @@
 		     FROM PROJECTINFO
 		     WHERE TEAM_NUM = (SELECT TEAM_NUM FROM ENGINEER WHERE ENG_ENID = #{leader_id})
 		     AND MONTH(PRO_ENDDATE) = MONTH(CURDATE()) AND YEAR(PRO_ENDDATE) = YEAR(CURDATE())) AS thisMonthEnd
-  	</select>
-  	
-  	<select id="getRequestDetail">
-  		SELECT * FROM CUSTOMER C
+	</select>
+
+	<select id="getRequestDetail">
+		SELECT * FROM CUSTOMER C
 		LEFT JOIN PROJECTINFO P
 		ON C.CUS_ID = P.CUS_ID
 		WHERE P.PRO_ID=#{pro_id}
-  	</select>
-  	
-  	<select id="getRequestServer">
-  		SELECT * FROM SERVER WHERE PRO_ID=#{pro_id}
-  	</select>
-  	
-  	<select id = "getRequestServer2">
-  		SELECT S.*,E.ENG_NAME
-  		FROM SERVER S 
-  		LEFT JOIN ENGINEER E 
-  		ON S.ENG_ENID = E.ENG_ENID 
-  		WHERE PRO_ID=#{pro_id}
-  	</select>
-  	
-  	<select id="getTeamEngList">
+	</select>
+
+	<select id="getRequestServer">
+		SELECT * FROM SERVER WHERE PRO_ID=#{pro_id}
+	</select>
+
+	<select id="getRequestServer2">
+		SELECT S.*,E.ENG_NAME
+		FROM SERVER S 
+		LEFT JOIN ENGINEER E 
+		ON S.ENG_ENID = E.ENG_ENID 
+		WHERE PRO_ID=#{pro_id}
+	</select>
+
+	<select id="getTeamEngList">
 		SELECT *
 		FROM ENGINEER E
 		WHERE E.TEAM_NUM = 
@@ -104,7 +103,7 @@
 		AND S.ENG_ENID = E.ENG_ENID
 		);
 	</select>
-	
+
 	<select id="getTeamEngList2">
 		SELECT *
 		FROM ENGINEER 
@@ -157,5 +156,25 @@
   		SELECT * FROM WORKINFO WHERE SERVER_ID = #{server_id} ORDER BY WORK_DATE DESC
   	</select>
   	
+  	<insert id="registSchedule">
+        CALL GenerateSchedules((SELECT P.PRO_PI FROM PROJECTINFO P LEFT JOIN SERVER S ON P.PRO_ID = S.PRO_ID WHERE S.SERVER_ID = #{server_id}) ,#{eng_enid},#{server_id});
+     </insert>
+  	
+  	
+  	<!-- 점검요청목록 -->
+  	<select id="getInsRequestList" resultType="InsRequestVO">
+  		SELECT c.cus_company_name, p.pro_name, p.pro_pi, s.server_name, e.eng_name, ir.insrequest_type, ir.insrequest_content, ir.insrequest_regdate
+		FROM CUSTOMER c
+		right join PROJECTINFO p
+		on c.cus_id = p.cus_id
+		right join SERVER s
+		on p.pro_id = s.pro_id
+		right join ENGINEER e
+		on s.eng_enid = e.eng_enid
+		right join INS_REQUEST ir
+		on ir.server_id = s.server_id
+		where ir.insrequest_check_yn = 'n';
+  	</select>
   	
   </mapper>
+

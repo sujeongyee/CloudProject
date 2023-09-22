@@ -45,10 +45,10 @@ public class EngineerController {
 
 	//팀원 프로젝트 리스트 
 
-	@GetMapping("/engineer/newList")
-	public ResponseEntity<List<ProjectCusVO>> newList() {
+	@GetMapping("/engineer/newList/{eng_enid}")
+	public ResponseEntity<List<EngSerProInfoWorkInfoVO>> newList(@PathVariable String eng_enid) {
 
-		List<ProjectCusVO> CusProList = engineerService.newList();
+		List<EngSerProInfoWorkInfoVO> CusProList = engineerService.newList(eng_enid);
 
 		return new ResponseEntity<>(CusProList, HttpStatus.OK);
 	}
@@ -115,7 +115,7 @@ public class EngineerController {
 
 	//엔지니어 점검목록 리스트 -> 서버 모달
 	@PostMapping("/engineer/inspectionList2")
-	public ResponseEntity<Map<String, Object>>  serverDetailModal(@RequestBody Map<String, Object> data){
+	public ResponseEntity<Map<String, Object>>  serverDetailModal(@RequestBody Map<String, Object> data) {
 		String server_id = data.get("serverId").toString();
 		Map<String,Object> map2 = engineerService.serverDetailModal(server_id);
 		List<WorkInfoVO> list = engineerService.pastInspectionHistoryList(server_id);
@@ -124,5 +124,35 @@ public class EngineerController {
 
 		return new ResponseEntity<>(map2, HttpStatus.OK);
 	}
+	
+	
+	@PostMapping("/engineer/updateWorkStatus")
+	public ResponseEntity<Integer> updateWorkStatus(@RequestBody Map<String, Object> updateStatus) {
+		
+		String work_status = updateStatus.get("workStatus").toString();
+		String server_id = updateStatus.get("server_id").toString();
+		
+		int result = engineerService.updateWorkStatus(work_status, server_id);
+		System.out.println(result);
+		
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
 
+
+	
+	
+	
+	
+	//승용 서버 이름 가져 오기
+	@PostMapping("/engineer/getServer")
+	public ResponseEntity<?>getServer(@RequestBody Map<String,Object> id){
+		List<ServerVO>vo=engineerService.getServer((String)id.get("id"));
+		
+		return new ResponseEntity<>(vo,HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
 }

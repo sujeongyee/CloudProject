@@ -15,6 +15,9 @@ public class ServerController {
 	    public List<ServerVO> getServers() {
 	        List<ServerVO> servers = new ArrayList<>();
 	        servers.add(new ServerVO(1, "cpu 사용량", Math.floor(Math.random() * 30) + 1, Math.floor(Math.random() * 41) + 50, Math.floor(Math.random() * 41) + 50));
+	        
+	        
+	        
 	        return servers;
 	    }
 }

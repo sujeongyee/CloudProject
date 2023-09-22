@@ -1,5 +1,6 @@
 package com.server.cloud.engLeader.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.server.cloud.command.CusVO;
 import com.server.cloud.command.EngineerVO;
+import com.server.cloud.command.InsRequestVO;
 import com.server.cloud.command.ProjectInfoVO;
 import com.server.cloud.command.QueryVO;
 import com.server.cloud.command.ScheduleVO;
@@ -35,7 +37,9 @@ public interface EngLeaderMapper {
 	public List<ScheduleVO> getEngSchedule(String eng_enid);
 	public List<ScheduleVO> getAllSchedule(String leader_id);
 	public List<WorkInfoVO> getWorkInfo(String server_id);
-
-
+	public void registSchedule(@Param("eng_enid") String eng_enid, @Param("server_id") String server_id);
+	
+	//점검요청목록
+	public ArrayList<InsRequestVO> getInsRequestList();
 
 }
