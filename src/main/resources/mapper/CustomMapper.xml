@@ -73,7 +73,9 @@
 			order="BEFORE">
 			SELECT cus_num FROM CUSTOMER WHERE cus_id=#{user_id}
 		</selectKey>
-		INSERT INTO file (
+
+		insert into FILE(
+
 		file_name,
 		file_path,
 		file_type,

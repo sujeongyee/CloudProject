@@ -21,4 +21,6 @@ public class QueryVO {
 	private int thisMonthStart;
 	private int thisMonthEnd;
 	
+	
+	
 }

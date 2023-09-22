@@ -1,5 +1,10 @@
 package com.server.cloud.command;
 
+import java.sql.Time;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -41,6 +46,20 @@ public class ProjectDetailVO {
 	private String eng_email; //엔지니어 이메일  
 	
 	private String user_id; //사용자명 
+	
+	 @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+	private Date work_date;
+	private String work_division;
+	private String work_status;
+	private String work_cpu;
+	private String work_ram;
+	private String work_hdd;
+	private String work_estimate;
+	private String work_note;
+	///////////////////////////////
+	
+	private String team_id;
+	private Time work_time;
 	
 
 }
