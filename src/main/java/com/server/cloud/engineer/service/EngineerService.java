@@ -28,6 +28,7 @@ public interface EngineerService {
 	public List<WorkInfoVO> pastInspectionHistoryList(String server_id);
 
 
+
 	public Map<String,Object> getProjectDetail(String pro_id);
 	
 	public List<ServerVO> getProjectServer(String pro_id);

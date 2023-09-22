@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.server.cloud.command.AdminMainVO;
 import com.server.cloud.command.CsVO;
 
 import com.server.cloud.command.CusVO;
@@ -19,6 +20,7 @@ import com.server.cloud.command.ServerVO;
 
 import com.server.cloud.command.ProjectDetailVO;
 import com.server.cloud.command.ProjectInfoVO;
+import com.server.cloud.command.QueryVO;
 import com.server.cloud.command.WorkInfoVO;
 
 import com.server.cloud.pagenation.Criteria;
@@ -76,5 +78,11 @@ public interface AdminMapper {
 	public List<EngineerVO> getTeamLeader();
 	public List<EngineerVO> getTeamMember();
 	public int inputTeamNum(@Param("pro_id") String pro_id,@Param("team_num") String team_num);
+	
+	
+	//메인
+	public AdminMainVO getAdminMain();
+	public List<AdminMainVO> getInspection();
+	public List<AdminMainVO> getwork();
 	
 }

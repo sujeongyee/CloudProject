@@ -31,5 +31,7 @@ public class ProjectCusVO {
 	private String cus_company_ph;
 	private String cus_boss;
 	
+	private String team_num; //팀번호 
+	private String eng_enid; //엔지니어 아이디 
 
 }
