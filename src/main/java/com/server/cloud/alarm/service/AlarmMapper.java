@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.http.ResponseEntity;
 
 import com.server.cloud.command.AlarmVO;
+import com.server.cloud.command.ServerVO;
 
 @Mapper
 public interface AlarmMapper {
@@ -25,4 +26,6 @@ public interface AlarmMapper {
 	public List<AlarmVO> getAlarmList(String user_id);
 	public List<AlarmVO> getAllAlarm(String user_id);
 	public void changeAlarm(String alarm_num);
+	public ServerVO getServerVO(String sche_num);
+	public void editSchedule(@Param("msg") String msg,@Param("sche_num")String sche_num);
 }

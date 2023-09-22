@@ -120,6 +120,13 @@ public class EngLeaderServiceImpl implements EngLeaderService{
 	public List<WorkInfoVO> getWorkInfo(String server_id) {
 		return engLeaderMapper.getWorkInfo(server_id);
 	}
+
+
+	@Override
+	public void registSchedule(String eng_enid, String server_id) {
+		engLeaderMapper.registSchedule(eng_enid, server_id);
+		
+	}
 	
 	
 	

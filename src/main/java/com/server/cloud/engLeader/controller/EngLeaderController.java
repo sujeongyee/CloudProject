@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.server.cloud.alarm.service.AlarmService;
 import com.server.cloud.command.CusVO;
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.ProjectInfoVO;
@@ -34,6 +35,10 @@ public class EngLeaderController {
 	@Autowired
 	@Qualifier("engLeaderService")
 	private EngLeaderService engLeaderService;
+	
+	@Autowired
+	@Qualifier("alarmService")
+	private AlarmService alarmService;
 	
 	@GetMapping("/info")
 	public ResponseEntity<Map<String,String>> getLeaderInfo(@RequestParam("user_id") String leaderId){
@@ -87,6 +92,10 @@ public class EngLeaderController {
 		String pro_id = data.get("pro_id").toString();
 		String server_id = data.get("server_id").toString();
 		engLeaderService.assignEng(eng_enid, server_id);
+		engLeaderService.registSchedule(eng_enid, server_id);
+		alarmService.assignEngineer(eng_enid); //엔지니어아이디 필요
+		alarmService.assignClient(pro_id); //프로젝트 담당자 아이디 필요
+		//해당 팀원의 스케줄이 추가가 된다 server_id랑 eng_enid pro_id의 정기점검날짜.
 		return new ResponseEntity<>("ok",HttpStatus.OK);	
 	}
 

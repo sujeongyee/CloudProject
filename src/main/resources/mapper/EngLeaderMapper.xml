@@ -157,5 +157,9 @@
   		SELECT * FROM WORKINFO WHERE SERVER_ID = #{server_id} ORDER BY WORK_DATE DESC
   	</select>
   	
+  	<insert id="registSchedule">
+  		CALL GenerateSchedules((SELECT P.PRO_PI FROM PROJECTINFO P LEFT JOIN SERVER S ON P.PRO_ID = S.PRO_ID WHERE S.SERVER_ID = #{server_id}) ,#{eng_enid},#{server_id});
+  	</insert>
+  	
   	
   </mapper>

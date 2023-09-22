@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.server.cloud.admin.service.AdminService;
-
+import com.server.cloud.alarm.service.AlarmService;
 import com.server.cloud.command.CsVO;
 
 import com.server.cloud.command.CusVO;
@@ -43,6 +43,10 @@ public class AdminController {
 	@Autowired
 	@Qualifier("adminSerivce")
 	AdminService adminService;
+	
+	@Autowired
+	@Qualifier("alarmService")
+	private AlarmService alarmService;
 
 	private Criteria cri=new Criteria();
 
@@ -211,7 +215,8 @@ public class AdminController {
 		String team_num=teamNum.get("team_num");
 		System.out.println(pro_id + team_num + "----");
 		int result = adminService.inputTeamNum(pro_id, team_num);
-		
+		alarmService.assignTeam(team_num);
+		System.out.println(team_num);
 		return new ResponseEntity<>("ok", HttpStatus.OK);
 	}
 

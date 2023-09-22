@@ -35,6 +35,7 @@ public interface EngLeaderMapper {
 	public List<ScheduleVO> getEngSchedule(String eng_enid);
 	public List<ScheduleVO> getAllSchedule(String leader_id);
 	public List<WorkInfoVO> getWorkInfo(String server_id);
+	public void registSchedule(@Param("eng_enid") String eng_enid, @Param("server_id") String server_id);
 
 
 

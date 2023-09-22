@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.server.cloud.command.AlarmVO;
+import com.server.cloud.command.ServerVO;
 
 @Service("alarmService")
 public class AlarmServiceImpl implements AlarmService{
@@ -71,6 +72,15 @@ public class AlarmServiceImpl implements AlarmService{
 	@Override
 	public void changeAlarm(String alarm_num) {
 		alarmMapper.changeAlarm(alarm_num);
+	}
+	@Override
+	public void editSchedule(String msg,String sche_num) {
+		alarmMapper.editSchedule(msg,sche_num);
+	}
+	@Override
+	public ServerVO getServerVO(String sche_num) {
+		return alarmMapper.getServerVO(sche_num);
+		
 	}
 
 }

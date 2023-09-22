@@ -1,6 +1,8 @@
 package com.server.cloud.engineer.controller;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +24,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.server.cloud.alarm.service.AlarmService;
 import com.server.cloud.command.EngSerProInfoWorkInfoVO;
 import com.server.cloud.command.EngineerVO;
 import com.server.cloud.command.ProjectCusVO;
-
+import com.server.cloud.command.ScheduleVO;
 import com.server.cloud.command.ServerVO;
 import com.server.cloud.command.WorkInfoVO;
 import com.server.cloud.engineer.service.EngineerService;
@@ -38,6 +42,10 @@ public class EngineerController {
 
 	@Value("@{aws_bucket_name}")
 	private String aws_bucket_name;
+	
+	@Autowired
+	@Qualifier("alarmService")
+	private AlarmService alarmService;
 
 
 	//팀원 프로젝트 리스트 
@@ -113,6 +121,18 @@ public class EngineerController {
 		System.out.println(list.toString());
 
 		return new ResponseEntity<>(map2, HttpStatus.OK);
+	}
+	
+	@PostMapping("/engineer/editSchedule")
+	public void editSchedule(@RequestBody ScheduleVO request) {
+		ServerVO vo = alarmService.getServerVO(request.getSche_num());
+        String[] ar = request.getSche_startdate().toString().split(" ");
+		String[] ar2 = request.getSche_enddate().toString().split(" ");
+        String msg = "("+vo.getServer_name()+") 점검 일정이 "+ar[0]+"~"+ar2[0]+"로 변경 됐습니다. ";
+
+		engineerService.editSchedule(request);
+		alarmService.editSchedule(msg , request.getSche_num());
+		
 	}
 
 }

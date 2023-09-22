@@ -61,7 +61,7 @@
 		#{cus_phone_number},
 		#{cus_email},
 		#{cus_business_id},
-		'ROLE_ENGLEADER'
+		'ROLE_USER'
 		);
 
 		insert into ROLE(
@@ -71,7 +71,7 @@
 		values(
 		#{cus_id},
 		#{cus_pw},
-		'ROLE_ENGLEADER'
+		'ROLE_USER'
 		);
 
 
