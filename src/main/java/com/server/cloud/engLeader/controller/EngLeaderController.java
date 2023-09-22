@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.server.cloud.command.CusVO;
 import com.server.cloud.command.EngineerVO;
+import com.server.cloud.command.InsRequestVO;
 import com.server.cloud.command.ProjectInfoVO;
 import com.server.cloud.command.QueryVO;
 import com.server.cloud.command.ScheduleVO;
@@ -87,6 +88,7 @@ public class EngLeaderController {
 		String pro_id = data.get("pro_id").toString();
 		String server_id = data.get("server_id").toString();
 		engLeaderService.assignEng(eng_enid, server_id);
+		engLeaderService.registSchedule(eng_enid, server_id);
 		return new ResponseEntity<>("ok",HttpStatus.OK);	
 	}
 
@@ -149,6 +151,17 @@ public class EngLeaderController {
 	public ResponseEntity<List<WorkInfoVO>> getWorkInfo(@RequestParam("server_id") String server_id){
 		List<WorkInfoVO> list = engLeaderService.getWorkInfo(server_id);	
 		return new ResponseEntity<>(list,HttpStatus.OK);
+	}
+	
+	
+	//점검 요청 목록
+	@GetMapping("/insRequestList")
+	public ResponseEntity<ArrayList<InsRequestVO>> getInsRequestList(){
+			
+		ArrayList<InsRequestVO> list = engLeaderService.getInsRequestList();
+		System.out.println("리스트 내용:" + list);
+		
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
 }

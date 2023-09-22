@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.server.cloud.client.service.ClientService;
 import com.server.cloud.command.CusVO;
 import com.server.cloud.command.FormDataVO;
+import com.server.cloud.command.InsRequestVO;
 import com.server.cloud.command.ProjectInfoVO;
 import com.server.cloud.command.ProjectListVO;
 import com.server.cloud.command.ProjectDetailVO;
@@ -98,6 +99,17 @@ public class ClientController {
 		ArrayList<ProjectDetailVO> proDetail = clientService.projectDetail(pro_id);
 		
 		return new ResponseEntity<>(proDetail,HttpStatus.OK);
+	}
+	
+	
+	//점검 요청 form
+	@PostMapping("/insRequestForm")
+	  public ResponseEntity<?> insRequestForm(@RequestBody InsRequestVO insReVO) {			
+		
+		clientService.insRequestForm(insReVO);
+		System.out.println(insReVO);
+				
+		return new ResponseEntity<>(insReVO, HttpStatus.OK);
 	}
 	
 	

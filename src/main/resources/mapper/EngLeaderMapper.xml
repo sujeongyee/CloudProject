@@ -157,5 +157,24 @@
   		SELECT * FROM WORKINFO WHERE SERVER_ID = #{server_id} ORDER BY WORK_DATE DESC
   	</select>
   	
+  	<insert id="registSchedule">
+        CALL GenerateSchedules((SELECT P.PRO_PI FROM PROJECTINFO P LEFT JOIN SERVER S ON P.PRO_ID = S.PRO_ID WHERE S.SERVER_ID = #{server_id}) ,#{eng_enid},#{server_id});
+     </insert>
+  	
+  	
+  	<!-- 점검요청목록 -->
+  	<select id="getInsRequestList" resultType="InsRequestVO">
+  		SELECT c.cus_company_name, p.pro_name, p.pro_pi, s.server_name, e.eng_name, ir.insrequest_type, ir.insrequest_content, ir.insrequest_regdate
+		FROM CUSTOMER c
+		right join PROJECTINFO p
+		on c.cus_id = p.cus_id
+		right join SERVER s
+		on p.pro_id = s.pro_id
+		right join ENGINEER e
+		on s.eng_enid = e.eng_enid
+		right join INS_REQUEST ir
+		on ir.server_id = s.server_id
+		where ir.insrequest_check_yn = 'n';
+  	</select>
   	
   </mapper>

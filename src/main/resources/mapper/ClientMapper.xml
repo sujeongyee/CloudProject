@@ -99,6 +99,21 @@
 	</select>
 	
 	
+	<!-- 점검 요청 등록 -->
+	<insert id="insRequestForm" parameterType="InsRequestVO">
+		
+		INSERT INS_REQUEST(insRequest_type,
+						   insRequest_content, 
+						   cus_id, 
+						   server_id)
+		VALUES(#{insRequest_type},
+			   #{insRequest_content}, 
+			   #{cus_id}, 
+			   #{server_id})
+		
+	</insert>
+	
+	
 	
    <!-- 작업 내역 목록 -->      
    <select id="projectDetailList" resultType="ProjectListVO">
