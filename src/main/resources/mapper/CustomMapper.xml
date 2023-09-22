@@ -85,7 +85,7 @@
 			select cus_num from CUSTOMER where cus_id=#{user_id}
 
 		</selectKey>
-		insert into file(
+		insert into FILE(
 		file_name,
 		file_path,
 		file_type,

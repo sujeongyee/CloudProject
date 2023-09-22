@@ -222,5 +222,52 @@
   		UPDATE PROJECTINFO SET TEAM_NUM =#{team_num} WHERE PRO_ID =#{pro_id};
   	</insert>
   	
+  		<select id ="getAdminMain">
+  	SELECT
+		    COUNT(DISTINCT C.CUS_ID) AS TOTAL_CUS_ID_COUNT,
+		    COUNT(DISTINCT P.PRO_NAME) AS TOTAL_PRO_NAME_COUNT,
+		    COUNT(DISTINCT E.ENG_ENID) AS TOTAL_ENG_ENID_COUNT,
+		    COUNT(CASE WHEN P.PRO_STATUS = '승인대기중' THEN 1 END) pro_status_waiting_count
+		FROM CUSTOMER C
+		LEFT JOIN PROJECTINFO P ON C.CUS_ID = P.CUS_ID
+		LEFT JOIN ENGINEER E ON P.TEAM_NUM = E.TEAM_NUM;
+  	</select>
+  	
+  	  	
+  	<select id="getInspection">
+SELECT 
+    Months.`Month`,
+    COALESCE(SUM(CASE WHEN PI.PRO_STATUS = '계약중' THEN 1 ELSE 0 END), 0) AS 'contracts',
+    COALESCE(SUM(CASE WHEN PI.PRO_STATUS = '계약만료' THEN 1 ELSE 0 END), 0) AS 'expiration'
+FROM 
+(
+    SELECT '2023-05' AS 'Month'
+    UNION ALL
+    SELECT '2023-06'
+    UNION ALL
+    SELECT '2023-07'
+    UNION ALL
+    SELECT '2023-08'
+    UNION ALL
+    SELECT '2023-09'
+) AS Months
+LEFT JOIN PROJECTINFO AS PI ON SUBSTRING(PI.PRO_STARTDATE, 1, 7) = Months.`Month` AND PI.PRO_ENDDATE >= '2022-09-30'
+GROUP BY Months.`Month`
+ORDER BY Months.`Month`;
+
+  	</select>
+  	
+  	<select id = "getwork">
+  	SELECT
+		    SUM(CASE WHEN W.WORK_DIVISION = '정기점검' THEN 1 ELSE 0 END) AS periodic,
+		    SUM(CASE WHEN W.WORK_DIVISION = '긴급점검' THEN 1 ELSE 0 END) AS emergency,
+		    SUM(CASE WHEN P.PRO_STATUS = '승인대기중' THEN 1 ELSE 0 END) AS approval,
+		    SUM(CASE WHEN P.PRO_STATUS = '계약만료' THEN 1 ELSE 0 END) AS complete
+		FROM 
+		    WORKINFO W
+		JOIN 
+		    PROJECTINFO P ON W.PRO_ID = P.PRO_ID;
+  	</select>
+  	
 </mapper>
 
