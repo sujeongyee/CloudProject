@@ -115,4 +115,20 @@ public class EngineerController {
 		return new ResponseEntity<>(map2, HttpStatus.OK);
 	}
 
+	
+	
+	
+	
+	//승용 서버 이름 가져 오기
+	@PostMapping("/engineer/getServer")
+	public ResponseEntity<?>getServer(@RequestBody Map<String,Object> id){
+		List<ServerVO>vo=engineerService.getServer((String)id.get("id"));
+		
+		return new ResponseEntity<>(vo,HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
 }

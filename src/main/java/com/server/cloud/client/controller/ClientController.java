@@ -1,6 +1,7 @@
 package com.server.cloud.client.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -119,8 +121,34 @@ public class ClientController {
       return clientService.projectDetailChart();
    }
 
-
-   
+//   //유저 메인 프로젝트 리스트
+//   @GetMapping("/user/{cus_id}")
+//   public ResponseEntity<Map<String,Object>> mainProject(@PathVariable String cus_id){
+//      
+//      List<ProjectDetailVO> mainProjectList = clientService.projectMain(cus_id);
+//      
+//      List<QueryVO> inspectionList = clientService.getInspection(cus_id); //월별점검내역리스트
+//      List<Integer> periodic = new ArrayList<>(); //정기
+//      List<Integer> disability = new ArrayList<>(); //장애
+//      List<Integer> maintenance = new ArrayList<>(); //유지      
+//
+//      for(QueryVO vo : inspectionList) {
+//      
+//         periodic.add(vo.getPeriodic()); //월별 정기점검 모음
+//         disability.add(vo.getDisability()); //월별 장애대응 모음
+//         maintenance.add(vo.getMaintenance()); //월별 유지보수 모음
+//          }
+//
+//      Map<String,Object> map = new HashMap<>();
+//      map.put("mainProjectList",mainProjectList);
+//      map.put("periodic",periodic);
+//      map.put("disability", disability);
+//      map.put("maintenance", maintenance);
+//
+//      
+//      return new ResponseEntity<>(map,HttpStatus.OK);
+//   }
+//   
 	
 
 }

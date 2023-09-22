@@ -7,126 +7,120 @@
 <mapper namespace="com.server.cloud.s3.AwsMapper">
 
 
-	<insert id="setInfo">
+    <insert id="setInfo">
 
-		insert into
-		FILE(file_id,file_name,file_path,file_type,upload_date,user_id)
-		values
-		(
-		#{file_id},#{file_name},#{file_path},#{file_type},#{upload_date},#{user_id}
-		)on duplicate key update
-		file_id=#{file_id},file_name=#{file_name},file_path=#{file_path},file_type=#{file_type}
-		,upload_date=#{upload_date},user_id=#{user_id}
+        INSERT INTO FILE(FILE_ID, FILE_NAME, FILE_PATH, FILE_TYPE, UPLOAD_DATE, USER_ID)
+        VALUES
+        (
+        #{file_id}, #{file_name}, #{file_path}, #{file_type}, #{upload_date}, #{user_id}
+        )
+        ON DUPLICATE KEY UPDATE
+        FILE_ID = #{file_id}, FILE_NAME = #{file_name}, FILE_PATH = #{file_path}, FILE_TYPE = #{file_type},
+        UPLOAD_DATE = #{upload_date}, USER_ID = #{user_id}
 
-	</insert>
-	<select id="getImg" resultType="com.server.cloud.s3.FileVO">
+    </insert>
+    <select id="getImg" resultType="com.server.cloud.s3.FileVO">
 
-		select * from FILE where
-		user_num=#{userId};
+        SELECT * FROM FILE WHERE
+        USER_NUM = #{userId};
 
-	</select>
-
-
-	<insert id="setAnno">
-
-		insert into NOTICE(notice_title,
-		notice_content,notice_regdate,notice_comment,notice_target,notice_writer)
-		values (
-
-		#{notice_title},
-		#{notice_content},
-		#{notice_regdate},
-		#{notice_comment},
-		#{notice_target},
-		#{notice_writer}
-
-		)
-		<!-- <selectKey keyProperty="notice_num" resultType="NoticeVO" order="AFTER"> 
-			select notice_num from notice order by notice_regdate desc limit 1; </selectKey> -->
-	</insert>
-	<insert id="UpAnno">
-
-		insert into NOTICE(notice_num,notice_title,
-		notice_content,notice_regdate,notice_comment,notice_target)
-		values (
-		#{notice_num},
-		#{notice_title},
-		#{notice_content},
-		#{notice_regdate},
-		#{notice_comment},
-		#{notice_target}
-		)
-		on duplicate key update
-		notice_num=#{notice_num},
-		notice_title=#{notice_title},
-		notice_content=#{notice_content},
-		notice_regdate=#{notice_regdate},
-		notice_comment=#{notice_comment},
-		notice_target=#{notice_target}
-		<!-- <selectKey keyProperty="notice_num" resultType="NoticeVO" order="AFTER"> 
-			select notice_num from notice order by notice_regdate desc limit 1; </selectKey> -->
-	</insert>
-	<insert id="setFile">
-		<selectKey keyProperty="user_num" resultType="String"
-			order="BEFORE">
-			select notice_num from NOTICE where notice_writer=#{user_id}
-			order by notice_regdate desc limit 1;
-		</selectKey>
-		
-		
-		insert into
-		FILE(file_name,file_path,file_type,upload_date,user_num,user_id)
-		value
-		(#{file_name},#{file_path},#{file_type},#{upload_date},#{user_num},#{user_id})
+    </select>
 
 
+    <insert id="setAnno">
 
+        INSERT INTO NOTICE(NOTICE_TITLE,
+        NOTICE_CONTENT, NOTICE_REGDATE, NOTICE_COMMENT, NOTICE_TARGET, NOTICE_WRITER)
+        VALUES (
 
-	</insert>
+        #{notice_title},
+        #{notice_content},
+        #{notice_regdate},
+        #{notice_comment},
+        #{notice_target},
+        #{notice_writer}
 
-<insert id="setFileCs">
-		<selectKey keyProperty="user_num" resultType="String"
-			order="BEFORE">
-			select cs_num from CS where cs_writer=#{user_id}
-			order by cs_regdate desc limit 1;
-		</selectKey>
-		
-		
-		insert into
-		FILE(file_name,file_path,file_type,upload_date,user_num,user_id)
-		value
-		(#{file_name},#{file_path},#{file_type},#{upload_date},#{user_num},#{user_id})
-	</insert>
+        )
+        <!-- <selectKey keyProperty="notice_num" resultType="NoticeVO" order="AFTER"> 
+            SELECT notice_num FROM NOTICE ORDER BY NOTICE_REGDATE DESC LIMIT 1; </selectKey> -->
+    </insert>
+    <insert id="UpAnno">
+
+        INSERT INTO NOTICE(NOTICE_NUM, NOTICE_TITLE,
+        NOTICE_CONTENT, NOTICE_REGDATE, NOTICE_COMMENT, NOTICE_TARGET)
+        VALUES (
+        #{notice_num},
+        #{notice_title},
+        #{notice_content},
+        #{notice_regdate},
+        #{notice_comment},
+        #{notice_target}
+        )
+        ON DUPLICATE KEY UPDATE
+        NOTICE_NUM = #{notice_num},
+        NOTICE_TITLE = #{notice_title},
+        NOTICE_CONTENT = #{notice_content},
+        NOTICE_REGDATE = #{notice_regdate},
+        NOTICE_COMMENT = #{notice_comment},
+        NOTICE_TARGET = #{notice_target}
+        <!-- <selectKey keyProperty="notice_num" resultType="NoticeVO" order="AFTER"> 
+            SELECT notice_num FROM NOTICE ORDER BY NOTICE_REGDATE DESC LIMIT 1; </selectKey> -->
+    </insert>
+    <insert id="setFile">
+        <selectKey keyProperty="user_num" resultType="String"
+            order="BEFORE">
+            SELECT NOTICE_NUM FROM NOTICE WHERE NOTICE_WRITER = #{user_id}
+            ORDER BY NOTICE_REGDATE DESC LIMIT 1;
+        </selectKey>
+        
+        
+        INSERT INTO FILE(FILE_NAME, FILE_PATH, FILE_TYPE, UPLOAD_DATE, USER_NUM, USER_ID)
+        VALUE
+        (#{file_name}, #{file_path}, #{file_type}, #{upload_date}, #{user_num}, #{user_id})
+
+    </insert>
+
+    <insert id="setFileCs">
+        <selectKey keyProperty="user_num" resultType="String"
+            order="BEFORE">
+            SELECT CS_NUM FROM CS WHERE CS_WRITER = #{user_id}
+            ORDER BY CS_REGDATE DESC LIMIT 1;
+        </selectKey>
+        
+        
+        INSERT INTO FILE(FILE_NAME, FILE_PATH, FILE_TYPE, UPLOAD_DATE, USER_NUM, USER_ID)
+        VALUE
+        (#{file_name}, #{file_path}, #{file_type}, #{upload_date}, #{user_num}, #{user_id})
+    </insert>
 
 
     <insert id="setFiles" >
       <selectKey keyProperty="work_num" resultType="String"
          order="BEFORE">
-         select work_num from WORKINFO where eng_enid =#{user_id}
-         order by work_date desc limit 1;
+         SELECT WORK_NUM FROM WORKINFO WHERE ENG_ENID = #{user_id}
+         ORDER BY WORK_DATE DESC LIMIT 1;
       </selectKey>
-         insert into
-         File(file_name,file_path,file_type,upload_date,user_num,user_id)
-         values
+         INSERT INTO FILE(FILE_NAME, FILE_PATH, FILE_TYPE, UPLOAD_DATE, USER_NUM, USER_ID)
+         VALUES
          <foreach collection="list" item="list" separator=",">      
-            (#{list.file_name},#{list.file_path},#{list.file_type},#{list.upload_date},#{work_num},#{list.user_id})
+            (#{list.file_name}, #{list.file_path}, #{list.file_type}, #{list.upload_date}, #{work_num}, #{list.user_id})
          </foreach>
-   	 </insert> 
+     </insert> 
     
-	
+    
 
 
 
-	<delete id="fileDel">
-	
-	delete from FILE where file_id=#{file_num}
-	</delete>
-	<delete id="AnnoDel">
-	delete from NOTICE where notice_num=#{notice_num};
-	delete from notice_comment where notice_num=#{notice_num};
-	</delete>
-	<delete id="inQuryDel">
-	delete from CS where cs_num=#{notice_num};
-	delete from notice_comment where notice_num=#{notice_num};
-	</delete>
+    <delete id="fileDel">
+    
+    DELETE FROM FILE WHERE FILE_ID = #{file_num}
+    </delete>
+    <delete id="AnnoDel">
+    DELETE FROM NOTICE WHERE NOTICE_NUM = #{notice_num};
+    DELETE FROM NOTICE_COMMENT WHERE NOTICE_NUM = #{notice_num};
+    </delete>
+    <delete id="inQuryDel">
+    DELETE FROM CS WHERE CS_NUM = #{notice_num};
+    DELETE FROM NOTICE_COMMENT WHERE NOTICE_NUM = #{notice_num};
+    </delete>
 </mapper>
