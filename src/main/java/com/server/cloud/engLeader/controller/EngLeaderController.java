@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.server.cloud.alarm.service.AlarmService;
 import com.server.cloud.command.CusVO;
 import com.server.cloud.command.EngineerVO;
+import com.server.cloud.command.InsRequestVO;
 import com.server.cloud.command.ProjectInfoVO;
 import com.server.cloud.command.QueryVO;
 import com.server.cloud.command.ScheduleVO;
@@ -93,9 +94,9 @@ public class EngLeaderController {
 		String server_id = data.get("server_id").toString();
 		engLeaderService.assignEng(eng_enid, server_id);
 		engLeaderService.registSchedule(eng_enid, server_id);
-		alarmService.assignEngineer(eng_enid); //엔지니어아이디 필요
-		alarmService.assignClient(pro_id); //프로젝트 담당자 아이디 필요
-		//해당 팀원의 스케줄이 추가가 된다 server_id랑 eng_enid pro_id의 정기점검날짜.
+		alarmService.assignEngineer(eng_enid); 
+		alarmService.assignClient(pro_id); 
+
 		return new ResponseEntity<>("ok",HttpStatus.OK);	
 	}
 
@@ -158,6 +159,17 @@ public class EngLeaderController {
 	public ResponseEntity<List<WorkInfoVO>> getWorkInfo(@RequestParam("server_id") String server_id){
 		List<WorkInfoVO> list = engLeaderService.getWorkInfo(server_id);	
 		return new ResponseEntity<>(list,HttpStatus.OK);
+	}
+	
+	
+	//점검 요청 목록
+	@GetMapping("/insRequestList")
+	public ResponseEntity<ArrayList<InsRequestVO>> getInsRequestList(){
+			
+		ArrayList<InsRequestVO> list = engLeaderService.getInsRequestList();
+		System.out.println("리스트 내용:" + list);
+		
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
 }

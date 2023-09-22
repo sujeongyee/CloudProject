@@ -9,10 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.sound.midi.SysexMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,10 +53,10 @@ public class EngineerController {
 
 	//팀원 프로젝트 리스트 
 
-	@GetMapping("/engineer/newList")
-	public ResponseEntity<List<ProjectCusVO>> newList() {
+	@GetMapping("/engineer/newList/{eng_enid}")
+	public ResponseEntity<List<EngSerProInfoWorkInfoVO>> newList(@PathVariable String eng_enid) {
 
-		List<ProjectCusVO> CusProList = engineerService.newList();
+		List<EngSerProInfoWorkInfoVO> CusProList = engineerService.newList(eng_enid);
 
 		return new ResponseEntity<>(CusProList, HttpStatus.OK);
 	}
@@ -98,22 +101,29 @@ public class EngineerController {
 
 
 	//엔지니어 인원리스트 
-	@GetMapping("/engineer/engineerList")
-	public List<EngineerVO> engineerList(EngineerVO engineerVO){
-		return engineerService.engineerList(engineerVO);
+	@GetMapping("/engineer/engineerList/{eng_enid}")
+	public ResponseEntity<Map<String,Object>> engineerList(@PathVariable String eng_enid){
+		List<EngineerVO> engineerList = engineerService.engineerListMap(eng_enid);
+		Map<String, Object> engineerListMap = new HashMap<>();
+		engineerListMap.put("engineerList", engineerList);
+		return new ResponseEntity<>(engineerListMap, HttpStatus.OK);
 	}
 
 
 	// 엔지니어 점검목록 리스트
-	@GetMapping("/engineer/inspectionList")
-	public List<WorkInfoVO> inspectionList(WorkInfoVO workInfoVO) {
-		return engineerService.inspectionList(workInfoVO);
+	@GetMapping("/engineer/inspectionList/{eng_enid}")
+	public ResponseEntity<Map<String,Object>> inspectionList(@PathVariable String eng_enid){
+		List<WorkInfoVO> inspectionList = engineerService.inspectionListMap(eng_enid);
+		Map<String, Object> inspectionListMap = new HashMap<>();
+		inspectionListMap.put("inspectionList", inspectionList);
+		return new ResponseEntity<>(inspectionListMap, HttpStatus.OK);
+		
 	}
 
 
 	//엔지니어 점검목록 리스트 -> 서버 모달
 	@PostMapping("/engineer/inspectionList2")
-	public ResponseEntity<Map<String, Object>>  serverDetailModal(@RequestBody Map<String, Object> data){
+	public ResponseEntity<Map<String, Object>>  serverDetailModal(@RequestBody Map<String, Object> data) {
 		String server_id = data.get("serverId").toString();
 		Map<String,Object> map2 = engineerService.serverDetailModal(server_id);
 		List<WorkInfoVO> list = engineerService.pastInspectionHistoryList(server_id);
@@ -123,6 +133,7 @@ public class EngineerController {
 		return new ResponseEntity<>(map2, HttpStatus.OK);
 	}
 	
+
 	@PostMapping("/engineer/editSchedule")
 	public void editSchedule(@RequestBody ScheduleVO request) {
 		ServerVO vo = alarmService.getServerVO(request.getSche_num());
@@ -135,4 +146,33 @@ public class EngineerController {
 		
 	}
 
+	
+	@PostMapping("/engineer/updateWorkStatus")
+	public ResponseEntity<Integer> updateWorkStatus(@RequestBody Map<String, Object> updateStatus) {
+		
+		String work_status = updateStatus.get("workStatus").toString();
+		String server_id = updateStatus.get("server_id").toString();
+		
+		int result = engineerService.updateWorkStatus(work_status, server_id);
+		System.out.println(result);
+		
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+
+
+
+	
+	
+	//승용 서버 이름 가져 오기
+	@PostMapping("/engineer/getServer")
+	public ResponseEntity<?>getServer(@RequestBody Map<String,Object> id){
+		List<ServerVO>vo=engineerService.getServer((String)id.get("id"));
+		
+		return new ResponseEntity<>(vo,HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
 }

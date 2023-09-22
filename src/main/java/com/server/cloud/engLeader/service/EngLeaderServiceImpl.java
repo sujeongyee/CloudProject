@@ -1,5 +1,6 @@
 package com.server.cloud.engLeader.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.server.cloud.command.CusVO;
 import com.server.cloud.command.EngineerVO;
+import com.server.cloud.command.InsRequestVO;
 import com.server.cloud.command.ProjectInfoVO;
 import com.server.cloud.command.QueryVO;
 import com.server.cloud.command.ScheduleVO;
@@ -128,9 +130,17 @@ public class EngLeaderServiceImpl implements EngLeaderService{
 		
 	}
 	
+	@Override
+	public void registSchedule(String eng_enid, String server_id) {
+		engLeaderMapper.registSchedule(eng_enid, server_id);
+	}
 	
 	
-	
+	//점검요청목록 
+	@Override
+	public ArrayList<InsRequestVO> getInsRequestList() {
+		return engLeaderMapper.getInsRequestList();
+	}
 	
 
 }

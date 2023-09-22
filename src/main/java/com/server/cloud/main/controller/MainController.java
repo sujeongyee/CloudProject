@@ -356,8 +356,7 @@ public class MainController {
 	}
 	@RequestMapping(value = "/api/main/login", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody UserVO authenticationRequest) throws Exception {//로그인
-
-
+    
 		CusVO result = userService.idCheck(authenticationRequest.getUsername());
 		
 		String role = userMapper.login(authenticationRequest.getUsername()).getRole();
@@ -369,9 +368,7 @@ public class MainController {
 			int b = alarmService.todayAlarmCheck2(authenticationRequest.getUsername());
 			if(b>0)alarmService.todayAlarmCus(authenticationRequest.getUsername());
 		}
-
-
-
+		System.out.println("아이디 비밀번호"+result.toString());
 
 		if(result==null) {//아이디가 없을경우
 			System.out.println(1);

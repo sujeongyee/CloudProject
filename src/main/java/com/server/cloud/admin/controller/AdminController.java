@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.server.cloud.admin.service.AdminService;
 import com.server.cloud.alarm.service.AlarmService;
+import com.server.cloud.command.AdminMainVO;
 import com.server.cloud.command.CsVO;
 
 import com.server.cloud.command.CusVO;
@@ -32,6 +33,7 @@ import com.server.cloud.command.ServerVO;
 
 import com.server.cloud.command.ProjectDetailVO;
 import com.server.cloud.command.ProjectInfoVO;
+import com.server.cloud.command.QueryVO;
 import com.server.cloud.command.WorkInfoVO;
 
 import com.server.cloud.pagenation.Criteria;
@@ -179,11 +181,56 @@ public class AdminController {
 	}
 	
 
+	
+	
 	@GetMapping("/api/main/admin")
-	public ResponseEntity<List<ProjectCusVO>> newProjectList () {
-		List<ProjectCusVO> newPL = adminService.newProjectList();
-		return new ResponseEntity<>(newPL, HttpStatus.OK);
+	public ResponseEntity<Map<String,Object>> getMain(){
+
+		List<ProjectCusVO> newPL = adminService.newProjectList(); //신규요청리스트
+		AdminMainVO vo = adminService.getAdminMain(); // 클라이언트 인원수, 진행중인 프로젝트, 신규요청 프로젝트, 엔지니어 수
+	
+		
+		List<AdminMainVO> inspectionList = adminService.getInspection(); //월별 계약 수 
+		List<Integer> contracts = new ArrayList<>(); //계약건수
+		List<Integer> expiration = new ArrayList<>(); //계약 만료
+		
+		List<AdminMainVO> work = adminService.getwork();
+		List<Integer> periodic = new ArrayList<>(); //정기
+		List<Integer> emergency = new ArrayList<>(); //긴급
+		List<Integer> approval = new ArrayList<>(); //승인대기중		
+		List<Integer> complete = new ArrayList<>(); //계약만료		
+		
+
+		
+		for(AdminMainVO vo2 : inspectionList) {
+			contracts.add(vo2.getContracts()); //월별 계약건수
+			expiration.add(vo2.getExpiration()); //월별 계약 만료
+		}
+		
+		for(AdminMainVO vo3 : work) {
+			periodic.add(vo3.getPeriodic()); //정기
+			emergency.add(vo3.getEmergency()); //긴급
+			approval.add(vo3.getApproval()); //승인대기중
+			complete.add(vo3.getComplete()); //계약만료
+		}
+		
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("vo",vo);
+		map.put("newPL",newPL);
+		map.put("contracts", contracts);
+		map.put("expiration", expiration);
+		map.put("periodic",periodic);
+		map.put("emergency", emergency);
+		map.put("approval", approval);
+		map.put("complete", complete);
+		
+		return new ResponseEntity<>(map,HttpStatus.OK);
 	}
+	
+	
+	
+	
 	
 	@GetMapping("/api/main/admin/projectDetail/{pro_id}")
 	public ResponseEntity<Map<String,Object>> projectDetail(@PathVariable String pro_id){
@@ -213,10 +260,13 @@ public class AdminController {
 	public ResponseEntity<String> inputTeamNum(@RequestBody Map<String, String> teamNum) {
 		String pro_id=teamNum.get("pro_id");
 		String team_num=teamNum.get("team_num");
+		String pro_status=teamNum.get("pro_status");
+		System.out.println(teamNum.toString()+"팀넘");
 		System.out.println(pro_id + team_num + "----");
 		int result = adminService.inputTeamNum(pro_id, team_num);
 		alarmService.assignTeam(team_num);
 		System.out.println(team_num);
+
 		return new ResponseEntity<>("ok", HttpStatus.OK);
 	}
 
@@ -248,6 +298,9 @@ public class AdminController {
 		return new ResponseEntity<>(serverInsList,HttpStatus.OK);
 	}
 	
+
+	
+
 
 
 }
