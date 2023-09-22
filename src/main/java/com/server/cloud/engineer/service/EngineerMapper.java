@@ -35,4 +35,5 @@ public interface EngineerMapper {
 	
 	public List<ServerVO> getProjectServer(String pro_id);
 	public void editSchedule(ScheduleVO vo);
+	public List<ServerVO> getServer(String eng_enid);
 }
