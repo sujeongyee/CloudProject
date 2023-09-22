@@ -1,6 +1,7 @@
 package com.server.cloud.client.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,10 @@ import com.server.cloud.command.CusVO;
 import com.server.cloud.command.FormDataVO;
 import com.server.cloud.command.InsRequestVO;
 import com.server.cloud.command.ProjectInfoVO;
+
 import com.server.cloud.command.ProjectListVO;
+
+import com.server.cloud.command.QueryVO;
 import com.server.cloud.command.ProjectDetailVO;
 import com.server.cloud.command.ServerVO;
 
@@ -73,16 +77,32 @@ public class ClientServiceImpl implements ClientService{
 	
 	
 	//작업내역 목록 
-   @Override
-   public ArrayList<ProjectListVO> projectDetailList() {
-      return clientMapper.projectDetailList();
-   }
 
-   //작업내역 로그 
-   @Override
-   public ArrayList<ProjectListVO> projectDetailChart() {
-      return clientMapper.projectDetailChart();
-   }
+	   @Override
+	   public ArrayList<ProjectDetailVO> projectDetailList(String cus_id) {
+	      return clientMapper.projectDetailList(cus_id);
+	   }
+
+	   //작업내역 로그 
+	   @Override
+	   public ArrayList<ProjectDetailVO> projectDetailChart(String pro_id, String server_id) {
+	      return clientMapper.projectDetailChart(pro_id ,server_id);
+	   }
+
+		//메인페이지 프로젝트
+		@Override
+		public List<ProjectDetailVO> projectMain(String cus_id) {
+
+			return clientMapper.projectMain(cus_id);
+		}
+
+
+		@Override
+		public List<QueryVO> getInspection(String cus_id) {
+			return clientMapper.getInspection(cus_id);
+		}
+
+
 
 	
 

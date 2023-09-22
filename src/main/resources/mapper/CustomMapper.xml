@@ -1,38 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.server.cloud.main.service.CusMapper">
 	<select id="getId" resultType="String">
-		select cus_id from CUSTOMER where cus_managet_name=#{cus_managet_name} and
+		SELECT cus_id FROM CUSTOMER WHERE cus_managet_name=#{cus_managet_name} AND
 		cus_email=#{cus_email}
-
 	</select>
 	<select id="getIdPw" resultType="String">
-		select cus_id from CUSTOMER where cus_business_id=#{cus_business_id} and
-		cus_email=#{cus_email}and cus_id=#{cus_id}
-
+		SELECT cus_id FROM CUSTOMER WHERE cus_business_id=#{cus_business_id} AND
+		cus_email=#{cus_email} AND cus_id=#{cus_id}
 	</select>
 	
 	<insert id="resetPw">
-	<selectKey keyProperty="cus_num" resultType="String"
+		<selectKey keyProperty="cus_num" resultType="String"
 			order="BEFORE">
-			select cus_num from CUSTOMER where cus_id=#{cus_id}
+			SELECT cus_num FROM CUSTOMER WHERE cus_id=#{cus_id}
 		</selectKey>
-		insert into CUSTOMER (cus_num,cus_pw) 
-		values (#{cus_num},#{cus_pw})
-		on duplicate key update
-		cus_num=#{cus_num},cus_pw=#{cus_pw} 
-	
-	
+		INSERT INTO CUSTOMER (cus_num, cus_pw) 
+		VALUES (#{cus_num}, #{cus_pw})
+		ON DUPLICATE KEY UPDATE
+		cus_num=#{cus_num}, cus_pw=#{cus_pw} 
 	</insert>
 	
 	<insert id="singIn">
-
-		insert into CUSTOMER (
+		INSERT INTO CUSTOMER (
 		CUS_ID,
 		CUS_PW,
 		CUS_COMPANY_NAME,
@@ -47,8 +41,7 @@
 		CUS_BUSINESS_ID,
 		USER_ID
 		)
-
-		values(
+		VALUES (
 		#{cus_id},
 		#{cus_pw},
 		#{cus_company_name},
@@ -61,28 +54,28 @@
 		#{cus_phone_number},
 		#{cus_email},
 		#{cus_business_id},
-		'ROLE_ENGINEER'
+		'ROLE_USER'
 		);
 
-		insert into ROLE(
+		INSERT INTO ROLE (
 		USERNAME,
 		PASSWORD,
 		ROLE)
-		values(
+		VALUES (
 		#{cus_id},
 		#{cus_pw},
-		'ROLE_ENGINEER'
+		'ROLE_USER'
 		);
-
-
-
-
 	</insert>
+	
 	<insert id="setPoto">
 		<selectKey keyProperty="user_num" resultType="String"
 			order="BEFORE">
+			SELECT cus_num FROM CUSTOMER WHERE cus_id=#{user_id}
+		</selectKey>
 
-			select cus_num from CUSTOMER where cus_id=#{user_id}
+		insert into FILE(
+
 
 		</selectKey>
 		insert into FILE(
@@ -91,61 +84,44 @@
 		file_type,
 		user_num,
 		user_id
-
 		)
-		values(
+		VALUES (
 		'profile.jpg',
 		'https://project-buket.s3.amazonaws.com/profile.jpg',
 		'image/jpeg',
 		#{user_num},
 		#{user_id}
-
 		)
-
 	</insert>
 
 	<select id="idCheck" resultType="CusVO">
-
-		select * from CUSTOMER where
-		cus_id=#{cus_id};
-
+		SELECT * FROM CUSTOMER WHERE
+		cus_id=#{cus_id}
 	</select>
 
 	<select id="emailCheck" resultType="CusVO">
-
-		select * from CUSTOMER where
-		cus_email=#{cus_email};
-  </select>
-
-	
-	<select id="idCheckEng" resultType="EngineerVO">
-
-		select * from ENGINEER where
-		eng_enid=#{eng_enid};
-
+		SELECT * FROM CUSTOMER WHERE
+		cus_email=#{cus_email}
 	</select>
 	
-
+	<select id="idCheckEng" resultType="EngineerVO">
+		SELECT * FROM ENGINEER WHERE
+		eng_enid=#{eng_enid}
+	</select>
 	
 	<insert id="updateInfo">
-
-		insert into CUSTOMER
+		INSERT INTO CUSTOMER
 		(cus_num,
 		cus_id,cus_company_name,cus_address1,
 		cus_address2,cus_managet_name,cus_email,cus_company_ph,cus_boss)
-
-		values
+		VALUES
 		(#{cus_num},#{cus_id},#{cus_company_name},#{cus_address1},#{cus_address2},
 		#{cus_managet_name},#{cus_email},#{cus_company_ph},#{cus_boss})
-
-		on
-		duplicate key update
-
+		ON DUPLICATE KEY UPDATE
 		cus_num=#{cus_num},cus_id=#{cus_id},cus_company_name=#{cus_company_name},cus_address1=#{cus_address1},
 		cus_address2=#{cus_address2},cus_managet_name=#{cus_managet_name},cus_email=#{cus_email},
 		cus_company_ph=#{cus_company_ph},cus_boss=#{cus_boss}
 	</insert>
-
 
 	<select id="SearchInfo" resultType="map">
 		SELECT *
@@ -158,43 +134,42 @@
 			ORDER BY ${order} DESC
 		</if>
 	</select>
+	
 	<select id="SearchCount" resultType="String">
-		SELECT count(*)
+		SELECT COUNT(*)
 		FROM ${table}
-		WHERE ${columm} like concat('%',#{value},'%');
-
+		WHERE ${column} LIKE CONCAT('%',#{value},'%');
 	</select>
+	
 	<select id="getComment" resultType="NoticeCommentVO">
-		select * from NOTICE_COMMENT
-		where notice_num=#{notice_num} order by com_regdate desc;
-
+		SELECT * FROM NOTICE_COMMENT
+		WHERE notice_num=#{notice_num} ORDER BY com_regdate DESC;
 	</select>
-
 
 	<insert id="CreateComments">
-		insert into NOTICE_COMMENT
+		INSERT INTO NOTICE_COMMENT
 		(com_writer,com_content,notice_num)
-		value(#{com_writer},#{com_content},#{notice_num})
-
+		VALUES (#{com_writer},#{com_content},#{notice_num})
 	</insert>
+	
 	<delete id="commentDel">
-
-		delete from NOTICE_COMMENT where com_num=#{com_num}
+		DELETE FROM NOTICE_COMMENT WHERE com_num=#{com_num}
 	</delete>
+	
 	<insert id="commentUp">
-
-		insert into NOTICE_COMMENT(com_num,com_content)
-		value(#{com_num},#{com_content})
-		on duplicate key update
+		INSERT INTO NOTICE_COMMENT(com_num,com_content)
+		VALUES (#{com_num},#{com_content})
+		ON DUPLICATE KEY UPDATE
 		com_num=#{com_num},com_content=#{com_content}
 	</insert>
+	
 	<select id="getServerList">
-		select * from SERVER where pro_id=#{pro_id}
+		SELECT * FROM SERVER WHERE pro_id=#{pro_id}
 	</select>
+	
 	<insert id="quryeWrite">
-		insert into
-		CS(cs_title,cs_content,cs_answer_yn,cs_type,cs_project,cs_server,cs_writer)
-		values(
+		INSERT INTO CS(cs_title,cs_content,cs_answer_yn,cs_type,cs_project,cs_server,cs_writer)
+		VALUES (
 		#{cs_title},
 		#{cs_content},
 		#{cs_answer_yn},
@@ -205,4 +180,3 @@
 		)
 	</insert>
 </mapper>
-

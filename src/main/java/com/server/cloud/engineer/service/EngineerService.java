@@ -12,7 +12,7 @@ import com.server.cloud.command.WorkInfoVO;
 
 public interface EngineerService {
 
-	public List<ProjectCusVO> newList();
+	public List<EngSerProInfoWorkInfoVO> newList(String eng_enid);
 	public List<EngSerProInfoWorkInfoVO> engProInfo(String eng_enid);
 	public List<ServerVO> serverList();
 	public int registWorkLog(List<WorkInfoVO> ServerDetailsArray);
@@ -28,10 +28,12 @@ public interface EngineerService {
 	public List<WorkInfoVO> pastInspectionHistoryList(String server_id);
 
 
+
 	public Map<String,Object> getProjectDetail(String pro_id);
 	
 	public List<ServerVO> getProjectServer(String pro_id);
 	public void editSchedule(ScheduleVO vo);
+	public List<ServerVO> getServer(String eng_enid);
 
-
+	public int updateWorkStatus(String work_status, String server_id);
 }
