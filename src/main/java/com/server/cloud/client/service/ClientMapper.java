@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.server.cloud.command.CusVO;
+import com.server.cloud.command.InsRequestVO;
 import com.server.cloud.command.ProjectInfoVO;
 
 import com.server.cloud.command.ProjectListVO;
@@ -42,6 +43,9 @@ public interface ClientMapper {
 	
 	//프로젝트 세부사항 
 	public ArrayList<ProjectDetailVO> projectDetail(String pro_id); 
+	
+	//점검요청
+	public void insRequestForm(InsRequestVO insReVO);
 	
 
 

@@ -55,7 +55,6 @@
 		#{cus_email},
 		#{cus_business_id},
 		'ROLE_USER'
-
 		);
 
 		INSERT INTO ROLE (
@@ -66,7 +65,6 @@
 		#{cus_id},
 		#{cus_pw},
 		'ROLE_USER'
-
 		);
 	</insert>
 	
