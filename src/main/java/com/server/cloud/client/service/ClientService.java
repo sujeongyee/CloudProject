@@ -6,6 +6,8 @@ import java.util.List;
 import com.server.cloud.command.CusVO;
 import com.server.cloud.command.ProjectInfoVO;
 
+import com.server.cloud.command.ProjectListVO;
+
 import com.server.cloud.command.QueryVO;
 import com.server.cloud.command.ProjectDetailVO;
 import com.server.cloud.command.ServerVO;
@@ -29,6 +31,7 @@ public interface ClientService {
 	
 	
 	
+
 	//작업내역 목록 
 	public ArrayList<ProjectDetailVO> projectDetailList(String cus_id);
 	

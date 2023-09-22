@@ -100,6 +100,7 @@
 	
 	
 	
+
    <!-- 작업 내역 목록 -->      
    <select id="projectDetailList">
    
@@ -163,6 +164,7 @@ SELECT
 FROM RankedWorkInfo R
 WHERE R.ROWNUM = 1;
 
+
    </select>
    
    
@@ -209,7 +211,6 @@ WHERE R.ROWNUM = 1;
 		
 	</select>
 
-
   	<select id="getInspection">
 		SELECT 
 		    P.PRO_NAME AS PRO_NAME,
@@ -221,11 +222,7 @@ WHERE R.ROWNUM = 1;
 		WHERE P.CUS_ID = #{CUS_ID}
 		GROUP BY P.PRO_NAME
 		ORDER BY P.PRO_NAME;
-		
-		
-
-
-  	</select>
+		</select>
 
 
 </mapper>
