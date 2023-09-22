@@ -82,14 +82,12 @@ public interface AdminService {
 	public List<EngineerVO> getTeamLeader();
 	public List<EngineerVO> getTeamMember();
 	
-	public int inputTeamNum(String pro_id, String team_num);
-	
-	
+	public int inputTeamNum(String pro_id, String team_num, String pro_status);
+
 	//메인
 	public AdminMainVO getAdminMain();
 	public List<AdminMainVO> getInspection();
 	public List<AdminMainVO> getwork();
-	
 
 }
 

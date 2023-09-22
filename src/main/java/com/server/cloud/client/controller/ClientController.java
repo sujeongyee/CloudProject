@@ -29,6 +29,8 @@ import com.server.cloud.command.CusVO;
 import com.server.cloud.command.FormDataVO;
 import com.server.cloud.command.ProjectInfoVO;
 
+import com.server.cloud.command.ProjectListVO;
+
 import com.server.cloud.command.QueryVO;
 import com.server.cloud.command.ProjectDetailVO;
 import com.server.cloud.command.ServerVO;
@@ -112,6 +114,7 @@ public class ClientController {
 	
 	//////////////////////지인님///////////////////////////////
 	
+
 	   
    //작업 내역 목록 리스트
    @GetMapping("/user/projectDetailList/{cus_id}")
@@ -160,6 +163,7 @@ public class ClientController {
    }
 }
 	
+
 
 
 	

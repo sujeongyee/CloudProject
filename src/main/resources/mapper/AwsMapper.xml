@@ -100,8 +100,10 @@
          SELECT WORK_NUM FROM WORKINFO WHERE ENG_ENID = #{user_id}
          ORDER BY WORK_DATE DESC LIMIT 1;
       </selectKey>
+
          INSERT INTO FILE(FILE_NAME, FILE_PATH, FILE_TYPE, UPLOAD_DATE, USER_NUM, USER_ID)
          VALUES
+
          <foreach collection="list" item="list" separator=",">      
             (#{list.file_name}, #{list.file_path}, #{list.file_type}, #{list.upload_date}, #{work_num}, #{list.user_id})
          </foreach>

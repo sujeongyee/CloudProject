@@ -255,8 +255,10 @@ public class AdminController {
 	public ResponseEntity<String> inputTeamNum(@RequestBody Map<String, String> teamNum) {
 		String pro_id=teamNum.get("pro_id");
 		String team_num=teamNum.get("team_num");
+		String pro_status=teamNum.get("pro_status");
+		System.out.println(teamNum.toString()+"팀넘");
 		System.out.println(pro_id + team_num + "----");
-		int result = adminService.inputTeamNum(pro_id, team_num);
+		int result = adminService.inputTeamNum(pro_id, team_num, pro_status);
 		
 		return new ResponseEntity<>("ok", HttpStatus.OK);
 	}
