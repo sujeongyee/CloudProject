@@ -7,9 +7,36 @@
 <mapper
 	namespace="com.server.cloud.engineer.service.EngineerMapper">
 
-	<select id="newList" resultType="ProjectCusVO">
-		SELECT * FROM PROJECTINFO P
-		LEFT OUTER JOIN CUSTOMER C ON P.CUS_ID = C.CUS_ID;
+	<select id="newList" resultType="EngSerProInfoWorkInfoVO">
+	
+		SELECT DISTINCT
+		C.CUS_ADDRESS1,
+        C.CUS_ADDRESS2,
+        C.CUS_BOSS,
+        C.CUS_BUSINESS_ID,
+        C.CUS_COMPANY_NAME,
+        C.CUS_EMAIL,
+        C.CUS_COMPANY_PH,
+        C.CUS_ID,
+        C.CUS_MANAGET_NAME,
+        C.CUS_NUM,
+        C.CUS_PHONE_NUMBER,
+        P.PRO_ENDDATE,
+        P.PRO_ID,
+        P.PRO_INFO,
+        P.PRO_NAME,
+        P.PRO_PI,
+        P.PRO_REP,
+        P.PRO_STARTDATE,
+        P.PRO_STATUS
+        FROM ENGINEER E
+		LEFT JOIN SERVER S ON E.ENG_ENID = S.ENG_ENID
+		LEFT JOIN PROJECTINFO P ON S.PRO_ID = P.PRO_ID
+        LEFT JOIN CUSTOMER C ON P.CUS_ID = C.CUS_ID
+		LEFT JOIN WORKINFO W ON W.ENG_ENID
+		= E.ENG_ENID
+		WHERE E.ENG_ENID = #{eng_enid};
+		
 	</select>
 
 
@@ -84,7 +111,7 @@
 		join SERVER si on wi.server_id = si.server_id
 		join ENGINEER ei on wi.eng_enid = ei.eng_enid
 		join PROJECTINFO pi on wi.pro_id = pi.pro_id
-		where ei.eng_num='048cf5a5-4c8c-11ee-9346-8cb0e993217c';
+		where ei.eng_num='3a4d1177-578f-11ee-b0dd-0a2a1041ddde';
 		<!-- where ei.eng_num ={eng_num}; -->
 
 	</select>
@@ -127,6 +154,10 @@
   		SCHE_STARTDATE = #{sche_startdate},
   		SCHE_ENDDATE = #{sche_enddate}
   		WHERE SCHE_NUM = #{sche_num}
+  	</update>
+  	
+  	<update id="updateWorkStatus">
+  		UPDATE WORKINFO SET WORK_STATUS = #{work_status} WHERE SERVER_ID = #{server_id};
   	</update>
 
 </mapper>

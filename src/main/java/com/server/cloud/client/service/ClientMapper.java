@@ -1,6 +1,7 @@
 package com.server.cloud.client.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -8,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import com.server.cloud.command.CusVO;
 import com.server.cloud.command.ProjectInfoVO;
 import com.server.cloud.command.ProjectListVO;
+import com.server.cloud.command.QueryVO;
 import com.server.cloud.command.ProjectDetailVO;
 import com.server.cloud.command.ServerVO;
 
@@ -35,11 +37,15 @@ public interface ClientMapper {
 	public ArrayList<ProjectDetailVO> projectDetail(String pro_id); 
 	
 
-   //작업 내역 리스트
-   public ArrayList<ProjectListVO> projectDetailList();
-   //작업 내역 로그 
-   public ArrayList<ProjectListVO> projectDetailChart();
-	   
+	 //작업 내역 리스트
+	   public ArrayList<ProjectDetailVO> projectDetailList(String cus_id);
+	   //작업 내역 로그 
+	   public ArrayList<ProjectDetailVO> projectDetailChart(@Param("pro_id") String pro_id, @Param("server_id") String server_id);
+		   
+	   //메인프로젝트 
+	   public List<ProjectDetailVO> projectMain(String cus_id);
+	   public List<QueryVO> getInspection(String cus_id);
+		   
 	   
 	   
 	

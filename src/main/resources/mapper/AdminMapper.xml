@@ -183,7 +183,8 @@
 		       P.PRO_STATUS,
 		       P.PRO_ID,
 		       C.CUS_MANAGET_NAME,
-		       CUS_EMAIL
+		       C.CUS_EMAIL,
+		       C.CUS_COMPANY_NAME
 		from PROJECTINFO P
 		left join CUSTOMER C ON P.CUS_ID = C.CUS_ID
 		where P.TEAM_NUM is null
@@ -218,9 +219,12 @@
 		WHERE ENG_RANK = '팀원';
   	</select>
   	
-  	<insert id="inputTeamNum">
-  		UPDATE PROJECTINFO SET TEAM_NUM =#{team_num} WHERE PRO_ID =#{pro_id};
-  	</insert>
+  	<update id="inputTeamNum">
+  		UPDATE PROJECTINFO SET TEAM_NUM =#{team_num}, PRO_STATUS = #{pro_status} WHERE PRO_ID = #{pro_id};
+  	</update>
   	
+  	
+  	
+  
 </mapper>
 

@@ -142,9 +142,9 @@ public class AdminServiceImpl implements AdminService{
 		return adminMapper.getTeamMember();
 	}
 	@Override
-	public int inputTeamNum(String pro_id, String team_num) {
+	public int inputTeamNum(String pro_id, String team_num, String pro_status) {
 		// TODO Auto-generated method stub
-		return adminMapper.inputTeamNum(pro_id, team_num);
+		return adminMapper.inputTeamNum(pro_id, team_num, pro_status);
 	}
 		
 

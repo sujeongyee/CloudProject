@@ -81,6 +81,8 @@ public interface AdminService {
 	public List<EngineerVO> getTeamLeader();
 	public List<EngineerVO> getTeamMember();
 	
-	public int inputTeamNum(String pro_id, String team_num);
+	public int inputTeamNum(String pro_id, String team_num, String pro_status);
+	
+	
 
 }

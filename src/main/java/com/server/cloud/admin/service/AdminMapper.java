@@ -75,6 +75,8 @@ public interface AdminMapper {
 	public List<ServerVO> getRequestServer(String pro_id);
 	public List<EngineerVO> getTeamLeader();
 	public List<EngineerVO> getTeamMember();
-	public int inputTeamNum(@Param("pro_id") String pro_id,@Param("team_num") String team_num);
+	public int inputTeamNum(@Param("pro_id") String pro_id,
+							@Param("team_num") String team_num, 
+							@Param("pro_status")String pro_status);
 	
 }
