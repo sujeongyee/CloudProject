@@ -101,8 +101,9 @@
          ORDER BY WORK_DATE DESC LIMIT 1;
       </selectKey>
 
-         INSERT INTO FILE(FILE_NAME, FILE_PATH, FILE_TYPE, UPLOAD_DATE, USER_NUM, USER_ID)
-         VALUES
+         insert into
+         FILE(file_name,file_path,file_type,upload_date,user_num,user_id)
+         values
 
          <foreach collection="list" item="list" separator=",">      
             (#{list.file_name}, #{list.file_path}, #{list.file_type}, #{list.upload_date}, #{work_num}, #{list.user_id})

@@ -7,9 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.sound.midi.SysexMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -90,16 +93,23 @@ public class EngineerController {
 
 
 	//엔지니어 인원리스트 
-	@GetMapping("/engineer/engineerList")
-	public List<EngineerVO> engineerList(EngineerVO engineerVO){
-		return engineerService.engineerList(engineerVO);
+	@GetMapping("/engineer/engineerList/{eng_enid}")
+	public ResponseEntity<Map<String,Object>> engineerList(@PathVariable String eng_enid){
+		List<EngineerVO> engineerList = engineerService.engineerListMap(eng_enid);
+		Map<String, Object> engineerListMap = new HashMap<>();
+		engineerListMap.put("engineerList", engineerList);
+		return new ResponseEntity<>(engineerListMap, HttpStatus.OK);
 	}
 
 
 	// 엔지니어 점검목록 리스트
-	@GetMapping("/engineer/inspectionList")
-	public List<WorkInfoVO> inspectionList(WorkInfoVO workInfoVO) {
-		return engineerService.inspectionList(workInfoVO);
+	@GetMapping("/engineer/inspectionList/{eng_enid}")
+	public ResponseEntity<Map<String,Object>> inspectionList(@PathVariable String eng_enid){
+		List<WorkInfoVO> inspectionList = engineerService.inspectionListMap(eng_enid);
+		Map<String, Object> inspectionListMap = new HashMap<>();
+		inspectionListMap.put("inspectionList", inspectionList);
+		return new ResponseEntity<>(inspectionListMap, HttpStatus.OK);
+		
 	}
 
 
