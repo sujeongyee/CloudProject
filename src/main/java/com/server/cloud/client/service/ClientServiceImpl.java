@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import com.server.cloud.command.CusVO;
 import com.server.cloud.command.FormDataVO;
 import com.server.cloud.command.ProjectInfoVO;
+
 import com.server.cloud.command.ProjectListVO;
+
 import com.server.cloud.command.QueryVO;
 import com.server.cloud.command.ProjectDetailVO;
 import com.server.cloud.command.ServerVO;
@@ -66,6 +68,7 @@ public class ClientServiceImpl implements ClientService{
 	
 	
 	//작업내역 목록 
+
 	   @Override
 	   public ArrayList<ProjectDetailVO> projectDetailList(String cus_id) {
 	      return clientMapper.projectDetailList(cus_id);
@@ -89,6 +92,8 @@ public class ClientServiceImpl implements ClientService{
 		public List<QueryVO> getInspection(String cus_id) {
 			return clientMapper.getInspection(cus_id);
 		}
+
+
 
 	
 

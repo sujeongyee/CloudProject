@@ -37,7 +37,11 @@ public interface EngineerMapper {
 	public List<ServerVO> getProjectServer(String pro_id);
 	
 	public void editSchedule(ScheduleVO vo);
+
 	
 	//작업세부사항 등록의 작업 상태 변경 기능
 	public int updateWorkStatus(@Param("work_status") String work_status,@Param("server_id") String server_id);
+
+	public List<ServerVO> getServer(String eng_enid);
+
 }

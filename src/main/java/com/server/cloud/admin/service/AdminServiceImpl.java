@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.server.cloud.command.AdminMainVO;
 import com.server.cloud.command.CsVO;
 import com.server.cloud.command.CusVO;
 import com.server.cloud.command.EngineerVO;
@@ -18,6 +19,7 @@ import com.server.cloud.command.ServerVO;
 
 import com.server.cloud.command.ProjectDetailVO;
 import com.server.cloud.command.ProjectInfoVO;
+import com.server.cloud.command.QueryVO;
 import com.server.cloud.command.WorkInfoVO;
 
 import com.server.cloud.pagenation.Criteria;
@@ -30,7 +32,6 @@ public class AdminServiceImpl implements AdminService{
 	AdminMapper adminMapper;
 	@Autowired
 	AwsMapper awsMapper;
-
 
 	@Override
 	public void setAnno(NoticeVO vo) {
@@ -77,6 +78,7 @@ public class AdminServiceImpl implements AdminService{
 		// TODO Auto-generated method stub
 		adminMapper.csUpdate(vo);
 	}
+
 
 	@Override
 	public int csUserTotal(String cs_writer) {
@@ -170,8 +172,21 @@ public class AdminServiceImpl implements AdminService{
 		return adminMapper.getList(cri);
 	}
 	
+	//메인
+	@Override
+	public  AdminMainVO getAdminMain() {
+		return adminMapper.getAdminMain();
+	}
+	@Override
+	public List<AdminMainVO> getInspection() {
+		return adminMapper.getInspection();
+	}
+	@Override
+	public List<AdminMainVO> getwork() {
+		return adminMapper.getwork();
+	}
+	
 }
-
 
 
 

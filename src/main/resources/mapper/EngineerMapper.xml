@@ -39,9 +39,6 @@
 		
 	</select>
 
-
-
-
 	<select id="engProInfo" resultType="EngSerProInfoWorkInfoVO">
 		SELECT DISTINCT
 		E.ENG_ENID,
@@ -103,7 +100,6 @@
 		<!-- where e.team_num=#{team_num}; -->
 	</select> 
 
-
 	<select id="inspectionList"
 		resultType="com.server.cloud.command.WorkInfoVO">
  		select wi.*, si.server_name, ei.eng_name, ei.eng_num, si.server_status, pi.pro_name
@@ -113,7 +109,6 @@
 		join PROJECTINFO pi on wi.pro_id = pi.pro_id
 		where ei.eng_num='3a4d1177-578f-11ee-b0dd-0a2a1041ddde';
 		<!-- where ei.eng_num ={eng_num}; -->
-
 	</select>
 
 	<select id="serverDetailModal">
@@ -124,10 +119,6 @@
 	</select>
 
  	<select id="pastInspectionHistoryList">
-<!-- 		select wi.*, s.server_name, s.server_id
-		from workinfo wi
-		inner join server s on wi.server_id = s.server_id
-		where server_id=#{server_id}; -->
 		select wi.*, s.server_name
 		from WORKINFO wi
 		inner join SERVER s on wi.server_id = s.server_id
@@ -155,9 +146,18 @@
   		SCHE_ENDDATE = #{sche_enddate}
   		WHERE SCHE_NUM = #{sche_num}
   	</update>
+
   	
   	<update id="updateWorkStatus">
   		UPDATE WORKINFO SET WORK_STATUS = #{work_status} WHERE SERVER_ID = #{server_id};
   	</update>
 
+	
+	<select id="getServer" resultType="com.server.cloud.command.ServerVO">
+	
+	select * from SERVER where eng_enid=#{eng_enid}
+	
+	</select>
+	
 </mapper>
+

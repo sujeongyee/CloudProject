@@ -100,68 +100,70 @@
 	
 	
 	
-  <!-- 작업 내역 목록 -->      
+
+   <!-- 작업 내역 목록 -->      
    <select id="projectDetailList">
    
-	WITH RankedWorkInfo AS (
-	    SELECT
-	        W.PRO_ID as pro_id,
-	        W.WORK_DATE as work_date,
-	        W.WORK_DIVISION as work_info,
-	W.WORK_TIME as work_time,
-	        MAX(W.WORK_CPU) as work_cpu,
-	        MAX(W.WORK_RAM) as work_ram,
-	        MAX(W.WORK_HDD) as work_hdd,
-	        W.WORK_STATUS as work_status,
-	        W.WORK_NOTE as work_note,
-	        W.WORK_ESTIMATE as work_estimate,
-	        W.SERVER_ID as server_id,
-	        W.ENG_ENID as eng_enid,
-	        S.SERVER_NAME as server_name,
-	        E.ENG_NAME as eng_name,
-	        P.PRO_NAME as pro_name,
-	        P.cus_id  as cus_id,
-	        ROW_NUMBER() OVER (PARTITION BY S.SERVER_NAME ORDER BY W.WORK_DATE DESC) AS RowNum
-	    FROM WORKINFO W
-	    JOIN SERVER S ON W.SERVER_ID = S.SERVER_ID
-	    JOIN ENGINEER E ON W.ENG_ENID = E.ENG_ENID
-	    JOIN PROJECTINFO P ON W.PRO_ID = P.PRO_ID
-	    WHERE P.CUS_ID = #{cus_id}
-	    GROUP BY
-	        W.PRO_ID,
-	        W.WORK_DATE,
-	        W.WORK_DIVISION,
-	        W.WORK_STATUS,
-	        W.WORK_NOTE,
-	        W.WORK_TIME,
-	        W.WORK_ESTIMATE,
-	        W.SERVER_ID,
-	        W.ENG_ENID,
-	        S.SERVER_NAME,
-	        E.ENG_NAME,
-	        P.PRO_NAME,
-	        p.cus_id
-	)
-	
-	SELECT
-	    R.pro_id,
-	    R.work_date,
-	    R.work_info as work_division,
-	    R.work_time,
-	    R.work_cpu,
-	    R.work_ram,
-	    R.work_hdd,
-	    R.work_status,
-	    R.work_note,
-	    R.work_estimate,
-	    R.server_id,
-	    R.eng_enid,
-	    R.server_name,
-	    R.eng_name,
-	    R.pro_name,
-	    R.cus_id
-	FROM RankedWorkInfo R
-	WHERE R.RowNum = 1;
+WITH RankedWorkInfo AS (
+    SELECT
+        W.PRO_ID AS PRO_ID,
+        W.WORK_DATE AS WORK_DATE,
+        W.WORK_DIVISION AS WORK_INFO,
+        W.WORK_TIME AS WORK_TIME,
+        MAX(W.WORK_CPU) AS WORK_CPU,
+        MAX(W.WORK_RAM) AS WORK_RAM,
+        MAX(W.WORK_HDD) AS WORK_HDD,
+        W.WORK_STATUS AS WORK_STATUS,
+        W.WORK_NOTE AS WORK_NOTE,
+        W.WORK_ESTIMATE AS WORK_ESTIMATE,
+        W.SERVER_ID AS SERVER_ID,
+        W.ENG_ENID AS ENG_ENID,
+        S.SERVER_NAME AS SERVER_NAME,
+        E.ENG_NAME AS ENG_NAME,
+        P.PRO_NAME AS PRO_NAME,
+        P.CUS_ID AS CUS_ID,
+        ROW_NUMBER() OVER (PARTITION BY S.SERVER_NAME ORDER BY W.WORK_DATE DESC) AS ROWNUM
+    FROM WORKINFO W
+    JOIN SERVER S ON W.SERVER_ID = S.SERVER_ID
+    JOIN ENGINEER E ON W.ENG_ENID = E.ENG_ENID
+    JOIN PROJECTINFO P ON W.PRO_ID = P.PRO_ID
+    WHERE P.CUS_ID = #{CUS_ID}
+    GROUP BY
+        W.PRO_ID,
+        W.WORK_DATE,
+        W.WORK_DIVISION,
+        W.WORK_STATUS,
+        W.WORK_NOTE,
+        W.WORK_TIME,
+        W.WORK_ESTIMATE,
+        W.SERVER_ID,
+        W.ENG_ENID,
+        S.SERVER_NAME,
+        E.ENG_NAME,
+        P.PRO_NAME,
+        P.CUS_ID
+)
+
+SELECT
+    R.PRO_ID,
+    R.WORK_DATE,
+    R.WORK_INFO AS WORK_DIVISION,
+    R.WORK_TIME,
+    R.WORK_CPU,
+    R.WORK_RAM,
+    R.WORK_HDD,
+    R.WORK_STATUS,
+    R.WORK_NOTE,
+    R.WORK_ESTIMATE,
+    R.SERVER_ID,
+    R.ENG_ENID,
+    R.SERVER_NAME,
+    R.ENG_NAME,
+    R.PRO_NAME,
+    R.CUS_ID
+FROM RankedWorkInfo R
+WHERE R.ROWNUM = 1;
+
 
    </select>
    
@@ -209,28 +211,18 @@
 		
 	</select>
 
-
   	<select id="getInspection">
 		SELECT 
-		    P.PRO_NAME AS pro_name,
-		    SUM(CASE WHEN W.WORK_DIVISION = '정기점검' THEN 1 ELSE 0 END) AS PERIODIC,
-		    SUM(CASE WHEN W.WORK_DIVISION = '장애대응' THEN 1 ELSE 0 END) AS DISABILITY,
-		    SUM(CASE WHEN W.WORK_DIVISION = '기타등등' THEN 1 ELSE 0 END) AS MAINTENANCE
-		FROM WORKINFO W
-		LEFT JOIN PROJECTINFO P ON W.PRO_ID = P.PRO_ID
-		LEFT JOIN CUSTOMER C ON P.CUS_ID = C.CUS_ID
-		WHERE C.CUS_ID = #{cus_id}
+		    P.PRO_NAME AS PRO_NAME,
+		    COALESCE(SUM(CASE WHEN W.WORK_DIVISION = '정기점검' THEN 1 ELSE 0 END), 0) AS PERIODIC,
+		    COALESCE(SUM(CASE WHEN W.WORK_DIVISION = '긴급점검' THEN 1 ELSE 0 END), 0) AS DISABILITY,
+		    COALESCE(SUM(CASE WHEN W.WORK_DIVISION = '기타등등' THEN 1 ELSE 0 END), 0) AS MAINTENANCE
+		FROM PROJECTINFO P
+		LEFT JOIN WORKINFO W ON P.PRO_ID = W.PRO_ID
+		WHERE P.CUS_ID = #{CUS_ID}
 		GROUP BY P.PRO_NAME
-		
-		
-
-
-  	</select>
-
-
-	
-
-	
+		ORDER BY P.PRO_NAME;
+		</select>
 
 
 </mapper>
