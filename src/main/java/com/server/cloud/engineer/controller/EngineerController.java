@@ -65,9 +65,6 @@ public class EngineerController {
 	@GetMapping("/engineer/workDetail/{eng_enid}")
 	public ResponseEntity<Map<String, Object>> enWorkDetailToInfo(@PathVariable String eng_enid) {
 
-		System.out.println(eng_enid+"dfsdfs");
-		// 추후 토큰이랑 연동해야됌
-
 		List<EngSerProInfoWorkInfoVO> eSPIWlist = engineerService.engProInfo(eng_enid);
 		List<ServerVO> serverList = engineerService.serverList();
 
@@ -170,7 +167,15 @@ public class EngineerController {
 		
 		return new ResponseEntity<>(vo,HttpStatus.OK);
 	}
-	
+	//승용 스케줄별 아이디 이름 등 가져 오기
+	@PostMapping("/engineer/getScheInfo")
+	public ResponseEntity<?>getScheInfo(@RequestBody Map<String,Object> id){
+		
+		ScheduleVO VO=engineerService.getScheInfo((String)id.get("sche_num"));
+		
+		return new ResponseEntity<>(VO,HttpStatus.OK);
+	}
+
 	
 	
 	

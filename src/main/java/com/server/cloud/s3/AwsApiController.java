@@ -11,18 +11,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,7 +31,6 @@ import com.server.cloud.command.CusVO;
 import com.server.cloud.command.NoticeVO;
 import com.server.cloud.main.service.CusService;
 
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 
 
@@ -146,15 +145,16 @@ public class AwsApiController {
 
 	@PostMapping("/api/main/cloudMultiUpload")
 	public ResponseEntity<Integer> multiUpload(@RequestParam("file_data") List<MultipartFile> fileList,
-			@RequestParam("userId") String userId) {
+			@RequestParam("userId") String userId, @RequestParam("pro_id") String pro_id) {
 		Instant now = Instant.now();
 		Timestamp timestamp = Timestamp.from(now);
 		//System.out.println(fileId);
 		System.out.println(fileList);
 		System.out.println(userId);
+		System.out.println("pro_id 값 = " + pro_id);
+
 
 		fileList = fileList.stream().filter( f -> f.isEmpty() == false).collect(Collectors.toList());
-		System.out.println(fileList.size()+"------------");
 		int result = 0;
 		try {
 			List<FileVO> list = new ArrayList<>();
@@ -170,9 +170,8 @@ public class AwsApiController {
 						.user_id(userId)
 						.upload_date(timestamp)
 						.build();
-				//				System.out.println(fileVO.toString());
+				
 				list.add(fileVO);
-				System.out.println(list.toString());
 				result = awsService.setFiles(list, userId);
 			}}catch (Exception e) {
 				e.printStackTrace();
@@ -233,5 +232,20 @@ public class AwsApiController {
 		awsService.inQuryDel(notice_num);//댓글,글 삭제
 		return null;
 	}
+	
+
+	@GetMapping("/api/main/getFiles")
+	public ResponseEntity<?> getFiles(String work_filenum) {
+		System.out.println(work_filenum);
+		if(work_filenum != null) {
+			
+			List<FileVO> files = awsService.getFiles(work_filenum);
+			return new ResponseEntity<>(files, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>("파일 없음", HttpStatus.OK);
+		}
+		
+	}
+
 
 }

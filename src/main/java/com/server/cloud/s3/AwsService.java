@@ -11,8 +11,9 @@ public interface AwsService {
 	void setFile(FileVO fileVO);
 	
 	int setFiles(List<FileVO> list, String user_id);
+	
 
-	FileVO getFile(String file_num);
+	List<FileVO> getFiles(String work_filenum);
 
 	void fileDel(String file_num);
 
@@ -21,7 +22,7 @@ public interface AwsService {
 	void inQuryDel(String notice_num);
 
 	void setFileCs(FileVO fileVO);
-
-
+	
+	
 
 }

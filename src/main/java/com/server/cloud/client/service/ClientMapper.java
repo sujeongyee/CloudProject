@@ -9,12 +9,10 @@ import org.apache.ibatis.annotations.Param;
 import com.server.cloud.command.CusVO;
 import com.server.cloud.command.InsRequestVO;
 import com.server.cloud.command.ProjectInfoVO;
-
-
 import com.server.cloud.command.QueryVO;
 import com.server.cloud.command.ProjectDetailVO;
 import com.server.cloud.command.ServerVO;
-
+import com.server.cloud.command.WorkInfoVO;
 import com.server.cloud.command.ClientVO;
 import com.server.cloud.command.CommentVO;
 
@@ -46,6 +44,10 @@ public interface ClientMapper {
 	//점검요청
 	public void insRequestForm(InsRequestVO insReVO);
 	
+	//점검요청목록
+	public ArrayList<InsRequestVO> getInsRequestCheck(@Param("server_id") String server_id,
+													  @Param("cus_id") String cus_id);
+	
 
 
 	 //작업 내역 리스트
@@ -56,6 +58,5 @@ public interface ClientMapper {
 	   //메인프로젝트 
 	   public List<ProjectDetailVO> projectMain(String cus_id);
 	   public List<QueryVO> getInspection(String cus_id);
-
 
 }

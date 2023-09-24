@@ -1,5 +1,6 @@
 package com.server.cloud.s3;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,7 @@ public class AwsServiceImpl implements AwsService{
 	@Override
 	public void setInfo(FileVO fileVO) {
 
-
 			awsMapper.setInfo(fileVO);
-		
 	}
 
 
@@ -33,11 +32,12 @@ public class AwsServiceImpl implements AwsService{
 		awsMapper.setFile(fileVO);
 	}
 
-
+	// 멀티파일 다운로드
 	@Override
-	public FileVO getFile(String file_num) {
-		// TODO Auto-generated method stub
-		return awsMapper.getFile(file_num);
+	public List<FileVO> getFiles(String work_filenum) {
+		
+				
+		return awsMapper.getFiles(work_filenum);
 	}
 
 
@@ -72,11 +72,7 @@ public class AwsServiceImpl implements AwsService{
 	public int setFiles(List<FileVO> list, String user_id) {
 	
 		return awsMapper.setFiles(list, user_id);
-}
-
-	
-
-
+	}
 	
 
 }
