@@ -57,9 +57,6 @@ public interface ClientMapper {
 	   public List<QueryVO> getInspection(String cus_id);
 		   
 
-	   
-
-	
 
 
 }
