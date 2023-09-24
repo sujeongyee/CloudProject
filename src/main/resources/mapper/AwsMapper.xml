@@ -95,9 +95,9 @@
 
 
     <insert id="setFiles" >
-      <selectKey keyProperty="work_num" resultType="String"
+      <selectKey keyProperty="work_filenum" resultType="String"
          order="BEFORE">
-         SELECT WORK_NUM FROM WORKINFO WHERE ENG_ENID = #{user_id}
+         SELECT WORK_FILENUM FROM WORKINFO WHERE ENG_ENID = #{user_id}
          ORDER BY WORK_DATE DESC LIMIT 1;
       </selectKey>
 
@@ -106,7 +106,7 @@
          values
 
          <foreach collection="list" item="list" separator=",">      
-            (#{list.file_name}, #{list.file_path}, #{list.file_type}, #{list.upload_date}, #{work_num}, #{list.user_id})
+            (#{list.file_name}, #{list.file_path}, #{list.file_type}, #{list.upload_date}, #{work_filenum}, #{list.user_id})
          </foreach>
      </insert> 
     
@@ -118,25 +118,24 @@
     
     DELETE FROM FILE WHERE FILE_ID = #{file_num}
     </delete>
+    
     <delete id="AnnoDel">
-    DELETE FROM NOTICE WHERE NOTICE_NUM = #{notice_num};
-    DELETE FROM NOTICE_COMMENT WHERE NOTICE_NUM = #{notice_num};
+	    DELETE FROM NOTICE WHERE NOTICE_NUM = #{notice_num};
+	    DELETE FROM NOTICE_COMMENT WHERE NOTICE_NUM = #{notice_num};
     </delete>
+    
     <delete id="inQuryDel">
-    DELETE FROM CS WHERE CS_NUM = #{notice_num};
-    DELETE FROM NOTICE_COMMENT WHERE NOTICE_NUM = #{notice_num};
+	    DELETE FROM CS WHERE CS_NUM = #{notice_num};
+	    DELETE FROM NOTICE_COMMENT WHERE NOTICE_NUM = #{notice_num};
     </delete>
     
-    
-    
-    
-     <select id="getFiles" resultType="com.server.cloud.s3.FileVO">
+
+    <select id="getFiles" resultType="com.server.cloud.s3.FileVO">
 
         SELECT * FROM FILE 
-        WHERE USER_NUM = #{work_num};
+        WHERE USER_NUM = #{work_filenum};
 
     </select>
-     
-    
+
     
 </mapper>
