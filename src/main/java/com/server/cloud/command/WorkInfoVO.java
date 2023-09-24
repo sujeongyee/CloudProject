@@ -18,6 +18,7 @@ public class WorkInfoVO {
 
 	
 	private String work_num;
+	private String work_filenum;
 	private Date work_date;
 	private String work_division;
 	@JsonFormat

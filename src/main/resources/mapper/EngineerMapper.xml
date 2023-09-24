@@ -57,10 +57,17 @@
 	<select id="serverList" resultType="ServerVO">
 		SELECT * FROM SERVER;
 	</select>
+	
+	
+	
 
 	<insert id="registWorkLog" parameterType="java.util.List">
+		 <selectKey keyProperty="work_filenum" resultType="String" order="BEFORE">
+	        SELECT UUID()
+	     </selectKey>
 		insert into WORKINFO
-		(work_date,
+		(work_filenum,
+		work_date,
 		work_division,
 		work_time,
 		work_cpu,
@@ -74,7 +81,8 @@
 		pro_id)
 		values
 		<foreach collection="list" item="workInfo" separator=",">
-			(#{workInfo.work_date},
+			(#{work_filenum},
+			#{workInfo.work_date},
 			#{workInfo.work_division},
 			#{workInfo.work_time},
 			#{workInfo.work_cpu},

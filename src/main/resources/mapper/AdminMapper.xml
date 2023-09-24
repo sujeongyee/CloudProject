@@ -124,7 +124,7 @@
 		resultType="com.server.cloud.command.CusVO">
 		select * from CUSTOMER ;
     </select>
-  
+
      <insert id="csUpdate">
 
       insert into CS(cs_num,cs_answer_yn)
@@ -148,6 +148,7 @@
       left join CUSTOMER c
       on p.cus_id = c.cus_id
       ORDER BY PRO_ENDDATE DESC;
+
    </select>
    
    <!-- 프로젝트 디테일 (프로젝트) -->
