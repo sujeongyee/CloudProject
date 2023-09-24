@@ -101,6 +101,7 @@
 		LEFT JOIN PROJECTINFO P ON S.PRO_ID = P.PRO_ID
 		WHERE P.PRO_PI = #{pro_pi}
 		AND S.ENG_ENID = E.ENG_ENID
+		AND E.ENG_RANK!='팀장';
 		);
 	</select>
 
