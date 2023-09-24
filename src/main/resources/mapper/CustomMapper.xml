@@ -57,6 +57,7 @@
       'ROLE_USER'
       );
 
+
       INSERT INTO ROLE (
       USERNAME,
       PASSWORD,
@@ -118,6 +119,7 @@
       cus_address2=#{cus_address2},cus_managet_name=#{cus_managet_name},cus_email=#{cus_email},
       cus_company_ph=#{cus_company_ph},cus_boss=#{cus_boss}
    </insert>
+
 
    <select id="SearchInfo" resultType="map">
       SELECT *

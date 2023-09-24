@@ -11,120 +11,119 @@
 <mapper namespace="com.server.cloud.admin.service.AdminMapper">
 
 
-   <select id="getTotal" resultType="int">
-      SELECT COUNT(*) FROM NOTICE
-      <where>
-         <if test="role!='ROLE_ADMIN'">
-            AND (notice_target = #{role} OR notice_target = 'ALL')
-         </if>
-      </where>
-   </select>
+	<select id="getTotal" resultType="int">
+		SELECT COUNT(*) FROM NOTICE
+		<where>
+			<if test="role!='ROLE_ADMIN'">
+				AND (notice_target = #{role} OR notice_target = 'ALL')
+			</if>
+		</where>
+	</select>
 
 
-   <select id="getList"
-      resultType="com.server.cloud.command.NoticeVO">
+	<select id="getList"
+		resultType="com.server.cloud.command.NoticeVO">
 
-      select * from NOTICE
-      <where>
-         <if test="role!='ROLE_ADMIN' and role!=null">
-            AND (notice_target=#{role} or notice_target='ALL')
-         </if>
-      </where>
-      order by notice_regdate desc limit
-      #{pageStart},#{amount}
-   </select>
-   <select id="csList" resultType="com.server.cloud.command.CsVO">
+		select * from NOTICE
+		<where>
+			<if test="role!='ROLE_ADMIN' and role!=null">
+				AND (notice_target=#{role} or notice_target='ALL')
+			</if>
+		</where>
+		order by notice_regdate desc limit
+		#{pageStart},#{amount}
+	</select>
+	<select id="csList" resultType="com.server.cloud.command.CsVO">
 
-      select * from CS
-      <where>
-         <if test="cs_writer!=null">
-            AND (cs_writer=#{cs_writer})
-         </if>
-      </where>
-      order by
-      cs_regdate desc
-   </select>
+		select * from CS
+		<where>
+			<if test="cs_writer!=null">
+				AND (cs_writer=#{cs_writer})
+			</if>
+		</where>
+		order by
+		cs_regdate desc
+	</select>
 
-   <select id="csEnList" resultType="com.server.cloud.command.CsVO">
+	<select id="csEnList" resultType="com.server.cloud.command.CsVO">
 
-      select cs_num,cs_title,cs_content,cs_writer,cs_regdate,cs_answer_yn,cs_type,cs_project,cs_server 
-      from (select * from CS c LEFT join PROJECTINFO p on c.cs_project=p.pro_id where team_num=#{eng_team_num}) as eng
-      <where> 
-         <if test="role=='ROLE_ENGINEER'">
-            or cs_server=#{cs_writer}
-         </if>
-         <if test="role=='ROLE_ENGINEER'">
-            or cs_server='ALL'
-         </if>
-         </where>
-      order by
-      cs_regdate desc
+		select cs_num,cs_title,cs_content,cs_writer,cs_regdate,cs_answer_yn,cs_type,cs_project,cs_server 
+		from (select * from CS c LEFT join PROJECTINFO p on c.cs_project=p.pro_id where team_num=#{eng_team_num}) as eng
+		<where> 
+			<if test="role=='ROLE_ENGINEER'">
+				or cs_server=#{cs_writer}
+			</if>
+			<if test="role=='ROLE_ENGINEER'">
+				or cs_server='ALL'
+			</if>
+			</where>
+		order by
+		cs_regdate desc
 
-   </select>
-   <select id="csEnLeaderList" resultType="com.server.cloud.command.CsVO">
+	</select>
+	<select id="csEnLeaderList" resultType="com.server.cloud.command.CsVO">
 
-      select * from CS c LEFT join PROJECTINFO p on c.cs_project=p.pro_id 
-      where team_num=#{eng_team_num} or team_num='ALL'
-      order by
-      cs_regdate desc
+		select * from CS c LEFT join PROJECTINFO p on c.cs_project=p.pro_id 
+		where team_num=#{eng_team_num} or team_num='ALL'
+		order by
+		cs_regdate desc
 
-   </select>
-   <select id="csEnListMy" resultType="com.server.cloud.command.CsVO">
-   
-   select * from CS where cs_writer=#{cs_writer}
-   </select>
-   <select id="csEnLeaderListMy" resultType="com.server.cloud.command.CsVO">
-   
-   select * from CS where cs_writer=#{cs_writer}
-   </select>
-   <select id="csEnTotal" resultType="int">
+	</select>
+	<select id="csEnListMy" resultType="com.server.cloud.command.CsVO">
+	
+	select * from CS where cs_writer=#{cs_writer}
+	</select>
+	<select id="csEnLeaderListMy" resultType="com.server.cloud.command.CsVO">
+	
+	select * from CS where cs_writer=#{cs_writer}
+	</select>
+	<select id="csEnTotal" resultType="int">
 
-      select count(*)
-      from (select * from CS c right join PROJECTINFO p on c.cs_project=p.pro_id where team_num=#{eng_team_num}) as eng
-      <where> 
-         <if test="role=='ROLE_ENGINEER'">
-            or cs_server=#{cs_writer}
-         </if>
-         <if test="role=='ROLE_ENGINEER'">
-            or cs_server='ALL'
-         </if>
-         </where>
-   
+		select count(*)
+		from (select * from CS c right join PROJECTINFO p on c.cs_project=p.pro_id where team_num=#{eng_team_num}) as eng
+		<where> 
+			<if test="role=='ROLE_ENGINEER'">
+				or cs_server=#{cs_writer}
+			</if>
+			<if test="role=='ROLE_ENGINEER'">
+				or cs_server='ALL'
+			</if>
+			</where>
+	
 
-   </select>
+	</select>
 
-   <select id="csTotal" resultType="int">
+	<select id="csTotal" resultType="int">
 
-      select count(*) from CS;
-
-
-   </select>
-   <select id="csUserTotal" resultType="int">
-
-      select count(*) from CS
-      where cs_writer=#{cs_writer}
-      ;
+		select count(*) from CS;
 
 
-   </select>
-   <!-- 회원관리 - 엔지니어 -->
+	</select>
+	<select id="csUserTotal" resultType="int">
+
+		select count(*) from CS
+		where cs_writer=#{cs_writer}
+		;
 
 
-   <select id="adEngineerList"
-      resultType="com.server.cloud.command.EngineerVO">
+	</select>
+	<!-- 회원관리 - 엔지니어 -->
 
-      select e.*, t.team_id
-      from ENGINEER e
-      inner join ENG_TEAM t
-      on e.team_num = t.team_num
-   </select>
 
-   <!-- 회원관리 - 기업 -->
-   <select id="adClientList"
-      resultType="com.server.cloud.command.CusVO">
-      select c.*, p.pro_status, p.pro_startdate, p.pro_enddate
-      from CUSTOMER c
-    left join PROJECTINFO p on c.cus_id = p.cus_id;
+	<select id="adEngineerList"
+		resultType="com.server.cloud.command.EngineerVO">
+
+		select e.*, t.team_id
+		from ENGINEER e
+		inner join ENG_TEAM t
+		on e.team_num = t.team_num
+	</select>
+
+	<!-- 회원관리 - 기업 -->
+	<select id="adClientList"
+		resultType="com.server.cloud.command.CusVO">
+		select * from CUSTOMER ;
+
     </select>
      <insert id="csUpdate">
 
