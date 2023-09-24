@@ -20,7 +20,7 @@ public interface AwsMapper {
 
 	void setAnno(NoticeVO vo);
 
-	FileVO getFile(String file_num);
+	List<FileVO> getFiles(String work_filenum);
 
 	void UpAnno(NoticeVO vo);
 

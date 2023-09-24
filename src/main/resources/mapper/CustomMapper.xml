@@ -75,10 +75,6 @@
 		</selectKey>
 
 		insert into FILE(
-
-
-		</selectKey>
-		insert into FILE(
 		file_name,
 		file_path,
 		file_type,

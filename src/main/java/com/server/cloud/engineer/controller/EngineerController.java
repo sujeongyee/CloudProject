@@ -65,9 +65,6 @@ public class EngineerController {
 	@GetMapping("/engineer/workDetail/{eng_enid}")
 	public ResponseEntity<Map<String, Object>> enWorkDetailToInfo(@PathVariable String eng_enid) {
 
-		System.out.println(eng_enid+"dfsdfs");
-		// 추후 토큰이랑 연동해야됌
-
 		List<EngSerProInfoWorkInfoVO> eSPIWlist = engineerService.engProInfo(eng_enid);
 		List<ServerVO> serverList = engineerService.serverList();
 

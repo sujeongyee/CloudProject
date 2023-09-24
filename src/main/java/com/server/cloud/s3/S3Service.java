@@ -89,51 +89,6 @@ public class S3Service {
 		
 	}
 	
-//	public List<FileVO> uploadFile(List<MultipartFile> multipartFile, String dirName) {
-//        List<FileVO> fileVO = new ArrayList<>();
-// 
-//        // forEach 구문을 통해 multipartFile로 넘어온 파일들 하나씩 reponseDto에 추가
-//        multipartFile.forEach(file -> {
-//            String fileName = createFileName(file.getOriginalFilename(), dirName);
-//            ObjectMetadata objectMetadata = new ObjectMetadata();
-//            objectMetadata.setContentLength(file.getSize());
-//            objectMetadata.setContentType(file.getContentType());
-// 
-//            try(InputStream inputStream = file.getInputStream()) {
-//                amazons3.putObject(new com.amazonaws.services.s3.model.PutObjectRequest(bucketName, fileName, inputStream, objectMetadata)
-//                        .withCannedAcl(CannedAccessControlList.PublicRead));
-//                log.info("a3 업로드 성공");
-//            } catch(IOException e) {
-//                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드에 실패했습니다.");
-//            }
-// 
-//            // file에 관한 내용을 Vo로 변환 후 list에 담아 return
-//            fileVO.add(new FileVO(file.getOriginalFilename(), fileName, file.getSize()));
-// 
-// 
-// 
-//        });
-// 
-//        return fileVO;
-//    }
-//	
-//	public void deleteFile(String fileName, String dirName) {
-//        amazons3.deleteObject(new DeleteObjectRequest(bucketName, dirName + "/" + fileName));
-//    }
-// 
-//    // 먼저 파일 업로드 시, 파일명을 난수화하기 위해 UUID를 붙여준다.
-//    private String createFileName(String fileName, String dirName) {
-//        return dirName + "/" + UUID.randomUUID().toString().concat(getFileExtension(fileName));
-//    }
-// 
-//    // file 형식이 잘못된 경우를 확인하기 위해 만들어진 로직이며, 파일 타입과 상관없이 업로드할 수 있게 하기 위해 .의 존재 유무만 판단하였다.
-//    private String getFileExtension(String fileName) {
-//        try {
-//            return fileName.substring(fileName.lastIndexOf("."));
-//        } catch (StringIndexOutOfBoundsException e) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 형식의 파일(" + fileName + ") 입니다.");
-//        }
-//    }
 
 	public void deleteBucketObjects(String name) {
 
