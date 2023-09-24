@@ -5,174 +5,175 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.server.cloud.main.service.CusMapper">
-	<select id="getId" resultType="String">
-		SELECT cus_id FROM CUSTOMER WHERE cus_managet_name=#{cus_managet_name} AND
-		cus_email=#{cus_email}
-	</select>
-	<select id="getIdPw" resultType="String">
-		SELECT cus_id FROM CUSTOMER WHERE cus_business_id=#{cus_business_id} AND
-		cus_email=#{cus_email} AND cus_id=#{cus_id}
-	</select>
-	
-	<insert id="resetPw">
-		<selectKey keyProperty="cus_num" resultType="String"
-			order="BEFORE">
-			SELECT cus_num FROM CUSTOMER WHERE cus_id=#{cus_id}
-		</selectKey>
-		INSERT INTO CUSTOMER (cus_num, cus_pw) 
-		VALUES (#{cus_num}, #{cus_pw})
-		ON DUPLICATE KEY UPDATE
-		cus_num=#{cus_num}, cus_pw=#{cus_pw} 
-	</insert>
-	
-	<insert id="singIn">
-		INSERT INTO CUSTOMER (
-		CUS_ID,
-		CUS_PW,
-		CUS_COMPANY_NAME,
-		CUS_BOSS,
-		CUS_COMPANY_PH,
-		CUS_POSTAL_CODE,
-		CUS_ADDRESS1,
-		CUS_ADDRESS2,
-		CUS_MANAGET_NAME,
-		CUS_PHONE_NUMBER,
-		CUS_EMAIL,
-		CUS_BUSINESS_ID,
-		USER_ID
-		)
-		VALUES (
-		#{cus_id},
-		#{cus_pw},
-		#{cus_company_name},
-		#{cus_boss},
-		#{cus_company_ph},
-		#{cus_postal_code},
-		#{cus_address1},
-		#{cus_address2},
-		#{cus_managet_name},
-		#{cus_phone_number},
-		#{cus_email},
-		#{cus_business_id},
-		'ROLE_USER'
-		);
+   <select id="getId" resultType="String">
+      SELECT cus_id FROM CUSTOMER WHERE cus_managet_name=#{cus_managet_name} AND
+      cus_email=#{cus_email}
+   </select>
+   <select id="getIdPw" resultType="String">
+      SELECT cus_id FROM CUSTOMER WHERE cus_business_id=#{cus_business_id} AND
+      cus_email=#{cus_email} AND cus_id=#{cus_id}
+   </select>
+   
+   <insert id="resetPw">
+      <selectKey keyProperty="cus_num" resultType="String"
+         order="BEFORE">
+         SELECT cus_num FROM CUSTOMER WHERE cus_id=#{cus_id}
+      </selectKey>
+      INSERT INTO CUSTOMER (cus_num, cus_pw) 
+      VALUES (#{cus_num}, #{cus_pw})
+      ON DUPLICATE KEY UPDATE
+      cus_num=#{cus_num}, cus_pw=#{cus_pw} 
+   </insert>
+   
+   <insert id="singIn">
+      INSERT INTO CUSTOMER (
+      CUS_ID,
+      CUS_PW,
+      CUS_COMPANY_NAME,
+      CUS_BOSS,
+      CUS_COMPANY_PH,
+      CUS_POSTAL_CODE,
+      CUS_ADDRESS1,
+      CUS_ADDRESS2,
+      CUS_MANAGET_NAME,
+      CUS_PHONE_NUMBER,
+      CUS_EMAIL,
+      CUS_BUSINESS_ID,
+      USER_ID
+      )
+      VALUES (
+      #{cus_id},
+      #{cus_pw},
+      #{cus_company_name},
+      #{cus_boss},
+      #{cus_company_ph},
+      #{cus_postal_code},
+      #{cus_address1},
+      #{cus_address2},
+      #{cus_managet_name},
+      #{cus_phone_number},
+      #{cus_email},
+      #{cus_business_id},
+      'ROLE_USER'
+      );
 
-		INSERT INTO ROLE (
-		USERNAME,
-		PASSWORD,
-		ROLE)
-		VALUES (
-		#{cus_id},
-		#{cus_pw},
-		'ROLE_USER'
-		);
-	</insert>
-	
-	<insert id="setPoto">
-		<selectKey keyProperty="user_num" resultType="String"
-			order="BEFORE">
-			SELECT cus_num FROM CUSTOMER WHERE cus_id=#{user_id}
-		</selectKey>
+      INSERT INTO ROLE (
+      USERNAME,
+      PASSWORD,
+      ROLE)
+      VALUES (
+      #{cus_id},
+      #{cus_pw},
+      'ROLE_USER'
+      );
+   </insert>
+   
+   <insert id="setPoto">
+      <selectKey keyProperty="user_num" resultType="String"
+         order="BEFORE">
+         SELECT cus_num FROM CUSTOMER WHERE cus_id=#{user_id}
+      </selectKey>
 
-		insert into FILE(
-		file_name,
-		file_path,
-		file_type,
-		user_num,
-		user_id
-		)
-		VALUES (
-		'profile.jpg',
-		'https://project-buket.s3.amazonaws.com/profile.jpg',
-		'image/jpeg',
-		#{user_num},
-		#{user_id}
-		)
-	</insert>
+      insert into FILE(
+      file_name,
+      file_path,
+      file_type,
+      user_num,
+      user_id
+      )
+      VALUES (
+      'profile.jpg',
+      'https://project-buket.s3.amazonaws.com/profile.jpg',
+      'image/jpeg',
+      #{user_num},
+      #{user_id}
+      )
+   </insert>
 
-	<select id="idCheck" resultType="CusVO">
-		SELECT * FROM CUSTOMER WHERE
-		cus_id=#{cus_id}
-	</select>
+   <select id="idCheck" resultType="CusVO">
+      SELECT * FROM CUSTOMER WHERE
+      cus_id=#{cus_id}
+   </select>
 
-	<select id="emailCheck" resultType="CusVO">
-		SELECT * FROM CUSTOMER WHERE
-		cus_email=#{cus_email}
-	</select>
-	
-	<select id="idCheckEng" resultType="EngineerVO">
-		SELECT * FROM ENGINEER WHERE
-		eng_enid=#{eng_enid}
-	</select>
-	
-	<insert id="updateInfo">
-		INSERT INTO CUSTOMER
-		(cus_num,
-		cus_id,cus_company_name,cus_address1,
-		cus_address2,cus_managet_name,cus_email,cus_company_ph,cus_boss)
-		VALUES
-		(#{cus_num},#{cus_id},#{cus_company_name},#{cus_address1},#{cus_address2},
-		#{cus_managet_name},#{cus_email},#{cus_company_ph},#{cus_boss})
-		ON DUPLICATE KEY UPDATE
-		cus_num=#{cus_num},cus_id=#{cus_id},cus_company_name=#{cus_company_name},cus_address1=#{cus_address1},
-		cus_address2=#{cus_address2},cus_managet_name=#{cus_managet_name},cus_email=#{cus_email},
-		cus_company_ph=#{cus_company_ph},cus_boss=#{cus_boss}
-	</insert>
+   <select id="emailCheck" resultType="CusVO">
+      SELECT * FROM CUSTOMER WHERE
+      cus_email=#{cus_email}
+   </select>
+   
+   <select id="idCheckEng" resultType="EngineerVO">
+      SELECT * FROM ENGINEER WHERE
+      eng_enid=#{eng_enid}
+   </select>
+   
+   <insert id="updateInfo">
+      INSERT INTO CUSTOMER
+      (cus_num,
+      cus_id,cus_company_name,cus_address1,
+      cus_address2,cus_managet_name,cus_email,cus_company_ph,cus_boss)
+      VALUES
+      (#{cus_num},#{cus_id},#{cus_company_name},#{cus_address1},#{cus_address2},
+      #{cus_managet_name},#{cus_email},#{cus_company_ph},#{cus_boss})
+      ON DUPLICATE KEY UPDATE
+      cus_num=#{cus_num},cus_id=#{cus_id},cus_company_name=#{cus_company_name},cus_address1=#{cus_address1},
+      cus_address2=#{cus_address2},cus_managet_name=#{cus_managet_name},cus_email=#{cus_email},
+      cus_company_ph=#{cus_company_ph},cus_boss=#{cus_boss}
+   </insert>
 
-	<select id="SearchInfo" resultType="map">
-		SELECT *
-		FROM ${table}
-		WHERE ${columm} LIKE CONCAT('%', #{value}, '%')
-		<if test="cs_writer !='undefined'">
-			AND(cs_writer=#{cs_writer})
-		</if>
-		<if test="order != null and order != ''">
-			ORDER BY ${order} DESC
-		</if>
-	</select>
-	
-	<select id="SearchCount" resultType="String">
-		SELECT COUNT(*)
-		FROM ${table}
-		WHERE ${column} LIKE CONCAT('%',#{value},'%');
-	</select>
-	
-	<select id="getComment" resultType="NoticeCommentVO">
-		SELECT * FROM NOTICE_COMMENT
-		WHERE notice_num=#{notice_num} ORDER BY com_regdate DESC;
-	</select>
 
-	<insert id="CreateComments">
-		INSERT INTO NOTICE_COMMENT
-		(com_writer,com_content,notice_num)
-		VALUES (#{com_writer},#{com_content},#{notice_num})
-	</insert>
-	
-	<delete id="commentDel">
-		DELETE FROM NOTICE_COMMENT WHERE com_num=#{com_num}
-	</delete>
-	
-	<insert id="commentUp">
-		INSERT INTO NOTICE_COMMENT(com_num,com_content)
-		VALUES (#{com_num},#{com_content})
-		ON DUPLICATE KEY UPDATE
-		com_num=#{com_num},com_content=#{com_content}
-	</insert>
-	
-	<select id="getServerList">
-		SELECT * FROM SERVER WHERE pro_id=#{pro_id}
-	</select>
-	
-	<insert id="quryeWrite">
-		INSERT INTO CS(cs_title,cs_content,cs_answer_yn,cs_type,cs_project,cs_server,cs_writer)
-		VALUES (
-		#{cs_title},
-		#{cs_content},
-		#{cs_answer_yn},
-		#{cs_type},
-		#{cs_project},
-		#{cs_server},
-		#{cs_writer}
-		)
-	</insert>
+   <select id="SearchInfo" resultType="map">
+      SELECT *
+      FROM ${table}
+      WHERE ${columm} LIKE CONCAT('%', #{value}, '%')
+      <if test="cs_writer !='undefined'">
+         AND(cs_writer=#{cs_writer})
+      </if>
+      <if test="order != null and order != ''">
+         ORDER BY ${order} DESC
+      </if>
+   </select>
+   
+   <select id="SearchCount" resultType="String">
+      SELECT COUNT(*)
+      FROM ${table}
+      WHERE ${column} LIKE CONCAT('%',#{value},'%');
+   </select>
+   
+   <select id="getComment" resultType="NoticeCommentVO">
+      SELECT * FROM NOTICE_COMMENT
+      WHERE notice_num=#{notice_num} ORDER BY com_regdate DESC;
+   </select>
+
+   <insert id="CreateComments">
+      INSERT INTO NOTICE_COMMENT
+      (com_writer,com_content,notice_num)
+      VALUES (#{com_writer},#{com_content},#{notice_num})
+   </insert>
+   
+   <delete id="commentDel">
+      DELETE FROM NOTICE_COMMENT WHERE com_num=#{com_num}
+   </delete>
+   
+   <insert id="commentUp">
+      INSERT INTO NOTICE_COMMENT(com_num,com_content)
+      VALUES (#{com_num},#{com_content})
+      ON DUPLICATE KEY UPDATE
+      com_num=#{com_num},com_content=#{com_content}
+   </insert>
+   
+   <select id="getServerList">
+      SELECT * FROM SERVER WHERE pro_id=#{pro_id}
+   </select>
+   
+   <insert id="quryeWrite">
+      INSERT INTO CS(cs_title,cs_content,cs_answer_yn,cs_type,cs_project,cs_server,cs_writer)
+      VALUES (
+      #{cs_title},
+      #{cs_content},
+      #{cs_answer_yn},
+      #{cs_type},
+      #{cs_project},
+      #{cs_server},
+      #{cs_writer}
+      )
+   </insert>
 </mapper>

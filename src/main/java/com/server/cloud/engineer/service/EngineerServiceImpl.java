@@ -106,12 +106,20 @@ public class EngineerServiceImpl implements EngineerService{
 		// TODO Auto-generated method stub
 		return engineerMapper.updateWorkStatus(work_status, server_id);
 	}
+
 	//승용 서버 가져오기
 	@Override
 	public List<ServerVO> getServer(String eng_enid) {
 		// TODO Auto-generated method stub
 		return engineerMapper.getServer(eng_enid);
 
+	}
+
+
+	@Override
+	public ScheduleVO getScheInfo(String string) {
+		// TODO Auto-generated method stub
+		return engineerMapper.getScheInfo(string);
 	}
 	
 

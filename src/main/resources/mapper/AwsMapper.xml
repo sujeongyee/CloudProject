@@ -102,7 +102,7 @@
       </selectKey>
 
          insert into
-         FILE(file_name,file_path,file_type,upload_date,user_num,user_id)
+         FILE(file_name,file_path,file_type,upload_date,user_num,user_id) 
          values
 
          <foreach collection="list" item="list" separator=",">      
@@ -129,11 +129,13 @@
 	    DELETE FROM NOTICE_COMMENT WHERE NOTICE_NUM = #{notice_num};
     </delete>
     
+
     <select id="getFiles" resultType="com.server.cloud.s3.FileVO">
 
         SELECT * FROM FILE 
         WHERE USER_NUM = #{work_filenum};
 
     </select>
+
     
 </mapper>
