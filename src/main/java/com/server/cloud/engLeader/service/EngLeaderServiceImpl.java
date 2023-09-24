@@ -130,11 +130,7 @@ public class EngLeaderServiceImpl implements EngLeaderService{
 		
 	}
 	
-	@Override
-	public void registSchedule(String eng_enid, String server_id) {
-		engLeaderMapper.registSchedule(eng_enid, server_id);
-	}
-	
+
 	
 	//점검요청목록 
 	@Override
