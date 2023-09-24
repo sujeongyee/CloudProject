@@ -105,7 +105,8 @@ public class EngineerServiceImpl implements EngineerService{
 	public int updateWorkStatus(String work_status, String server_id) {
 		// TODO Auto-generated method stub
 		return engineerMapper.updateWorkStatus(work_status, server_id);
-
+	}
+	
 	//승용 서버 가져오기
 	@Override
 	public List<ServerVO> getServer(String eng_enid) {
