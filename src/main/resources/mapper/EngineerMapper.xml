@@ -165,5 +165,14 @@
 	
 	</select>
 	
+	<select id="getScheInfo" resultType="com.server.cloud.command.ScheduleVO">
+	SELECT E.SCHE_NUM,E.SCHE_STARTDATE,E.SCHE_ENDDATE,E.SCHE_NAME,E.SCHE_NUM,E.ENG_ENID,E.SERVER_ID,S.SERVER_NAME,F.PRO_NAME,F.PRO_ID FROM ENG_SCHEDULE E JOIN SERVER S ON E.SERVER_ID=S.SERVER_ID 
+	JOIN PROJECTINFO F 
+	ON S.PRO_ID=F.PRO_ID WHERE E.SCHE_NUM=#{sche_num};
+
+	
+	</select>
+	
+	
 </mapper>
 

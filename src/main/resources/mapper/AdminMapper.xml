@@ -48,7 +48,7 @@
 	<select id="csEnList" resultType="com.server.cloud.command.CsVO">
 
 		select cs_num,cs_title,cs_content,cs_writer,cs_regdate,cs_answer_yn,cs_type,cs_project,cs_server 
-		from (select * from CS c right join PROJECTINFO p on c.cs_project=p.pro_id where team_num=#{eng_team_num}) as eng
+		from (select * from CS c LEFT join PROJECTINFO p on c.cs_project=p.pro_id where team_num=#{eng_team_num}) as eng
 		<where> 
 			<if test="role=='ROLE_ENGINEER'">
 				or cs_server=#{cs_writer}
@@ -63,7 +63,7 @@
 	</select>
 	<select id="csEnLeaderList" resultType="com.server.cloud.command.CsVO">
 
-		select * from CS c right join projectinfo p on c.cs_project=p.pro_id 
+		select * from CS c LEFT join PROJECTINFO p on c.cs_project=p.pro_id 
 		where team_num=#{eng_team_num} or team_num='ALL'
 		order by
 		cs_regdate desc
@@ -122,9 +122,7 @@
 	<!-- 회원관리 - 기업 -->
 	<select id="adClientList"
 		resultType="com.server.cloud.command.CusVO">
-		select c.*, p.pro_status, p.pro_startdate, p.pro_enddate
-		from CUSTOMER c
-    left join PROJECTINFO p on c.cus_id = p.cus_id;
+		select * from CUSTOMER ;
     </select>
   	<insert id="csUpdate">
 

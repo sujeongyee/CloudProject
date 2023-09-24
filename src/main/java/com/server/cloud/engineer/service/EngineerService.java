@@ -38,4 +38,5 @@ public interface EngineerService {
 	public List<ServerVO> getServer(String eng_enid);
 
 	public int updateWorkStatus(String work_status, String server_id);
+	public ScheduleVO getScheInfo(String string);
 }

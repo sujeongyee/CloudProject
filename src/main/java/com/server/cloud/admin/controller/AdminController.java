@@ -263,7 +263,7 @@ public class AdminController {
 		String pro_status=teamNum.get("pro_status");
 		System.out.println(teamNum.toString()+"팀넘");
 		System.out.println(pro_id + team_num + "----");
-		int result = adminService.inputTeamNum(pro_id, team_num);
+		int result = adminService.inputTeamNum(pro_id, team_num,pro_status);
 		alarmService.assignTeam(team_num);
 		System.out.println(team_num);
 
