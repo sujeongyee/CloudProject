@@ -45,5 +45,6 @@ public interface EngineerMapper {
 	public int updateWorkStatus(@Param("work_status") String work_status,@Param("server_id") String server_id);
 
 	public List<ServerVO> getServer(String eng_enid);
+	public ScheduleVO getScheInfo(String sche_num);
 
 }

@@ -33,6 +33,7 @@ import com.server.cloud.command.ProjectInfoVO;
 import com.server.cloud.command.QueryVO;
 import com.server.cloud.command.ProjectDetailVO;
 import com.server.cloud.command.ServerVO;
+import com.server.cloud.command.WorkInfoVO;
 
 @RestController
 @RequestMapping("/api/main")
@@ -125,6 +126,16 @@ public class ClientController {
 		return new ResponseEntity<>(insReVO, HttpStatus.OK);
 	}
 	
+	// 점검 요청 확인 (모달)
+	@GetMapping("/user/UserInsRequestCheckModal/{server_id}/{cus_id}")
+	public ResponseEntity<ArrayList<InsRequestVO>> getInsRequestCheck(@PathVariable("server_id") String server_id,
+																	  @PathVariable("cus_id") String cus_id) {					
+		
+		ArrayList<InsRequestVO> insRequestCheck = clientService.getInsRequestCheck(server_id, cus_id);
+	  
+		return new ResponseEntity<>(insRequestCheck, HttpStatus.OK);
+	}
+	
 	
 	
 	//////////////////////지인님///////////////////////////////
@@ -176,6 +187,15 @@ public class ClientController {
 		
 	   return new ResponseEntity<>(map,HttpStatus.OK);
    }
+   @PostMapping("/client/getPro")
+   public ResponseEntity<?> mainProject(@RequestBody Map<String, Object> data){
+	   System.out.println(data.toString());
+	   ArrayList<ProjectInfoVO> proList = clientService.getProList((String)data.get("cus_id"));
+	   System.out.println(proList.toString());
+	   return new ResponseEntity<>(proList,HttpStatus.OK);
+   }
+		
+   
 }
 	
 

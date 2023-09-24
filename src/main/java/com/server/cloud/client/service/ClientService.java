@@ -10,6 +10,7 @@ import com.server.cloud.command.ProjectInfoVO;
 import com.server.cloud.command.QueryVO;
 import com.server.cloud.command.ProjectDetailVO;
 import com.server.cloud.command.ServerVO;
+import com.server.cloud.command.WorkInfoVO;
 
 public interface ClientService {
 	
@@ -30,6 +31,9 @@ public interface ClientService {
 	
 	//점검요청 
 	public void insRequestForm(InsRequestVO insReVO);
+	
+	//점검요청목록
+	public ArrayList<InsRequestVO> getInsRequestCheck(String server_id, String cus_id);
 	
 	
 	

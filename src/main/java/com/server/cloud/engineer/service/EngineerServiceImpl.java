@@ -114,6 +114,13 @@ public class EngineerServiceImpl implements EngineerService{
 		return engineerMapper.getServer(eng_enid);
 
 	}
+
+
+	@Override
+	public ScheduleVO getScheInfo(String string) {
+		// TODO Auto-generated method stub
+		return engineerMapper.getScheInfo(string);
+	}
 	
 
 }
