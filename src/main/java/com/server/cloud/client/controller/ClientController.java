@@ -177,6 +177,15 @@ public class ClientController {
 		
 	   return new ResponseEntity<>(map,HttpStatus.OK);
    }
+   @PostMapping("/client/getPro")
+   public ResponseEntity<?> mainProject(@RequestBody Map<String, Object> data){
+	   System.out.println(data.toString());
+	   ArrayList<ProjectInfoVO> proList = clientService.getProList((String)data.get("cus_id"));
+	   System.out.println(proList.toString());
+	   return new ResponseEntity<>(proList,HttpStatus.OK);
+   }
+		
+   
 }
 	
 

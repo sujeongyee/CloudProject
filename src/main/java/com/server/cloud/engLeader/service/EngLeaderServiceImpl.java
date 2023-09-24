@@ -131,7 +131,6 @@ public class EngLeaderServiceImpl implements EngLeaderService{
 	}
 
 	
-	
 	//점검요청목록 
 	@Override
 	public ArrayList<InsRequestVO> getInsRequestList() {

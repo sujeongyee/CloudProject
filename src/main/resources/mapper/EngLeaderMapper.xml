@@ -101,8 +101,7 @@
 		LEFT JOIN PROJECTINFO P ON S.PRO_ID = P.PRO_ID
 		WHERE P.PRO_PI = #{pro_pi}
 		AND S.ENG_ENID = E.ENG_ENID
-		AND E.ENG_RANK!='팀장';
-		);
+		)AND E.ENG_RANK!='팀장';
 	</select>
 
 	<select id="getTeamEngList2">
@@ -149,7 +148,10 @@
   	<select id="getEngSchedule">
   		SELECT * FROM ENG_SCHEDULE WHERE ENG_ENID = #{eng_enid}
   	</select>
+  	<select id="getEngSchedule2">
   	
+  		SELECT * FROM ENG_SCHEDULE S LEFT JOIN ENGINEER E ON S.ENG_ENID=E.ENG_ENID where  ENG_ENID = #{eng_enid};
+  	</select>
   	<select id="getAllSchedule">
   		SELECT * FROM ENG_SCHEDULE ES LEFT JOIN ENGINEER E ON ES.ENG_ENID = E.ENG_ENID WHERE ES.ENG_ENID IN (SELECT ENG_ENID FROM ENGINEER WHERE TEAM_NUM = (SELECT TEAM_NUM FROM ENGINEER WHERE ENG_ENID = #{leader_id}))
   	</select>
