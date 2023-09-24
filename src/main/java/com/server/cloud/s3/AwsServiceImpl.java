@@ -1,5 +1,6 @@
 package com.server.cloud.s3;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,17 @@ public class AwsServiceImpl implements AwsService{
 	
 		return awsMapper.setFiles(list, user_id);
 }
+	
+	
+	   @Override
+	   public List<FileVO> getFiles(String work_num) {
+	      
+	      List<FileVO> gf = new ArrayList<>();
+	      gf = awsMapper.getFiles(work_num);
+	      System.out.println(gf.toString());
+	      
+	      return gf;
+	   }
 
 	
 

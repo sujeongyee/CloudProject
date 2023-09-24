@@ -10,12 +10,10 @@ import com.server.cloud.command.CusVO;
 import com.server.cloud.command.FormDataVO;
 import com.server.cloud.command.InsRequestVO;
 import com.server.cloud.command.ProjectInfoVO;
-
-import com.server.cloud.command.ProjectListVO;
-
 import com.server.cloud.command.QueryVO;
 import com.server.cloud.command.ProjectDetailVO;
 import com.server.cloud.command.ServerVO;
+import com.server.cloud.command.WorkInfoVO;
 
 @Service("clientService")
 public class ClientServiceImpl implements ClientService{
@@ -71,6 +69,12 @@ public class ClientServiceImpl implements ClientService{
 	@Override
 	public void insRequestForm(InsRequestVO insReVO) {
 		clientMapper.insRequestForm(insReVO);
+	}
+	
+	//점검요청목록
+	@Override
+	public ArrayList<InsRequestVO> getInsRequestCheck(String server_id, String cus_id) {
+		return clientMapper.getInsRequestCheck(server_id, cus_id);
 	}
 	
 	

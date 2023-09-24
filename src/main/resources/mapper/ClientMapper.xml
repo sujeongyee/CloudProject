@@ -114,6 +114,17 @@
 	</insert>
 	
 	
+	<!-- 점검 요청 목록 -->
+	<select id="getInsRequestCheck" resultType="InsRequestVO">
+		
+		SELECT ir.*, s.server_name FROM INS_REQUEST ir
+		left join SERVER s
+		on ir.server_id = s.server_id
+		WHERE ir.server_id = #{server_id} and ir.cus_id = #{cus_id}
+	
+	</select>
+	
+	
 	
 
    <!-- 작업 내역 목록 -->      

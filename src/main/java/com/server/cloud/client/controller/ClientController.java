@@ -30,12 +30,10 @@ import com.server.cloud.command.CusVO;
 import com.server.cloud.command.FormDataVO;
 import com.server.cloud.command.InsRequestVO;
 import com.server.cloud.command.ProjectInfoVO;
-
-import com.server.cloud.command.ProjectListVO;
-
 import com.server.cloud.command.QueryVO;
 import com.server.cloud.command.ProjectDetailVO;
 import com.server.cloud.command.ServerVO;
+import com.server.cloud.command.WorkInfoVO;
 
 @RestController
 @RequestMapping("/api/main")
@@ -126,6 +124,16 @@ public class ClientController {
 		System.out.println(insReVO);
 				
 		return new ResponseEntity<>(insReVO, HttpStatus.OK);
+	}
+	
+	// 점검 요청 확인 (모달)
+	@GetMapping("/user/UserInsRequestCheckModal/{server_id}/{cus_id}")
+	public ResponseEntity<ArrayList<InsRequestVO>> getInsRequestCheck(@PathVariable("server_id") String server_id,
+																	  @PathVariable("cus_id") String cus_id) {					
+		
+		ArrayList<InsRequestVO> insRequestCheck = clientService.getInsRequestCheck(server_id, cus_id);
+	  
+		return new ResponseEntity<>(insRequestCheck, HttpStatus.OK);
 	}
 	
 	

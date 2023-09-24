@@ -146,12 +146,13 @@ public class AwsApiController {
 
 	@PostMapping("/api/main/cloudMultiUpload")
 	public ResponseEntity<Integer> multiUpload(@RequestParam("file_data") List<MultipartFile> fileList,
-			@RequestParam("userId") String userId) {
+			@RequestParam("userId") String userId, @RequestParam("pro_id") String pro_id) {
 		Instant now = Instant.now();
 		Timestamp timestamp = Timestamp.from(now);
 		//System.out.println(fileId);
 		System.out.println(fileList);
 		System.out.println(userId);
+		System.out.println("pro_id 값 = " + pro_id);
 
 		fileList = fileList.stream().filter( f -> f.isEmpty() == false).collect(Collectors.toList());
 		System.out.println(fileList.size()+"------------");
@@ -233,5 +234,19 @@ public class AwsApiController {
 		awsService.inQuryDel(notice_num);//댓글,글 삭제
 		return null;
 	}
+	
+	
+	  @GetMapping("/api/main/getFiles")
+	   public ResponseEntity<?> getFiles(String work_num) {
+	      System.out.println(work_num);
+	      if(work_num != null) {
+	         
+	         List<FileVO> files = awsService.getFiles(work_num);
+	         return new ResponseEntity<>(files, HttpStatus.OK);
+	      } else {
+	         return new ResponseEntity<>("파일 없음", HttpStatus.OK);
+	      }
+	      
+	   }
 
 }
