@@ -112,8 +112,6 @@
 		inner join ENGINEER ei on wi.eng_enid = ei.eng_enid
 		inner join PROJECTINFO pi on wi.pro_id = pi.pro_id
 		where ei.eng_enid = #{eng_enid};
-
-
 	</select>
 	
 

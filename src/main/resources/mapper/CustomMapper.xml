@@ -58,6 +58,7 @@
       );
 
 
+
       INSERT INTO ROLE (
       USERNAME,
       PASSWORD,
@@ -95,6 +96,7 @@
       SELECT * FROM CUSTOMER WHERE
       cus_id=#{cus_id}
    </select>
+
 
    <select id="emailCheck" resultType="CusVO">
       SELECT * FROM CUSTOMER WHERE
