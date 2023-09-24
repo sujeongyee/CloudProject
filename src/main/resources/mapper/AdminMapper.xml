@@ -11,7 +11,6 @@
 <mapper namespace="com.server.cloud.admin.service.AdminMapper">
 
 
-
 	<select id="getTotal" resultType="int">
 		SELECT COUNT(*) FROM NOTICE
 		<where>
@@ -124,9 +123,8 @@
 	<select id="adClientList"
 		resultType="com.server.cloud.command.CusVO">
 		select * from CUSTOMER ;
-
-
     </select>
+  
      <insert id="csUpdate">
 
       insert into CS(cs_num,cs_answer_yn)

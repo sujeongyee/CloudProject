@@ -57,8 +57,6 @@
       'ROLE_USER'
       );
 
-
-
       INSERT INTO ROLE (
       USERNAME,
       PASSWORD,
