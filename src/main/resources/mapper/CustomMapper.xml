@@ -95,6 +95,7 @@
       cus_id=#{cus_id}
    </select>
 
+
    <select id="emailCheck" resultType="CusVO">
       SELECT * FROM CUSTOMER WHERE
       cus_email=#{cus_email}
@@ -118,6 +119,7 @@
       cus_address2=#{cus_address2},cus_managet_name=#{cus_managet_name},cus_email=#{cus_email},
       cus_company_ph=#{cus_company_ph},cus_boss=#{cus_boss}
    </insert>
+
 
    <select id="SearchInfo" resultType="map">
       SELECT *

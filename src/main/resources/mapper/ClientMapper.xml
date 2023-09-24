@@ -74,11 +74,7 @@
 	<!-- 프로젝트 정보 불러오기 --> 
 	<select id="getProList" resultType="ProjectInfoVO">
 		
-	   SELECT pro_id,
-	   		  pro_name,
-	   		  pro_status,
-	   		  pro_startdate,
-	   		  pro_pi 
+	   SELECT *
       FROM PROJECTINFO
 	  WHERE cus_id = #{cus_id};
 		
@@ -242,7 +238,7 @@ WHERE R.ROWNUM = 1;
 		    P.PRO_NAME AS PRO_NAME,
 		    COALESCE(SUM(CASE WHEN W.WORK_DIVISION = '정기점검' THEN 1 ELSE 0 END), 0) AS PERIODIC,
 		    COALESCE(SUM(CASE WHEN W.WORK_DIVISION = '긴급점검' THEN 1 ELSE 0 END), 0) AS DISABILITY,
-		    COALESCE(SUM(CASE WHEN W.WORK_DIVISION = '기타등등' THEN 1 ELSE 0 END), 0) AS MAINTENANCE
+		    COALESCE(SUM(CASE WHEN W.WORK_DIVISION = '장애대응' THEN 1 ELSE 0 END), 0) AS MAINTENANCE
 		FROM PROJECTINFO P
 		LEFT JOIN WORKINFO W ON P.PRO_ID = W.PRO_ID
 		WHERE P.CUS_ID = #{CUS_ID}

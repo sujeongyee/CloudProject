@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import com.server.cloud.command.CusVO;
 import com.server.cloud.command.InsRequestVO;
 import com.server.cloud.command.ProjectInfoVO;
+
 import com.server.cloud.command.QueryVO;
 import com.server.cloud.command.ProjectDetailVO;
 import com.server.cloud.command.ServerVO;
@@ -57,6 +58,7 @@ public interface ClientMapper {
 		   
 	   //메인프로젝트 
 	   public List<ProjectDetailVO> projectMain(String cus_id);
+  
 	   public List<QueryVO> getInspection(String cus_id);	
 
 
