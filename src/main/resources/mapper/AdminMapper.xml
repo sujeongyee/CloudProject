@@ -211,7 +211,7 @@
         SELECT ET.TEAM_NUM, ET.TEAM_ID, E.ENG_RANK, E.ENG_NAME
         FROM ENG_TEAM ET
       LEFT JOIN ENGINEER E ON ET.TEAM_NUM = E.TEAM_NUM
-      WHERE ENG_RANK = '팀장';
+      WHERE ENG_RANK = '팀장' ORDER BY ET.TEAM_NUM ASC;
      </select>
      <select id="getTeamMember">
       SELECT ET.TEAM_NUM, ET.TEAM_ID, E.ENG_RANK, E.ENG_NAME 
