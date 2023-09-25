@@ -134,7 +134,7 @@
 		select wi.*, s.server_name
 		from WORKINFO wi
 		inner join SERVER s on wi.server_id = s.server_id
-		where wi.server_id=#{server_id};
+		where wi.server_id=#{server_id} and wi.work_status = '점검완료';
 	</select> 
 
 	<select id="getProjectDetail">
