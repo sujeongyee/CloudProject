@@ -22,5 +22,5 @@ public interface AwsService {
 	void inQuryDel(String notice_num);
 
 	void setFileCs(FileVO fileVO);
-	
+
 }

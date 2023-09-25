@@ -33,5 +33,4 @@ public interface AwsMapper {
 	void setFileCs(FileVO fileVO);
 
 
-
 }

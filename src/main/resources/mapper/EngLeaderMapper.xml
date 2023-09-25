@@ -168,7 +168,9 @@
   	
   	<!-- 점검요청목록 -->
   	<select id="getInsRequestList" resultType="InsRequestVO">
-  		SELECT c.cus_company_name, p.pro_name, p.pro_pi, s.server_name, e.eng_name, ir.insrequest_type, ir.insrequest_content, ir.insrequest_regdate
+  		SELECT c.*, p.*, s.*, ir.*, e.*
+  		<!-- c.cus_company_name, p.pro_name, p.pro_pi, s.server_name, e.eng_name, 
+  	    ir.insrequest_num, ir.insrequest_type, ir.insrequest_content, ir.insrequest_regdate -->
 		FROM CUSTOMER c
 		right join PROJECTINFO p
 		on c.cus_id = p.cus_id
@@ -180,6 +182,18 @@
 		on ir.server_id = s.server_id
 		where ir.insrequest_check_yn = 'n';
   	</select>
+  	
+  	<!-- 점검요청 팀원 스케줄 추가 -->
+  	<insert id="insRegistSchedule">
+  		INSERT ENG_SCHEDULE (SCHE_STARTDATE, SCHE_ENDDATE, SCHE_NAME, ENG_ENID, SERVER_ID)
+		VALUES (#{pro_startdate}, #{pro_startdate}, #{insRequest_type}, #{eng_enid}, #{server_id});
+  	</insert>
+  	
+  	<!-- 점검요청 확인 -->
+  	<update id="checkInsRequest">
+  		UPDATE INS_REQUEST SET insRequest_check_yn = 'Y' where insRequest_num = #{insRequest_num};
+  	</update>
+  	
 
   </mapper>
 

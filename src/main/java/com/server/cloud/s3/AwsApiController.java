@@ -151,7 +151,6 @@ public class AwsApiController {
 		//System.out.println(fileId);
 		System.out.println(fileList.toString());
 		System.out.println(userId);
-		
 
 
 		fileList = fileList.stream().filter( f -> f.isEmpty() == false).collect(Collectors.toList());

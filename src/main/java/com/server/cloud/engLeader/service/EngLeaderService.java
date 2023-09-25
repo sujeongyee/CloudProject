@@ -34,6 +34,13 @@ public interface EngLeaderService {
 	public List<ScheduleVO> getAllSchedule(String leader_id);
 	public List<WorkInfoVO> getWorkInfo(String server_id);
 	public void registSchedule(String eng_enid, String server_id);
+	
 	//점검요청목록
 	public ArrayList<InsRequestVO> getInsRequestList();
+	
+	//점검요청스케쥴추가
+	public void insRegistSchedule(String eng_enid, String server_id, String pro_startdate, String insRequest_type);
+	
+	//점검요청 확인
+	public void checkInsRequest(String insRequest_num);
 }
