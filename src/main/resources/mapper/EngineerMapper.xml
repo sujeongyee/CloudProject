@@ -137,8 +137,8 @@
 		inner join SERVER s on wi.server_id = s.server_id
 		where wi.server_id=#{server_id} and wi.work_status = '점검완료';
 	</select> 
-
-
+	
+	
 	<select id="getProjectDetail">
   		SELECT * FROM CUSTOMER C
 		LEFT JOIN PROJECTINFO P
@@ -180,12 +180,8 @@
 
 	
 	</select>
-	 	<select id="pastInspectionHistoryList">
-		select wi.*, s.server_name
-		from WORKINFO wi
-		inner join SERVER s on  wi.server_id = s.server_id
-		where wi.server_id=#{server_id} and wi.work_status = '점검완료';
-	</select>
+	
+
 	
 	
 	<select id="getEnInfo" resultType="com.server.cloud.command.EngineerVO">
