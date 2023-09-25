@@ -244,7 +244,7 @@ public class AwsApiController {
 			List<FileVO> files = awsService.getFiles(work_filenum);
 			return new ResponseEntity<>(files, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>("파일 진자 없음", HttpStatus.OK);
+			return new ResponseEntity<>("파일 없음", HttpStatus.OK);
 		}
 	}
 }
