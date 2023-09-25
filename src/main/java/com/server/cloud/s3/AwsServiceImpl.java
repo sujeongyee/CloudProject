@@ -65,10 +65,8 @@ public class AwsServiceImpl implements AwsService{
 	public int setFiles(List<FileVO> list, String user_id) {
 	
 		return awsMapper.setFiles(list, user_id);
-}
-	
-	
-	 
+
+	}
 
 	
 	// 멀티파일 다운로드
@@ -79,7 +77,5 @@ public class AwsServiceImpl implements AwsService{
 			return awsMapper.getFiles(work_filenum);
 		}
 
-
-	
 
 }

@@ -129,7 +129,6 @@ public class EngLeaderServiceImpl implements EngLeaderService{
 		engLeaderMapper.registSchedule(eng_enid, server_id);
 		
 	}
-	
 	//점검요청목록 
 	@Override
 	public ArrayList<InsRequestVO> getInsRequestList() {
