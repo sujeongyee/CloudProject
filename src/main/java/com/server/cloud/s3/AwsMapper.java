@@ -32,7 +32,7 @@ public interface AwsMapper {
 
 	void setFileCs(FileVO fileVO);
 	
-	List<FileVO> getFiles(String work_num);
+
 
 
 }

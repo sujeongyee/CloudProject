@@ -21,5 +21,5 @@ public class EngineerVO {
 	   private String team_num;
 	   private String user_id;
 	   private String team_id;
-
+	   private String team_name;
 }

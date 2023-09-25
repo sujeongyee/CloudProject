@@ -46,5 +46,6 @@ public interface EngineerMapper {
 
 	public List<ServerVO> getServer(String eng_enid);
 	public ScheduleVO getScheInfo(String sche_num);
+	public EngineerVO getEnInfo(String en_enid);
 
 }

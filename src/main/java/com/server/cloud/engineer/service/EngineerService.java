@@ -46,4 +46,6 @@ public interface EngineerService {
 
 	public int updateWorkStatus(String work_status, String server_id);
 	public ScheduleVO getScheInfo(String string);
+
+	public EngineerVO getEnInfo(String string);
 }
