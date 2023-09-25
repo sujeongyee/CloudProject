@@ -24,7 +24,7 @@ public interface AwsService {
 	void setFileCs(FileVO fileVO);
 	
 	
-	List<FileVO> getFiles(String work_num);
+	
 
 
 

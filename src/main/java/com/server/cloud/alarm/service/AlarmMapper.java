@@ -20,7 +20,7 @@ public interface AlarmMapper {
 	public void todayAlarmEng(String eng_id);
 	public int todayAlarmCheck2(String cus_id);
 	public void todayAlarmCus(String cus_id);
-	public void emergencyRequest(@Param("serverName")String serverName, @Param("proName")String proName);
+	public void emergencyRequest(@Param("server_id") String server_id,@Param("type") String type);
 	public void assignEmerEng(String eng_id);
 	public void assignEmerCus(String server_id);
 	public List<AlarmVO> getAlarmList(String user_id);
