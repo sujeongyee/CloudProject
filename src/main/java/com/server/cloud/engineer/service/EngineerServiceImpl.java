@@ -121,6 +121,13 @@ public class EngineerServiceImpl implements EngineerService{
 		// TODO Auto-generated method stub
 		return engineerMapper.getScheInfo(string);
 	}
+
+
+	@Override
+	public EngineerVO getEnInfo(String en_enid) {
+		// TODO Auto-generated method stub
+		return engineerMapper.getEnInfo(en_enid);
+	}
 	
 
 }

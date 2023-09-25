@@ -32,14 +32,7 @@ public class AwsServiceImpl implements AwsService{
 		awsMapper.setFile(fileVO);
 	}
 
-	// 멀티파일 다운로드
-	@Override
-	public List<FileVO> getFiles(String work_filenum) {
-		
-				
-		return awsMapper.getFiles(work_filenum);
-	}
-
+	
 
 	@Override
 	public void fileDel(String file_num) {
@@ -72,13 +65,18 @@ public class AwsServiceImpl implements AwsService{
 	public int setFiles(List<FileVO> list, String user_id) {
 	
 		return awsMapper.setFiles(list, user_id);
-}
-	
-	
-
-	
 
 
+	}
+
 	
+	// 멀티파일 다운로드
+		@Override
+		public List<FileVO> getFiles(String work_filenum) {
+			
+					
+			return awsMapper.getFiles(work_filenum);
+		}
+
 
 }

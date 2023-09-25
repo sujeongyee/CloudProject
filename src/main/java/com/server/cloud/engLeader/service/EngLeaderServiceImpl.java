@@ -129,11 +129,22 @@ public class EngLeaderServiceImpl implements EngLeaderService{
 		engLeaderMapper.registSchedule(eng_enid, server_id);
 		
 	}
-	
 	//점검요청목록 
 	@Override
 	public ArrayList<InsRequestVO> getInsRequestList() {
 		return engLeaderMapper.getInsRequestList();
+	}
+	
+	//점검요청 스케줄 추가 
+	@Override
+	public void insRegistSchedule(String eng_enid, String server_id, String pro_startdate, String insRequest_type) {
+		engLeaderMapper.insRegistSchedule(eng_enid, server_id, pro_startdate, insRequest_type);
+	}
+	
+	//점검요청 확인 
+	@Override
+	public void checkInsRequest(String insRequest_num) {
+		engLeaderMapper.checkInsRequest(insRequest_num);
 	}
 	
 
