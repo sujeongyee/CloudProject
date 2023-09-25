@@ -27,5 +27,6 @@ public class InsRequestVO {
 	private String server_name; //서버이름
 	private String eng_name; //엔지니어이름
 	private String pro_pi; //점검일 
+	private String pro_id; //프로젝트아이디 
 
 }

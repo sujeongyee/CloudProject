@@ -145,13 +145,12 @@ public class AwsApiController {
 
 	@PostMapping("/api/main/cloudMultiUpload")
 	public ResponseEntity<Integer> multiUpload(@RequestParam("file_data") List<MultipartFile> fileList,
-			@RequestParam("userId") String userId, @RequestParam("pro_id") String pro_id) {
+			@RequestParam("userId") String userId) {
 		Instant now = Instant.now();
 		Timestamp timestamp = Timestamp.from(now);
 		//System.out.println(fileId);
-		System.out.println(fileList);
+		System.out.println(fileList.toString());
 		System.out.println(userId);
-		System.out.println("pro_id 값 = " + pro_id);
 
 
 		fileList = fileList.stream().filter( f -> f.isEmpty() == false).collect(Collectors.toList());
@@ -172,8 +171,10 @@ public class AwsApiController {
 						.build();
 				
 				list.add(fileVO);
+				}
+
 				result = awsService.setFiles(list, userId);
-			}}catch (Exception e) {
+			}catch (Exception e) {
 				e.printStackTrace();
 			}
 
@@ -244,8 +245,5 @@ public class AwsApiController {
 		} else {
 			return new ResponseEntity<>("파일 없음", HttpStatus.OK);
 		}
-		
 	}
-
-
 }

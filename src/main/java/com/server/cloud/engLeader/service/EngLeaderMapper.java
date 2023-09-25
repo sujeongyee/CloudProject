@@ -41,5 +41,12 @@ public interface EngLeaderMapper {
 	
 	//점검요청목록
 	public ArrayList<InsRequestVO> getInsRequestList();
+	
+	//점검요청스케쥴추가
+	public void insRegistSchedule(@Param("eng_enid")String eng_enid, @Param("server_id")String server_id, 
+								  @Param("pro_startdate") String pro_startdate, @Param("insRequest_type") String insRequest_type);
+	
+	//점검요청 확인
+	public void checkInsRequest(String insRequest_num);
 
 }

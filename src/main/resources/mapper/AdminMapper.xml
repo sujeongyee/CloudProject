@@ -211,7 +211,7 @@
         SELECT ET.TEAM_NUM, ET.TEAM_ID, E.ENG_RANK, E.ENG_NAME
         FROM ENG_TEAM ET
       LEFT JOIN ENGINEER E ON ET.TEAM_NUM = E.TEAM_NUM
-      WHERE ENG_RANK = '팀장';
+      WHERE ENG_RANK = '팀장' ORDER BY ET.TEAM_NUM ASC;
      </select>
      <select id="getTeamMember">
       SELECT ET.TEAM_NUM, ET.TEAM_ID, E.ENG_RANK, E.ENG_NAME 
@@ -238,26 +238,14 @@
      
           
      <select id="getInspection">
-SELECT 
-    Months.`Month`,
-    COALESCE(SUM(CASE WHEN PI.PRO_STATUS = '계약중' THEN 1 ELSE 0 END), 0) AS 'contracts',
-    COALESCE(SUM(CASE WHEN PI.PRO_STATUS = '계약만료' THEN 1 ELSE 0 END), 0) AS 'expiration'
-FROM 
-(
-    SELECT '2023-05' AS 'Month'
-    UNION ALL
-    SELECT '2023-06'
-    UNION ALL
-    SELECT '2023-07'
-    UNION ALL
-    SELECT '2023-08'
-    UNION ALL
-    SELECT '2023-09'
-) AS Months
-LEFT JOIN PROJECTINFO AS PI ON SUBSTRING(PI.PRO_STARTDATE, 1, 7) = Months.`Month` AND PI.PRO_ENDDATE >= '2022-09-30'
-GROUP BY Months.`Month`
-ORDER BY Months.`Month`;
-
+		SELECT
+		  MONTH(PRO_STARTDATE) AS 월,
+		  COUNT(*) AS contracts,
+		  COUNT(*) AS expiration
+		FROM PROJECTINFO
+		WHERE PRO_STATUS IN ('계약중', '계약만료')
+		AND PRO_STARTDATE BETWEEN '2023-05-01' AND '2023-09-31'
+		GROUP BY MONTH(PRO_STARTDATE);
      </select>
      
      <select id = "getwork">

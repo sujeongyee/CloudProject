@@ -178,5 +178,32 @@ public class EngLeaderController {
 		
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
+	
+	//점검 요청 팀원 배정 목록 
+	@GetMapping("/getTeamEngList2")
+	public ResponseEntity<List<EngineerVO>> getTeamEngList2(@RequestParam("pro_pi") String pro_pi, 
+															@RequestParam("leader_id") String leader_id){
+		List<EngineerVO> list= engLeaderService.getTeamEngList(pro_pi,leader_id);
+		return new ResponseEntity<>(list,HttpStatus.OK);
+	}
+
+	//점검 요청 팀원 배정 
+	@PostMapping("/assignEng2")
+	public ResponseEntity<String> assignEng2(@RequestBody Map<String,Object> data) {
+		String eng_enid = data.get("eng_enid").toString();
+		String pro_id = data.get("pro_id").toString();
+		String server_id = data.get("server_id").toString();
+		String insRequest_num = data.get("insRequest_num").toString();	
+		String pro_startdate = data.get("pro_startdate").toString();
+		String insRequest_type = data.get("insRequest_type").toString();
+		
+		//System.out.println(eng_enid+" "+pro_id+" "+server_id+" "+insRequest_num+" "+pro_startdate);
+		engLeaderService.insRegistSchedule(eng_enid, server_id, pro_startdate, insRequest_type);
+		engLeaderService.checkInsRequest(insRequest_num);
+		
+		return new ResponseEntity<>("ok",HttpStatus.OK);	
+	}
+	
+	
 
 }
