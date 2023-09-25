@@ -119,7 +119,7 @@
 		inner join SERVER si on wi.server_id = si.server_id
 		inner join ENGINEER ei on wi.eng_enid = ei.eng_enid
 		inner join PROJECTINFO pi on wi.pro_id = pi.pro_id
-		where ei.eng_enid = #{eng_enid};
+		where ei.eng_enid = #{eng_enid} order by work_date desc;
 	</select>
 	
 
@@ -130,12 +130,14 @@
 		where server_id=#{server_id};
 	</select>
 
+
  	<select id="pastInspectionHistoryList">
 		select wi.*, s.server_name
 		from WORKINFO wi
 		inner join SERVER s on wi.server_id = s.server_id
 		where wi.server_id=#{server_id} and wi.work_status = '점검완료';
 	</select> 
+
 
 	<select id="getProjectDetail">
   		SELECT * FROM CUSTOMER C
@@ -178,7 +180,18 @@
 
 	
 	</select>
+	 	<select id="pastInspectionHistoryList">
+		select wi.*, s.server_name
+		from WORKINFO wi
+		inner join SERVER s on  wi.server_id = s.server_id
+		where wi.server_id=#{server_id} and wi.work_status = '점검완료';
+	</select>
 	
+	
+	<select id="getEnInfo" resultType="com.server.cloud.command.EngineerVO">
+	
+	SELECT E.*,TEAM_ID FROM (SELECT * FROM ENGINEER F WHERE ENG_ENID=#{en_enid})AS E join ENG_TEAM T ON E.TEAM_NUM=T.TEAM_NUM;
+	</select>
 	
 </mapper>
 

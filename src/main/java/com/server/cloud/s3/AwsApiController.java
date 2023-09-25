@@ -172,7 +172,8 @@ public class AwsApiController {
 						.build();
 				
 				list.add(fileVO);
-			}
+				}
+
 				result = awsService.setFiles(list, userId);
 			}catch (Exception e) {
 				e.printStackTrace();
