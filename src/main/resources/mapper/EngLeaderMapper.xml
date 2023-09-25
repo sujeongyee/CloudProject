@@ -5,7 +5,7 @@
 <mapper namespace="com.server.cloud.engLeader.service.EngLeaderMapper">
 
 	<select id="getLeaderInfo">
-		SELECT CUS_MANAGET_NAME FROM CUSTOMER WHERE CUS_ID = #{leader_id};
+		SELECT E.ENG_NAME,T.TEAM_ID FROM ENGINEER E LEFT JOIN ENG_TEAM T ON E.TEAM_NUM = T.TEAM_NUM WHERE E.ENG_ENID = #{leader_id}
 	</select>
 
 	<select id="getNewProject">
@@ -95,13 +95,7 @@
 		FROM ENGINEER E
 		WHERE E.TEAM_NUM = 
 		(SELECT TEAM_NUM FROM ENGINEER WHERE ENG_ENID = #{leader_id})
-		AND NOT EXISTS (
-		SELECT 1
-		FROM SERVER S
-		LEFT JOIN PROJECTINFO P ON S.PRO_ID = P.PRO_ID
-		WHERE P.PRO_PI = #{pro_pi}
-		AND S.ENG_ENID = E.ENG_ENID
-		)AND E.ENG_RANK!='팀장';
+		AND E.ENG_RANK!='팀장';
 
 	</select>
 

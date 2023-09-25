@@ -49,8 +49,8 @@ public class AlarmServiceImpl implements AlarmService{
 		alarmMapper.todayAlarmCus(cus_id);		
 	}
 	@Override
-	public void emergencyRequest(String serverName,String proName) {
-		alarmMapper.emergencyRequest(serverName,proName);		
+	public void emergencyRequest(String server_id,String type) {
+		alarmMapper.emergencyRequest(server_id,type);		
 	}
 	@Override
 	public void assignEmerEng(String eng_id) {

@@ -67,12 +67,13 @@ public class AlarmController {
 //		 if(b>0)alarmService.todayAlarmCus(cus_id);
 //	 }
 
-	 @PostMapping("/emergencyRequest") // 요청 들어오면 팀장에게 알림
-	 public void emergencyRequest(@RequestBody Map<String,Object> map) { 
-		 alarmService.emergencyRequest(map.get("serverName").toString(), map.get("proName").toString());
-	 }
+//	 @PostMapping("/emergencyRequest") // 요청 들어오면 팀장에게 알림
+//	 public void emergencyRequest(@RequestBody Map<String,Object> map) { 
+//		 alarmService.emergencyRequest(map.get("serverName").toString(), map.get("proName").toString());
+//	 }
 	 @GetMapping("/assignEmer/") // 긴급요청 배정되면 엔지니어, 클라이언트한테 알림
 	 public void assignEmer(@RequestBody Map<String,Object> map) {
+		 //pro_id eng_enid server_id pro_startdate
 		 alarmService.assignEmerEng(map.get("engid").toString());
 		 alarmService.assignEmerCus(map.get("serverId").toString());		 
 	 }

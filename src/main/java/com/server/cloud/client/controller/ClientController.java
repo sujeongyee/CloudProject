@@ -122,8 +122,9 @@ public class ClientController {
 	  public ResponseEntity<?> insRequestForm(@RequestBody InsRequestVO insReVO) {			
 		
 		clientService.insRequestForm(insReVO);
-		System.out.println(insReVO);
-				
+		System.out.println(insReVO.toString());
+		
+		alarmService.emergencyRequest(insReVO.getServer_id(),insReVO.getInsRequest_type());		
 		return new ResponseEntity<>(insReVO, HttpStatus.OK);
 	}
 	

@@ -17,7 +17,7 @@ public interface AlarmService {
 	public void todayAlarmEng(String eng_id);
 	public int todayAlarmCheck2(String cus_id);
 	public void todayAlarmCus(String cus_id);
-	public void emergencyRequest(String serverName,String proName);
+	public void emergencyRequest(String server_id,String type);
 	public void assignEmerEng(String eng_id);
 	public void assignEmerCus(String server_id);
 	public List<AlarmVO> getAlarmList(String user_id);

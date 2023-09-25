@@ -24,4 +24,5 @@ public interface AwsService {
 	void setFileCs(FileVO fileVO);
 
 
+
 }
