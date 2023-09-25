@@ -200,7 +200,8 @@ public class EngLeaderController {
 		//System.out.println(eng_enid+" "+pro_id+" "+server_id+" "+insRequest_num+" "+pro_startdate);
 		engLeaderService.insRegistSchedule(eng_enid, server_id, pro_startdate, insRequest_type);
 		engLeaderService.checkInsRequest(insRequest_num);
-		
+		alarmService.assignEmerEng(eng_enid);
+		alarmService.assignEmerCus(server_id);		 
 		return new ResponseEntity<>("ok",HttpStatus.OK);	
 	}
 	
