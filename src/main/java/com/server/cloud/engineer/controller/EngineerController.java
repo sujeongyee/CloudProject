@@ -177,7 +177,13 @@ public class EngineerController {
 	}
 
 	
-	
+	@PostMapping("/engineer/getEngineerInfo")
+	public ResponseEntity<?>getEnInfo(@RequestBody Map<String,Object> en_enid){
+		
+		System.out.println(en_enid.toString());
+		EngineerVO vo=engineerService.getEnInfo((String)en_enid.get("en_id"));
+		return new ResponseEntity<>(vo,HttpStatus.OK);
+	}
 	
 	
 }
