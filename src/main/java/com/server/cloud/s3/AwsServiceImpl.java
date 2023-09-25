@@ -66,6 +66,7 @@ public class AwsServiceImpl implements AwsService{
 	
 		return awsMapper.setFiles(list, user_id);
 
+
 	}
 
 	
