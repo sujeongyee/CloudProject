@@ -149,7 +149,7 @@ public class AwsApiController {
 		Instant now = Instant.now();
 		Timestamp timestamp = Timestamp.from(now);
 		//System.out.println(fileId);
-		System.out.println(fileList);
+		System.out.println(fileList.toString());
 		System.out.println(userId);
 
 
@@ -171,8 +171,10 @@ public class AwsApiController {
 						.build();
 				
 				list.add(fileVO);
+				}
+
 				result = awsService.setFiles(list, userId);
-			}}catch (Exception e) {
+			}catch (Exception e) {
 				e.printStackTrace();
 			}
 
@@ -243,8 +245,5 @@ public class AwsApiController {
 		} else {
 			return new ResponseEntity<>("파일 없음", HttpStatus.OK);
 		}
-		
 	}
-
-
 }

@@ -105,8 +105,8 @@
          FILE(file_name,file_path,file_type,upload_date,user_num,user_id) 
          values
 
-         <foreach collection="list" item="list" separator=",">      
-            (#{list.file_name}, #{list.file_path}, #{list.file_type}, #{list.upload_date}, #{work_filenum}, #{list.user_id})
+         <foreach collection="list" item="item" separator=",">      
+            (#{item.file_name}, #{item.file_path}, #{item.file_type}, #{item.upload_date}, #{work_filenum}, #{item.user_id})
          </foreach>
      </insert> 
     
