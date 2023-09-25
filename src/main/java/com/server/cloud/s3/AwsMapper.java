@@ -31,8 +31,6 @@ public interface AwsMapper {
 	void inQuryDel(String notice_num);
 
 	void setFileCs(FileVO fileVO);
-	
-	List<FileVO> getFiles(String work_num);
 
 
 }

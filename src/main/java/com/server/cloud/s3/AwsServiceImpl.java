@@ -75,15 +75,6 @@ public class AwsServiceImpl implements AwsService{
 }
 	
 	
-	   @Override
-	   public List<FileVO> getFiles(String work_num) {
-	      
-	      List<FileVO> gf = new ArrayList<>();
-	      gf = awsMapper.getFiles(work_num);
-	      System.out.println(gf.toString());
-	      
-	      return gf;
-	   }
 
 	
 
