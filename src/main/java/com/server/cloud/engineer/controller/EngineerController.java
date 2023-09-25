@@ -156,9 +156,6 @@ public class EngineerController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
-
-
-	
 	
 	//승용 서버 이름 가져 오기
 	@PostMapping("/engineer/getServer")
